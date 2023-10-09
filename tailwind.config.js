@@ -13,5 +13,18 @@ module.exports = {
     extend: {},
   },
   darkMode: "class",
-  plugins: [nextui(), require("daisyui")],
+  plugins: [nextui({
+    themes: {
+      dark: {
+        colors: {
+          svgColor: "#FFFFFF"
+        }
+      },
+      light: {
+        colors: {
+          svgColor: "#FFFFFF"
+        }
+      }
+    }
+  })],
 }

@@ -1,29 +1,27 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import {
 	Navbar as NextUINavbar,
 	NavbarContent,
-	NavbarMenu,
-	NavbarMenuToggle,
-	NavbarBrand,
 	NavbarItem,
-	NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Avatar } from "@nextui-org/react";
 import { Kbd } from "@nextui-org/kbd";
 import { Input } from "@nextui-org/input";
 
-import NextLink from "next/link";
-
-import { ThemeSwitch } from "@/components/theme-switch";
+import { ThemeSwitch } from "@/components/common/theme-switch";
 import {
 	SearchIcon,
-} from "@/components/icons";
-
-import { Logo } from "@/components/icons";
+	MenuIcon,
+	Logo
+} from "@/components/common/icons";
+import { useMenuDispatch, useMenu } from "@/context/MenuContext";
 
 export const Navbar = () => {
+
+	const menuState = useMenu()
+	const dispatch = useMenuDispatch()
+
 	const searchInput = (
 		<Input
 			aria-label="Search"
@@ -33,7 +31,7 @@ export const Navbar = () => {
 			}}
 			endContent={
 				<Kbd className="hidden lg:inline-block" keys={["command"]}>
-					K
+					Enter
 				</Kbd>
 			}
 			labelPlacement="outside"
@@ -44,25 +42,22 @@ export const Navbar = () => {
 			type="search"
 		/>
 	);
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	return (
-		<NextUINavbar maxWidth="full" position="sticky">
-			<NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-				<NavbarMenuToggle
-					aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-				/>
-				<NavbarBrand as="li" className="gap-3 max-w-fit">
-					<NextLink className="flex justify-start items-center gap-1" href="/">
-						<Logo />
-					</NextLink>
-				</NavbarBrand>
+		<NextUINavbar maxWidth="full" position="sticky" className="h-14" shouldHideOnScroll>
+			<NavbarContent className="flex basis-1/2 ml-4"
+				justify="start"
+			>
+				<MenuIcon onClick={() => {
+					dispatch({ type: 'changed', state: !menuState })
+				}} />
+				<Logo />
 			</NavbarContent>
 
 			<NavbarContent className="flex basis-full"
 				justify="center"
 			>
-				<NavbarItem className="flex basis-1/2">{searchInput}</NavbarItem>
+				<NavbarItem className="basis-1/2 hidden md:flex">{searchInput}</NavbarItem>
 			</NavbarContent>
 
 			<NavbarContent

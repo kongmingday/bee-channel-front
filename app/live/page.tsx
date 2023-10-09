@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { MediaCardModule } from '@/components/media/mediaAssembly'
 
 export const metadata: Metadata = {
-	title: 'bee-channel'
+	title: 'Live'
 }
 
 export default function Page() {

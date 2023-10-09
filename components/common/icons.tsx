@@ -1,16 +1,165 @@
+"use client";
+
 import * as React from "react";
 import { IconSvgProps } from "@/types";
+import clsx from "clsx";
+import Image from "next/image";
+
 
 export const Logo: React.FC<IconSvgProps> = ({
-	size = 36,
+	size = 40,
 	width,
 	height,
 	...props
 }) => (
 	<>
-		<p className="font-bold text-inherit">bee-channel</p>
+		<p
+			className={clsx("w-36 font-bold text-lg align-middle text-inherit", props.className)}
+		>
+			bee-channel
+		</p>
 	</>
 );
+
+export const LibraryIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="-8 -10 64 64"
+			width={size || width}
+			{...props}
+		>
+			<path d="M0 0h48v48H0z" fill="none" />
+			<path fill="currentColor" d="M8 12H4v28c0 2.21 1.79 4 4 4h28v-4H8V12zm32-8H16c-2.21 0-4 1.79-4 4v24c0 2.21 1.79 4 4 4h24c2.21 0 4-1.79 4-4V8c0-2.21-1.79-4-4-4zM24 29V11l12 9-12 9z" />
+		</svg>
+	)
+}
+
+export const ListIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 24 24"
+			width={size || width}
+			{...props}
+		>
+			<path d="M19,8H9A1,1,0,0,1,9,6H19a1,1,0,0,1,0,2Z" fill="currentColor" />
+			<path d="M19,13H9a1,1,0,0,1,0-2H19a1,1,0,0,1,0,2Z" fill="currentColor" />
+			<path d="M19,18H9a1,1,0,0,1,0-2H19a1,1,0,0,1,0,2Z" fill="currentColor" />
+			<circle cx="5" cy="7" fill="currentColor" r="1" /><circle cx="5" cy="12" fill="currentColor" r="1" />
+			<circle cx="5" cy="17" fill="currentColor" r="1" />
+		</svg>
+	)
+}
+
+export const LaterIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="-3 -3 30 30"
+			width={size || width}
+			{...props}
+		>
+			<path fill="currentColor" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20ZM13,6H11v7h6V11H13Z" />
+		</svg>
+	)
+}
+
+export const HistoryIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="-5 -5 30 30"
+			width={size || width}
+			{...props}
+		>
+			<g fill="currentColor" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
+				<g fill="#currentColor" id="Core" opacity="0.9" transform="translate(-464.000000, -254.000000)">
+					<g id="history" transform="translate(464.000000, 254.500000)">
+						<path d="M10.5,0 C7,0 3.9,1.9 2.3,4.8 L0,2.5 L0,9 L6.5,9 L3.7,6.2 C5,3.7 7.5,2 10.5,2 C14.6,2 18,5.4 18,9.5 C18,13.6 14.6,17 10.5,17 C7.2,17 4.5,14.9 3.4,12 L1.3,12 C2.4,16 6.1,19 10.5,19 C15.8,19 20,14.7 20,9.5 C20,4.3 15.7,0 10.5,0 L10.5,0 Z M9,5 L9,10.1 L13.7,12.9 L14.5,11.6 L10.5,9.2 L10.5,5 L9,5 L9,5 Z" id="Shape" />
+					</g>
+				</g>
+			</g>
+		</svg>
+	)
+}
+
+export const VideoIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 64 64"
+			width={size || width}
+			{...props}
+		>
+			<path fill="currentColor"
+				d="M 32 15 C 14.938 15 12.659656 15.177734 10.472656 17.427734 C 8.2856563 19.677734 8 23.252 8 32 C 8 40.748 8.2856562 44.323266 10.472656 46.572266 C 12.659656 48.821266 14.938 49 32 49 C 49.062 49 51.340344 48.821266 53.527344 46.572266 C 55.714344 44.322266 56 40.748 56 32 C 56 23.252 55.714344 19.677734 53.527344 17.427734 C 51.340344 15.177734 49.062 15 32 15 z M 32 19 C 45.969 19 49.379156 19.062422 50.535156 20.232422 C 51.691156 21.402422 52 24.538 52 32 C 52 39.462 51.691156 42.597578 50.535156 43.767578 C 49.379156 44.937578 45.969 45 32 45 C 18.031 45 14.620844 44.937578 13.464844 43.767578 C 12.308844 42.597578 12.03125 39.462 12.03125 32 C 12.03125 24.538 12.308844 21.402422 13.464844 20.232422 C 14.620844 19.062422 18.031 19 32 19 z M 27.949219 25.017578 L 27.949219 38.982422 L 40.095703 31.945312 L 27.949219 25.017578 z"></path>
+		</svg>
+	)
+}
+
+export const MenuIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 64 64"
+			width={size || width}
+			{...props}
+		>
+			<path fill="currentColor"
+				d="M51 46c1.104 0 2 .895 2 2 0 1.105-.896 2-2 2-.601 0-37.399 0-38 0-1.104 0-2-.895-2-2 0-1.105.896-2 2-2C13.601 46 50.399 46 51 46zM51 30c1.104 0 2 .895 2 2 0 1.105-.896 2-2 2-.601 0-37.399 0-38 0-1.104 0-2-.895-2-2 0-1.105.896-2 2-2C13.601 30 50.399 30 51 30zM51 14c1.104 0 2 .895 2 2 0 1.105-.896 2-2 2-.601 0-37.399 0-38 0-1.104 0-2-.895-2-2 0-1.105.896-2 2-2C13.601 14 50.399 14 51 14z"></path>
+		</svg>
+	)
+}
+
+export const HomeIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 64 64"
+			width={size || width}
+			{...props}
+		>
+			<path fill="currentColor"
+				d="M 32 8 C 31.08875 8 30.178047 8.3091875 29.435547 8.9296875 L 8.8007812 26.171875 C 8.0357812 26.810875 7.7634844 27.925203 8.2714844 28.783203 C 8.9184844 29.875203 10.35025 30.088547 11.28125 29.310547 L 12 28.710938 L 12 47 C 12 49.761 14.239 52 17 52 L 47 52 C 49.761 52 52 49.761 52 47 L 52 28.712891 L 52.71875 29.3125 C 53.09275 29.6255 53.546047 29.777344 53.998047 29.777344 C 54.693047 29.777344 55.382672 29.416656 55.763672 28.722656 C 56.228672 27.874656 55.954891 26.803594 55.212891 26.183594 L 52 23.498047 L 52 15 C 52 13.895 51.105 13 50 13 L 48 13 C 46.895 13 46 13.895 46 15 L 46 18.484375 L 34.564453 8.9296875 C 33.821953 8.3091875 32.91125 8 32 8 z M 32 12.152344 C 32.11475 12.152344 32.228766 12.191531 32.322266 12.269531 L 48 25.369141 L 48 46 C 48 47.105 47.105 48 46 48 L 38 48 L 38 34 C 38 32.895 37.105 32 36 32 L 28 32 C 26.895 32 26 32.895 26 34 L 26 48 L 18 48 C 16.895 48 16 47.105 16 46 L 16 25.367188 L 31.677734 12.269531 C 31.771234 12.191531 31.88525 12.152344 32 12.152344 z"></path>
+		</svg>
+	)
+}
 
 export const DiscordIcon: React.FC<IconSvgProps> = ({
 	size = 24,

@@ -1,5 +1,5 @@
 export type SiteConfig = typeof siteConfig;
-import { HistoryIcon, HomeIcon, LaterIcon, LibraryIcon, ListIcon, Logo, MenuIcon, VideoIcon } from '@/components/common/icons';
+import { HistoryIcon, HomeIcon, LaterIcon, LibraryIcon, ListIcon, Logo, MenuIcon, PlaylistIcon, VideoIcon } from '@/components/common/icons';
 
 export const siteConfig = {
 	name: "bee-channel",
@@ -37,6 +37,12 @@ export const siteConfig = {
 				href: "/history",
 				key: 'history',
 				Icon: <HistoryIcon />
+			},
+			{
+				label: "Playlist",
+				href: "/playlist",
+				key: "playlist",
+				Icon: <PlaylistIcon />
 			},
 			{
 				label: "Watch later",

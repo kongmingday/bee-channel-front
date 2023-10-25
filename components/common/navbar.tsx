@@ -1,3 +1,11 @@
+/*
+ * @Author: err0r
+ * @Date: 2023-09-23 23:02:35
+ * @LastEditors: err0r
+ * @LastEditTime: 2023-10-20 13:19:48
+ * @Description: 
+ * @FilePath: \bee-channel-front\components\common\navbar.tsx
+ */
 "use client";
 
 import {
@@ -8,19 +16,19 @@ import {
 import { Avatar } from "@nextui-org/react";
 import { Kbd } from "@nextui-org/kbd";
 import { Input } from "@nextui-org/input";
-
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ThemeSwitch } from "@/components/common/theme-switch";
 import {
 	SearchIcon,
 	MenuIcon,
 	Logo
 } from "@/components/common/icons";
-import { useMenuDispatch, useMenu } from "@/context/MenuContext";
+import { changeOpenState } from "@/store/slices/menuSlice";
 
 export const Navbar = () => {
 
-	const menuState = useMenu()
-	const dispatch = useMenuDispatch()
+	const menu = useAppSelector(state => state.menu)
+	const dispatch = useAppDispatch()
 
 	const searchInput = (
 		<Input
@@ -44,12 +52,12 @@ export const Navbar = () => {
 	);
 
 	return (
-		<NextUINavbar maxWidth="full" position="sticky" className="h-14" shouldHideOnScroll>
+		<NextUINavbar maxWidth="full" className="h-14 bg-white dark:bg-black">
 			<NavbarContent className="flex basis-1/2 ml-4"
 				justify="start"
 			>
 				<MenuIcon onClick={() => {
-					dispatch({ type: 'changed', state: !menuState })
+					dispatch(changeOpenState(!menu.isOpen))
 				}} />
 				<Logo />
 			</NavbarContent>

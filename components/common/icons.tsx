@@ -21,6 +21,27 @@ export const Logo: React.FC<IconSvgProps> = ({
 	</>
 );
 
+export const PlaylistIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="-4 -4 30 30"
+			width={size || width}
+			{...props}
+		>
+			<path d="M22 17.5L18.5 20V15L22 17.5Z" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+			<path d="M2 5L20 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+			<path d="M2 11L20 11" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+			<path d="M2 17L14 17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+		</svg>
+	)
+}
+
 export const LibraryIcon: React.FC<IconSvgProps> = ({
 	size = 30,
 	width,
@@ -61,6 +82,163 @@ export const ListIcon: React.FC<IconSvgProps> = ({
 		</svg>
 	)
 }
+
+export const FavoriteIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 512 512"
+			width={size || width}
+			{...props}
+		>
+			<g data-name="1" id="_1"><path d="M255.13,420.36a15.07,15.07,0,0,1-3.65-.45c-53.3-13.37-97.4-36.17-131.06-67.77C91.49,325,70.91,291.54,60.92,255.4c-7.2-26-8.71-52.67-4.36-77s14.11-44.65,28.26-58.8c35.66-35.66,89-36.13,126-20.79,16.93,7,31.31,17.42,41.6,30.1q1.39,1.71,2.67,3.47,1.29-1.76,2.68-3.47c10.28-12.68,24.67-23.09,41.6-30.1,37-15.34,90.38-14.87,126,20.79,14.15,14.15,23.92,34.48,28.26,58.8s2.84,51-4.36,77c-10,36.14-30.57,69.59-59.5,96.74-33.66,31.6-77.76,54.4-131.07,67.77A15,15,0,0,1,255.13,420.36ZM162.51,118.94c-23.67,0-44,9.35-56.48,21.83C85,161.85,78.3,205.7,89.83,247.41c8.53,30.82,26.2,59.48,51.12,82.86,29.14,27.35,67.54,47.39,114.18,59.61,46.65-12.22,85.05-32.26,114.19-59.61,24.91-23.38,42.59-52,51.11-82.86,11.54-41.71,4.88-85.56-16.19-106.64-18.64-18.63-54.73-30.28-93.35-14.28-25.52,10.57-40.76,29.63-40.76,51a15,15,0,0,1-30,0c0-21.37-15.23-40.43-40.75-51A96.1,96.1,0,0,0,162.51,118.94Z" />
+			</g>
+		</svg>
+	)
+}
+
+export const LikeIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="-18 -18 128 128"
+			width={size || width}
+			{...props}
+		>
+			<path fill="currentColor" d="M78,24H71.8828C71.2559,12.82,67.2773,0,42,0a5.9966,5.9966,0,0,0-6,6c0,10.8809-.1128,20.3687-8.6917,30H6a5.9966,5.9966,0,0,0-6,6V90a5.9966,5.9966,0,0,0,6,6H78A18.02,18.02,0,0,0,96,78V42A18.02,18.02,0,0,0,78,24ZM12,48H24V84H12ZM84,78a6.0078,6.0078,0,0,1-6,6H36V44.4023c9.9258-10.8867,11.6426-21.9257,11.9355-32.121C60,13.5938,60,19.5117,60,30a5.9966,5.9966,0,0,0,6,6H78a6.0078,6.0078,0,0,1,6,6Z" />
+		</svg>
+	)
+}
+
+export const UnlikeIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 24 24"
+			width={size || width}
+			{...props}
+		>
+			<path fill="currentColor" d="M19,4h-2H6.6C5.2,4,4,4.9,3.7,6.3l-1,4c-0.2,0.9,0,1.8,0.5,2.6C3.8,13.6,4.6,14,5.6,14h2.8l-0.7,1.5   C7.2,16.3,7,17.3,7,18.2c0,0.9,0.5,1.7,1.3,2l0.4,0.2c0.3,0.2,0.7,0.2,1,0.2c0.6,0,1.3-0.3,1.7-0.8l5.1-6C16.7,14,16.8,14,17,14h2   c1.7,0,3-1.3,3-3V7C22,5.3,20.7,4,19,4z M16,11.5l-6.1,7.1c-0.1,0.1-0.2,0.1-0.3,0.1l-0.4-0.2c-0.1,0-0.2-0.1-0.2-0.3   c0-0.6,0.2-1.3,0.4-1.8l1.5-2.9c0.2-0.3,0.1-0.7,0-1C10.7,12.2,10.3,12,10,12H5.6c-0.3,0-0.6-0.1-0.8-0.4c-0.2-0.2-0.3-0.6-0.2-0.9   l1-4C5.7,6.3,6.1,6,6.6,6H16V11.5z M20,11c0,0.6-0.4,1-1,1h-1v-0.2V6h1c0.6,0,1,0.4,1,1V11z" />
+		</svg>
+	)
+}
+
+export const ShareIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="-4 -4 38 38"
+			width={size || width}
+			{...props}
+		>
+			<g data-name="Layer 51" id="Layer_51">
+				<path fill="currentColor" d="M2,29A1.12,1.12,0,0,1,1.69,29,1,1,0,0,1,1,28V27A19,19,0,0,1,17,8.24V4a1,1,0,0,1,1.6-.8l12,9a1,1,0,0,1,0,1.6l-12,9A1,1,0,0,1,17,22V18.25A18.66,18.66,0,0,0,4.93,25.67L2.81,28.59A1,1,0,0,1,2,29ZM19,6V9.12a1,1,0,0,1-.89,1,17,17,0,0,0-15,14.6l.16-.21A20.68,20.68,0,0,1,17.9,16.11a1,1,0,0,1,.77.26,1,1,0,0,1,.33.74V20l9.33-7Z" />
+			</g>
+		</svg>
+	)
+}
+
+export const OptionsIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="-4 -4 38 38"
+			width={size || width}
+			{...props}
+		>
+			<g id="more">
+				<circle cx="16" cy="16" r="2" />
+				<circle cx="6" cy="16" r="2" />
+				<circle cx="26" cy="16" r="2" />
+			</g>
+		</svg>
+	)
+}
+
+export const MoreIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 24 24"
+			width={size || width}
+			{...props}
+		>
+			<circle fill="currentColor" cx="12" cy="12" r="1" />
+			<circle fill="currentColor" cx="12" cy="5" r="1" />
+			<circle fill="currentColor" cx="12" cy="19" r="1" />
+		</svg>
+	)
+}
+
+export const SortIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 48 48"
+			width={size || width}
+			{...props}
+		>
+			<path fill="currentColor" d="M6 36h12v-4H6v4zm0-24v4h36v-4H6zm0 14h24v-4H6v4z" />
+			<path d="M0 0h48v48H0z" fill="none" />
+		</svg>
+	)
+}
+
+export const PlayIcon: React.FC<IconSvgProps> = (
+	{
+		size = 30,
+		width,
+		height,
+		color,
+		...props
+	}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 -15 512 512"
+			width={size || width}
+			{...props}
+		>
+			<g><path fill={color || "currentColor"} d="M128,96v320l256-160L128,96L128,96z" /></g>
+		</svg>
+	)
+}
+
 
 export const LaterIcon: React.FC<IconSvgProps> = ({
 	size = 30,

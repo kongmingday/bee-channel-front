@@ -1,6 +1,6 @@
-import classNames from 'classnames'
-import { useEffect, useState } from "react";
+"use client";
 
+import { useEffect, useState } from "react";
 import { Listbox, ListboxItem } from "@nextui-org/react";
 import { Divider } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
@@ -8,8 +8,10 @@ import { useRouter, usePathname } from 'next/navigation'
 
 import { siteConfig } from '@/config/site';
 import { Logo, MenuIcon } from './icons';
-import { useMenu, useMenuDispatch } from '@/context/MenuContext';
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { User as UserType } from '@/types/normal';
+import clsx from 'clsx';
+import { changeOpenState } from "@/store/slices/menuSlice";
 
 const MenuListBox = (
   props: {
@@ -42,7 +44,7 @@ const MenuListBox = (
             textValue={item.label}
             onClick={() => handleSelectionChange(item.key)}
             className={
-              classNames(
+              clsx(
                 'flex items-center h-10 align-middle',
                 {
                   "bg-default-200 shadow": pathame === `/${item.key}`
@@ -65,7 +67,6 @@ const SubscriptionListBox = (
 ) => {
 
   const router = useRouter()
-  const pathame = usePathname()
   const [selectedKeys, setSelectedKeys] = useState('')
 
   const handleSelectionChange = (key: string) => {
@@ -90,7 +91,7 @@ const SubscriptionListBox = (
               // startContent={<div className={menuIconClass}>{item.Icon}</div>}
               onClick={() => handleSelectionChange(item.userId)}
               className={
-                classNames(
+                clsx(
                   {
                     "bg-default-200 shadow": false // pathame === `/${item.key}`
                   }
@@ -109,17 +110,12 @@ const SubscriptionListBox = (
   )
 }
 
-export const CommonMenu = (
-  props: {
-    isFixed?: boolean
-  }
-) => {
+export const CommonMenu = () => {
 
-  const menuState = useMenu()
-  const dispatch = useMenuDispatch()
+  const menu = useAppSelector(state => state.menu)
+  const dispatch = useAppDispatch()
   const menuMap = siteConfig.navItems
   const [subscriptions, setSubscriptions] = useState([] as UserType[])
-
 
   useEffect(() => {
     setSubscriptions([{
@@ -129,52 +125,33 @@ export const CommonMenu = (
     }])
   }, [])
 
-  const menuClass = classNames(
+  const menuClass = clsx(
     "fixed z-50 w-60 h-full bg-background transition-transform",
     "flex-col items-center p-4 lg:z-[30]",
     {
-      "translate-x-0": menuState && !props.isFixed
+      "translate-x-0": menu.isOpen
     },
     {
-      "lg:translate-x-0": props.isFixed
+      "-translate-x-60": !menu.isOpen
     },
     {
-      "-translate-x-60": !menuState
+      "lg:translate-x-0": menu.isFixed
     },
   )
 
-  // const menuClassOnFixed = classNames(
-  //   "lg:flex absolute z-50 w-60 h-full bg-background transition-transform ",
-  //   {
-  //     "-translate-x-60": !menuState
-  //   },
-  //   "flex flex-col items-center p-4 lg:translate-x-0",
-  // )
 
-
-  const maskClass = classNames(
-    "fixed z-40 w-full h-full bg-slate-500 opacity-10",
+  const maskClass = clsx(
+    "fixed z-20 w-full h-full bg-slate-500 opacity-20",
     {
-      "hidden": !menuState
+      "hidden": !menu.isOpen
     },
     {
-      "lg:hidden": props.isFixed
+      "lg:hidden": menu.isFixed
     }
   )
 
-  // const maskClassOnFixed = classNames(
-  //   "absolute z-40 w-full h-full bg-slate-500 opacity-30",
-  //   {
-  //     "hidden": !menuState
-  //   },
-
-  // )
-
   const maskChangeHandle = () => {
-    dispatch({
-      type: 'changed',
-      state: !menuState
-    })
+    dispatch(changeOpenState(!menu.isOpen))
   }
 
   return (

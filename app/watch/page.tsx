@@ -2,11 +2,11 @@
  * @Author: err0r
  * @Date: 2023-10-20 01:26:09
  * @LastEditors: err0r
- * @LastEditTime: 2023-10-25 00:05:47
+ * @LastEditTime: 2023-10-27 22:57:29
  * @Description: 
  * @FilePath: \bee-channel-front\app\watch\page.tsx
  */
-'use client'
+"use client";
 import { useSearchParams } from 'next/navigation'
 import { MediaList } from '@/components/media/mediaAssembly';
 import { Button, ButtonGroup, User, Card, CardBody } from '@nextui-org/react';
@@ -46,7 +46,7 @@ export default function Page() {
 	const resData = [1, 2, 3, 4, 5]
 
 	return (
-		<div className='flex px-4 md:px-12'>
+		<div className='flex px-4 md:px-12 gap-4'>
 			<div className='flex-col flex-[2_1_0%]'>
 				<div className='w-full'>
 					<video

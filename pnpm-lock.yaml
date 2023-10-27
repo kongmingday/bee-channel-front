@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@emoji-mart/data':
+    specifier: ^1.1.2
+    version: registry.npmmirror.com/@emoji-mart/data@1.1.2
+  '@emoji-mart/react':
+    specifier: ^1.1.1
+    version: registry.npmmirror.com/@emoji-mart/react@1.1.1(emoji-mart@5.5.2)(react@18.2.0)
   '@nextui-org/button':
     specifier: 2.0.18
     version: registry.npmmirror.com/@nextui-org/button@2.0.18(framer-motion@10.16.2)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.3.3)
@@ -62,6 +68,9 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: registry.npmmirror.com/clsx@2.0.0
+  emoji-mart:
+    specifier: ^5.5.2
+    version: registry.npmmirror.com/emoji-mart@5.5.2
   eslint:
     specifier: 8.48.0
     version: registry.npmmirror.com/eslint@8.48.0
@@ -138,6 +147,25 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.npmmirror.com/regenerator-runtime@0.14.0
+    dev: false
+
+  registry.npmmirror.com/@emoji-mart/data@1.1.2:
+    resolution: {integrity: sha512-1HP8BxD2azjqWJvxIaWAMyTySeZY0Osr83ukYjltPVkNXeJvTz7yDrPLBtnrD5uqJ3tg4CcLuuBW09wahqL/fg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@emoji-mart/data/-/data-1.1.2.tgz}
+    name: '@emoji-mart/data'
+    version: 1.1.2
+    dev: false
+
+  registry.npmmirror.com/@emoji-mart/react@1.1.1(emoji-mart@5.5.2)(react@18.2.0):
+    resolution: {integrity: sha512-NMlFNeWgv1//uPsvLxvGQoIerPuVdXwK/EUek8OOkJ6wVOWPUizRBJU0hDqWZCOROVpfBgCemaC3m6jDOXi03g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@emoji-mart/react/-/react-1.1.1.tgz}
+    id: registry.npmmirror.com/@emoji-mart/react/1.1.1
+    name: '@emoji-mart/react'
+    version: 1.1.1
+    peerDependencies:
+      emoji-mart: ^5.2
+      react: ^16.8 || ^17 || ^18
+    dependencies:
+      emoji-mart: registry.npmmirror.com/emoji-mart@5.5.2
+      react: registry.npmmirror.com/react@18.2.0
     dev: false
 
   registry.npmmirror.com/@emotion/is-prop-valid@0.8.8:
@@ -4041,6 +4069,12 @@ packages:
     resolution: {integrity: sha512-UdREXMXzLkREF4jA8t89FQjA8WHI6ssP38PMY4/4KhXFQbtImnghh4GkCgrtiZwLKUKVD2iTVXvDVQjfomEQuA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.528.tgz}
     name: electron-to-chromium
     version: 1.4.528
+    dev: false
+
+  registry.npmmirror.com/emoji-mart@5.5.2:
+    resolution: {integrity: sha512-Sqc/nso4cjxhOwWJsp9xkVm8OF5c+mJLZJFoFfzRuKO+yWiN7K8c96xmtughYb0d/fZ8UC6cLIQ/p4BR6Pv3/A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/emoji-mart/-/emoji-mart-5.5.2.tgz}
+    name: emoji-mart
+    version: 5.5.2
     dev: false
 
   registry.npmmirror.com/emoji-regex@9.2.2:

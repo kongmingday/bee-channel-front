@@ -127,7 +127,7 @@ export const CommonMenu = () => {
 
   const menuClass = clsx(
     "fixed z-50 w-60 h-full bg-background transition-transform",
-    "flex-col items-center p-4 lg:z-[30]",
+    "flex-col items-center p-4",
     {
       "translate-x-0": menu.isOpen
     },
@@ -141,7 +141,7 @@ export const CommonMenu = () => {
 
 
   const maskClass = clsx(
-    "fixed z-20 w-full h-full bg-slate-500 opacity-20",
+    "fixed z-30 w-full h-full bg-slate-500 opacity-20",
     {
       "hidden": !menu.isOpen
     },

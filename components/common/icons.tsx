@@ -219,6 +219,29 @@ export const SortIcon: React.FC<IconSvgProps> = ({
 	)
 }
 
+export const SmileIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<g data-name="45-Smile" id="_45-Smile">
+				<path fill="currentColor" d="M16,32A16,16,0,1,1,32,16,16,16,0,0,1,16,32ZM16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Z" />
+				<path fill="currentColor" d="M15,13H13a2,2,0,0,0-4,0H7a4,4,0,0,1,8,0Z" />
+				<path fill="currentColor" d="M25,13H23a2,2,0,0,0-4,0H17a4,4,0,0,1,8,0Z" />
+				<path fill="currentColor" d="M15,23H13a7,7,0,0,1,7-7v2A5,5,0,0,0,15,23Z" />
+			</g>
+		</svg>
+	)
+}
+
 export const PlayIcon: React.FC<IconSvgProps> = (
 	{
 		size = 30,

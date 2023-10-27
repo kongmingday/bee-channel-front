@@ -2,7 +2,7 @@
  * @Author: err0r
  * @Date: 2023-09-23 23:02:35
  * @LastEditors: err0r
- * @LastEditTime: 2023-10-20 13:19:48
+ * @LastEditTime: 2023-10-26 00:38:20
  * @Description: 
  * @FilePath: \bee-channel-front\components\common\navbar.tsx
  */
@@ -52,7 +52,7 @@ export const Navbar = () => {
 	);
 
 	return (
-		<NextUINavbar maxWidth="full" className="h-14 bg-white dark:bg-black">
+		<NextUINavbar maxWidth="full" className="z-20 h-14 bg-white dark:bg-black">
 			<NavbarContent className="flex basis-1/2 ml-4"
 				justify="start"
 			>

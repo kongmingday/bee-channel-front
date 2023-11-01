@@ -2,48 +2,24 @@
  * @Author: err0r
  * @Date: 2023-10-20 01:26:09
  * @LastEditors: err0r
- * @LastEditTime: 2023-10-27 22:57:29
+ * @LastEditTime: 2023-10-30 19:26:08
  * @Description: 
  * @FilePath: \bee-channel-front\app\watch\page.tsx
  */
 "use client";
 import { useSearchParams } from 'next/navigation'
-import { MediaList } from '@/components/media/mediaAssembly';
+import { MediaList, PlayList } from '@/components/media/mediaAssembly';
 import { Button, ButtonGroup, User, Card, CardBody } from '@nextui-org/react';
 import { LikeIcon, MoreIcon, ShareIcon, UnlikeIcon } from '@/components/common/icons';
-import { ChatComment } from '@/components/media/chatComment';
+import { ChatComment, LiveChat } from '@/components/media/chatComment';
 import { useState } from 'react';
-import clsx from 'clsx';
+import { BriefArea } from '@/components/media/mediaAssembly';
 
-const BriefArea = (
-	props: {
-		content: string
-	}
-) => {
-
-	const [briefExpand, setBriefExpand] = useState(false)
-	const briefClass = clsx({
-		'line-clamp-2': !briefExpand
-	})
-
-	return (
-		<Card
-			shadow='sm'
-			isPressable
-			className='mb-10'
-			onPress={() => setBriefExpand(!briefExpand)}>
-			<CardBody>
-				<p className={briefClass}>
-					{props.content}
-				</p>
-			</CardBody>
-		</Card>
-	)
-}
 
 export default function Page() {
 	const searchParams = useSearchParams()
 	const resData = [1, 2, 3, 4, 5]
+	const [liveState, setLiveState] = useState(true)
 
 	return (
 		<div className='flex px-4 md:px-12 gap-4'>
@@ -77,6 +53,7 @@ export default function Page() {
 								}}
 							/>
 							<Button
+								onClick={() => { setLiveState(state => !state) }}
 								radius='full'
 								color="primary"
 								className='ml-6'>
@@ -113,11 +90,17 @@ export default function Page() {
 						"Make beautiful websites regardless of your design experience."
 					} />
 					<div>
-						<ChatComment />
+						{!liveState && <ChatComment />}
 					</div>
 				</div>
 			</div>
 			<div className='flex-[1_1_0%] hidden lg:inline-block'>
+				{/* TODO if into page by playlist， it will show */}
+				{
+					liveState ?
+						<LiveChat /> :
+						false && <PlayList className="mb-6" />
+				}
 				<MediaList mediaList={resData} />
 			</div>
 		</div>

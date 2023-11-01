@@ -1,3 +1,11 @@
+/*
+ * @Author: err0r
+ * @Date: 2023-09-25 22:59:33
+ * @LastEditors: err0r
+ * @LastEditTime: 2023-10-29 14:48:18
+ * @Description: 
+ * @FilePath: \bee-channel-front\app\subscriptions\page.tsx
+ */
 "use client"
 
 import { Metadata } from "next";
@@ -27,7 +35,7 @@ const AuthorListFragment = (
       <Pagination
         className="w-full flex justify-center mt-5"
         classNames={{
-          cursor: "bg-black dark:bg-white dark:text-black"
+          cursor: "bg-black text-white dark:bg-white dark:text-black"
         }}
         total={10}
         initialPage={1} />
@@ -55,7 +63,8 @@ export default function Page() {
     <>
       <div className="w-full flex justify-center">
         <div className="flex flex-wrap w-full lg:w-[90%]">
-          <LinkTabs tabItemList={linkData} selectChange={key => (currentKeyChangeHandle(key))} />
+          <LinkTabs tabItemList={linkData}
+            selectChange={key => (currentKeyChangeHandle(key))} />
           {
             tabsOptions.find(item =>
               item.key == currentKey

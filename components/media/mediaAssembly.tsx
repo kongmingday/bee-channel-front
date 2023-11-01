@@ -2,8 +2,12 @@
 import clsx from "clsx";
 
 import { Meida } from "@/types/normal";
-import { Card, CardBody, CardFooter, Image, User, Button, Avatar, CardHeader } from "@nextui-org/react";
-import { ReactNode } from "react";
+import {
+  Card, CardBody, CardFooter, CardHeader,
+  Image, User, Button, Chip
+} from "@nextui-org/react";
+import { ReactNode, useState } from "react";
+import { ClassValue } from "tailwind-variants";
 
 const MediaCard = () => {
   return (
@@ -82,6 +86,7 @@ export const MediaCardModule = (
             <>
               <h1 className="text-xl mb-4">Test Module Title</h1>
               <Button radius="full"
+                className="shadow"
                 color="primary"
                 size="sm">
                 More
@@ -109,6 +114,7 @@ export const MediaCardModule = (
 
 const MediaCommonItem = (
   props: {
+    className?: ClassValue,
     imageSize?: string,
     fontSize?: string
     disableDescription?: boolean
@@ -120,8 +126,10 @@ const MediaCommonItem = (
     props.imageSize || "h-[160px] w-[250px]"
   )
 
+
+
   return (
-    <div className="w-full gap-4 flex mt-0 mb-3">
+    <div className={clsx("w-full gap-4 flex mt-0 mb-3", props.className)}>
       <div className="flex-none">
         <Image
           shadow="sm"
@@ -202,4 +210,76 @@ export const MediaCardList = (
       }
     </>
   )
-} 
+}
+
+export const PlayList = (
+  props: {
+    className?: ClassValue
+  }
+) => {
+  const resData = [1, 23, 4, 4, 5]
+
+  return (
+    <div className={clsx(props.className)}>
+      <Card>
+        <CardHeader className="flex gap-3 px-4">
+          <div className="flex flex-col">
+            <p className="text-xl ml-2 mb-2">Title</p>
+            <div className="flex items-center gap-4">
+              <Chip color="primary" radius="sm">Chip</Chip>
+              <p className="text-small text-default-500">Author</p>
+              <p className="text-small text-default-500">20 videos</p>
+            </div>
+          </div>
+        </CardHeader>
+        <CardBody className="py-1 px-2">
+          {
+            resData.map((item, index) =>
+              <MediaCommonItem key={item}
+                className={clsx(
+                  "px-2 pt-2 rounded-lg",
+                  { "bg-default-200 shadow": index === 1 }
+                )}
+                imageSize="h-[80px] w-[150px]"
+                fontSize="text-sm" />
+            )
+          }
+        </CardBody>
+      </Card>
+    </div>
+  )
+}
+
+
+export const BriefArea = (
+  props: {
+    className?: ClassValue,
+    bodyClassName?: ClassValue,
+    content: string
+  }
+) => {
+  const [briefExpand, setBriefExpand] = useState(false)
+  const briefClass = clsx({
+    'line-clamp-2': !briefExpand
+  })
+
+  return (
+    <Card
+      shadow='sm'
+      isPressable
+      className={clsx(
+        'mb-10',
+        props.className
+      )}
+      classNames={{
+        base: "border-none"
+      }}
+      onPress={() => setBriefExpand(!briefExpand)}>
+      <CardBody className={clsx(props.bodyClassName)}>
+        <p className={briefClass}>
+          {props.content}
+        </p>
+      </CardBody>
+    </Card>
+  )
+}

@@ -86,7 +86,7 @@ export const MediaCardModule = (
             <>
               <h1 className="text-xl mb-4">Test Module Title</h1>
               <Button radius="full"
-                className="shadow"
+                variant="shadow"
                 color="primary"
                 size="sm">
                 More

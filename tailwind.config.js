@@ -1,3 +1,11 @@
+/*
+ * @Author: err0r
+ * @Date: 2023-09-23 23:02:35
+ * @LastEditors: err0r
+ * @LastEditTime: 2023-11-01 15:03:50
+ * @Description: 
+ * @FilePath: \bee-channel-front\tailwind.config.js
+ */
 import { nextui } from '@nextui-org/theme'
 
 
@@ -17,12 +25,13 @@ module.exports = {
     themes: {
       light: {
         colors: {
-          'primary': '#f4f4f5'
+          'primary': '#E4E4E7'
         }
       },
       dark: {
         colors: {
-          'primary': '#27272a'
+          'primary': '#3F3F46',
+          'background': '#18181B'
         }
       }
     },

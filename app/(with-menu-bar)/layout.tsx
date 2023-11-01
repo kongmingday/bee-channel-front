@@ -2,15 +2,14 @@
  * @Author: err0r
  * @Date: 2023-09-23 23:02:35
  * @LastEditors: err0r
- * @LastEditTime: 2023-10-21 10:37:12
+ * @LastEditTime: 2023-11-01 16:27:34
  * @Description: 
- * @FilePath: \bee-channel-front\app\layout.tsx
+ * @FilePath: \bee-channel-front\app\(with-menu-bar)\layout.tsx
  */
 import "@/styles/globals.css";
 import { fontSans } from "@/config/fonts";
-import { Providers } from "./providers";
+import { Providers } from "../providers";
 import { Navbar } from "@/components/common/navbar";
-import { CommonMenu } from "@/components/common/menu";
 import { Metadata } from "next";
 import clsx from "clsx";
 import { RouterJudge } from "./routerJudge";

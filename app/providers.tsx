@@ -1,6 +1,13 @@
+/*
+ * @Author: err0r
+ * @Date: 2023-09-23 23:02:35
+ * @LastEditors: err0r
+ * @LastEditTime: 2023-11-01 16:03:48
+ * @Description: 
+ * @FilePath: \bee-channel-front\app\(majority)\providers.tsx
+ */
 "use client";
 
-import { StrictMode, useEffect } from 'react'
 import { NextUIProvider } from "@nextui-org/system";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";

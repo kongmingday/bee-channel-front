@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# VSCode Counter
+/VSCodeCounter
+
 # production
 /build
 

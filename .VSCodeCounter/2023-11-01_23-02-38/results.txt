@@ -1,0 +1,105 @@
+Date : 2023-11-01 23:02:38
+Directory : d:\CodeData\Project\bee-channel-front
+Total : 44 files,  18356 codes, 187 comments, 804 blanks, all 19347 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          2 |      9,555 |          0 |          2 |      9,557 |
+| YAML               |          1 |      6,232 |          0 |        566 |      6,798 |
+| TypeScript JSX     |         24 |      2,279 |        118 |        174 |      2,571 |
+| TypeScript         |          8 |        199 |         57 |         44 |        300 |
+| JavaScript         |          3 |         36 |         10 |          6 |         52 |
+| JSON with Comments |          2 |         29 |          2 |          2 |         33 |
+| Markdown           |          1 |         21 |          0 |         10 |         31 |
+| CSS                |          1 |          3 |          0 |          0 |          3 |
+| XML                |          2 |          2 |          0 |          0 |          2 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                               | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                  |         44 |     18,356 |        187 |        804 |     19,347 |
+| . (Files)                                                                          |          9 |     15,873 |         12 |        586 |     16,471 |
+| app                                                                                |         15 |        692 |         99 |         61 |        852 |
+| app (Files)                                                                        |          2 |         46 |         10 |          8 |         64 |
+| app\(with-menu-bar)                                                                |          9 |        506 |         65 |         40 |        611 |
+| app\(with-menu-bar) (Files)                                                        |          3 |        116 |         24 |         19 |        159 |
+| app\(with-menu-bar)\later                                                          |          1 |         91 |          8 |          3 |        102 |
+| app\(with-menu-bar)\library                                                        |          1 |         57 |          8 |          3 |         68 |
+| app\(with-menu-bar)\live                                                           |          1 |         12 |          0 |          2 |         14 |
+| app\(with-menu-bar)\subscriptions                                                  |          1 |         64 |          8 |          6 |         78 |
+| app\(with-menu-bar)\user                                                           |          1 |         70 |          8 |          3 |         81 |
+| app\(with-menu-bar)\user\[userSign]                                                |          1 |         70 |          8 |          3 |         81 |
+| app\(with-menu-bar)\watch                                                          |          1 |         96 |          9 |          4 |        109 |
+| app\(with-none)                                                                    |          4 |        140 |         24 |         13 |        177 |
+| app\(with-none) (Files)                                                            |          2 |         48 |          8 |          7 |         63 |
+| app\(with-none)\sign-in                                                            |          1 |         10 |          8 |          2 |         20 |
+| app\(with-none)\sign-up                                                            |          1 |         82 |          8 |          4 |         94 |
+| components                                                                         |          9 |      1,584 |         19 |        114 |      1,717 |
+| components\common                                                                  |          6 |        944 |          9 |         76 |      1,029 |
+| components\media                                                                   |          2 |        574 |         10 |         36 |        620 |
+| components\user                                                                    |          1 |         66 |          0 |          2 |         68 |
+| config                                                                             |          2 |         63 |          0 |          5 |         68 |
+| public                                                                             |          2 |          2 |          0 |          0 |          2 |
+| store                                                                              |          3 |         37 |         25 |         11 |         73 |
+| store (Files)                                                                      |          2 |         14 |         17 |          6 |         37 |
+| store\slices                                                                       |          1 |         23 |          8 |          5 |         36 |
+| styles                                                                             |          1 |          3 |          0 |          0 |          3 |
+| types                                                                              |          2 |         16 |          0 |          4 |         20 |
+| utils                                                                              |          1 |         86 |         32 |         23 |        141 |
+| utils\common                                                                       |          1 |         86 |         32 |         23 |        141 |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                           | language           | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| d:\CodeData\Project\bee-channel-front\.eslintrc.json                               | JSON with Comments |          3 |          0 |          1 |          4 |
+| d:\CodeData\Project\bee-channel-front\README.md                                    | Markdown           |         21 |          0 |         10 |         31 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\later\page.tsx           | TypeScript JSX     |         91 |          8 |          3 |        102 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\layout.tsx               | TypeScript JSX     |         38 |          8 |          4 |         50 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\library\page.tsx         | TypeScript JSX     |         57 |          8 |          3 |         68 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\live\page.tsx            | TypeScript JSX     |         12 |          0 |          2 |         14 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\page.tsx                 | TypeScript JSX     |         11 |          8 |          2 |         21 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\routerJudge.tsx          | TypeScript JSX     |         67 |          8 |         13 |         88 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\subscriptions\page.tsx   | TypeScript JSX     |         64 |          8 |          6 |         78 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\user\[userSign]\page.tsx | TypeScript JSX     |         70 |          8 |          3 |         81 |
+| d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\watch\page.tsx           | TypeScript JSX     |         96 |          9 |          4 |        109 |
+| d:\CodeData\Project\bee-channel-front\app\(with-none)\layout.tsx                   | TypeScript JSX     |         35 |          8 |          5 |         48 |
+| d:\CodeData\Project\bee-channel-front\app\(with-none)\sign-in\page.tsx             | TypeScript JSX     |         10 |          8 |          2 |         20 |
+| d:\CodeData\Project\bee-channel-front\app\(with-none)\sign-up\page.tsx             | TypeScript JSX     |         82 |          8 |          4 |         94 |
+| d:\CodeData\Project\bee-channel-front\app\(with-none)\top-nav.tsx                  | TypeScript JSX     |         13 |          0 |          2 |         15 |
+| d:\CodeData\Project\bee-channel-front\app\error.tsx                                | TypeScript JSX     |         25 |          2 |          3 |         30 |
+| d:\CodeData\Project\bee-channel-front\app\providers.tsx                            | TypeScript JSX     |         21 |          8 |          5 |         34 |
+| d:\CodeData\Project\bee-channel-front\components\common\icons.tsx                  | TypeScript JSX     |        541 |          0 |         33 |        574 |
+| d:\CodeData\Project\bee-channel-front\components\common\menu.tsx                   | TypeScript JSX     |        159 |          1 |         20 |        180 |
+| d:\CodeData\Project\bee-channel-front\components\common\navbar.tsx                 | TypeScript JSX     |         81 |          8 |          8 |         97 |
+| d:\CodeData\Project\bee-channel-front\components\common\primitives.ts              | TypeScript         |         51 |          0 |          3 |         54 |
+| d:\CodeData\Project\bee-channel-front\components\common\tabs.tsx                   | TypeScript JSX     |         42 |          0 |          4 |         46 |
+| d:\CodeData\Project\bee-channel-front\components\common\theme-switch.tsx           | TypeScript JSX     |         70 |          0 |          8 |         78 |
+| d:\CodeData\Project\bee-channel-front\components\media\chatComment.tsx             | TypeScript JSX     |        306 |         10 |         19 |        335 |
+| d:\CodeData\Project\bee-channel-front\components\media\mediaAssembly.tsx           | TypeScript JSX     |        268 |          0 |         17 |        285 |
+| d:\CodeData\Project\bee-channel-front\components\user\userAssembly.tsx             | TypeScript JSX     |         66 |          0 |          2 |         68 |
+| d:\CodeData\Project\bee-channel-front\config\fonts.ts                              | TypeScript         |          9 |          0 |          3 |         12 |
+| d:\CodeData\Project\bee-channel-front\config\site.tsx                              | TypeScript JSX     |         54 |          0 |          2 |         56 |
+| d:\CodeData\Project\bee-channel-front\next.config.js                               | JavaScript         |          2 |          1 |          2 |          5 |
+| d:\CodeData\Project\bee-channel-front\package-lock.json                            | JSON               |      9,501 |          0 |          1 |      9,502 |
+| d:\CodeData\Project\bee-channel-front\package.json                                 | JSON               |         54 |          0 |          1 |         55 |
+| d:\CodeData\Project\bee-channel-front\pnpm-lock.yaml                               | YAML               |      6,232 |          0 |        566 |      6,798 |
+| d:\CodeData\Project\bee-channel-front\postcss.config.js                            | JavaScript         |          6 |          0 |          1 |          7 |
+| d:\CodeData\Project\bee-channel-front\public\next.svg                              | XML                |          1 |          0 |          0 |          1 |
+| d:\CodeData\Project\bee-channel-front\public\vercel.svg                            | XML                |          1 |          0 |          0 |          1 |
+| d:\CodeData\Project\bee-channel-front\store\hooks.ts                               | TypeScript         |          4 |          9 |          1 |         14 |
+| d:\CodeData\Project\bee-channel-front\store\index.ts                               | TypeScript         |         10 |          8 |          5 |         23 |
+| d:\CodeData\Project\bee-channel-front\store\slices\menuSlice.ts                    | TypeScript         |         23 |          8 |          5 |         36 |
+| d:\CodeData\Project\bee-channel-front\styles\globals.css                           | CSS                |          3 |          0 |          0 |          3 |
+| d:\CodeData\Project\bee-channel-front\tailwind.config.js                           | JavaScript         |         28 |          9 |          3 |         40 |
+| d:\CodeData\Project\bee-channel-front\tsconfig.json                                | JSON with Comments |         26 |          2 |          1 |         29 |
+| d:\CodeData\Project\bee-channel-front\types\index.ts                               | TypeScript         |          4 |          0 |          2 |          6 |
+| d:\CodeData\Project\bee-channel-front\types\normal.d.ts                            | TypeScript         |         12 |          0 |          2 |         14 |
+| d:\CodeData\Project\bee-channel-front\utils\common\fileUpload.ts                   | TypeScript         |         86 |         32 |         23 |        141 |
+| Total                                                                              |                    |     18,356 |        187 |        804 |     19,347 |
++------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

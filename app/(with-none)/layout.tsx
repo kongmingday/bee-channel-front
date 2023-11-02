@@ -2,7 +2,7 @@
  * @Author: err0r
  * @Date: 2023-11-01 15:24:28
  * @LastEditors: err0r
- * @LastEditTime: 2023-11-01 22:20:02
+ * @LastEditTime: 2023-11-02 22:45:40
  * @Description: 
  * @FilePath: \bee-channel-front\app\(with-none)\layout.tsx
  */
@@ -36,7 +36,7 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <div className="flex flex-col">
+          <div className="flex flex-col h-full min-h-screen">
             <TopNav />
             {children}
           </div>

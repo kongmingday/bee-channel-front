@@ -1,0 +1,46 @@
+"filename", "language", "JavaScript", "JSON with Comments", "TypeScript", "TypeScript JSX", "CSS", "JSON", "XML", "Markdown", "YAML", "comment", "blank", "total"
+"d:\CodeData\Project\bee-channel-front\.eslintrc.json", "JSON with Comments", 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"d:\CodeData\Project\bee-channel-front\README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 10, 31
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\later\page.tsx", "TypeScript JSX", 0, 0, 0, 91, 0, 0, 0, 0, 0, 8, 3, 102
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\layout.tsx", "TypeScript JSX", 0, 0, 0, 38, 0, 0, 0, 0, 0, 8, 4, 50
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\library\page.tsx", "TypeScript JSX", 0, 0, 0, 57, 0, 0, 0, 0, 0, 8, 3, 68
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\live\page.tsx", "TypeScript JSX", 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 2, 14
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\page.tsx", "TypeScript JSX", 0, 0, 0, 11, 0, 0, 0, 0, 0, 8, 2, 21
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\routerJudge.tsx", "TypeScript JSX", 0, 0, 0, 67, 0, 0, 0, 0, 0, 8, 13, 88
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\subscriptions\page.tsx", "TypeScript JSX", 0, 0, 0, 64, 0, 0, 0, 0, 0, 8, 6, 78
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\user\[userSign]\page.tsx", "TypeScript JSX", 0, 0, 0, 70, 0, 0, 0, 0, 0, 8, 3, 81
+"d:\CodeData\Project\bee-channel-front\app\(with-menu-bar)\watch\page.tsx", "TypeScript JSX", 0, 0, 0, 96, 0, 0, 0, 0, 0, 9, 4, 109
+"d:\CodeData\Project\bee-channel-front\app\(with-none)\layout.tsx", "TypeScript JSX", 0, 0, 0, 35, 0, 0, 0, 0, 0, 8, 5, 48
+"d:\CodeData\Project\bee-channel-front\app\(with-none)\sign-in\page.tsx", "TypeScript JSX", 0, 0, 0, 10, 0, 0, 0, 0, 0, 8, 2, 20
+"d:\CodeData\Project\bee-channel-front\app\(with-none)\sign-up\page.tsx", "TypeScript JSX", 0, 0, 0, 82, 0, 0, 0, 0, 0, 8, 4, 94
+"d:\CodeData\Project\bee-channel-front\app\(with-none)\top-nav.tsx", "TypeScript JSX", 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 2, 15
+"d:\CodeData\Project\bee-channel-front\app\error.tsx", "TypeScript JSX", 0, 0, 0, 25, 0, 0, 0, 0, 0, 2, 3, 30
+"d:\CodeData\Project\bee-channel-front\app\providers.tsx", "TypeScript JSX", 0, 0, 0, 21, 0, 0, 0, 0, 0, 8, 5, 34
+"d:\CodeData\Project\bee-channel-front\components\common\icons.tsx", "TypeScript JSX", 0, 0, 0, 541, 0, 0, 0, 0, 0, 0, 33, 574
+"d:\CodeData\Project\bee-channel-front\components\common\menu.tsx", "TypeScript JSX", 0, 0, 0, 159, 0, 0, 0, 0, 0, 1, 20, 180
+"d:\CodeData\Project\bee-channel-front\components\common\navbar.tsx", "TypeScript JSX", 0, 0, 0, 81, 0, 0, 0, 0, 0, 8, 8, 97
+"d:\CodeData\Project\bee-channel-front\components\common\primitives.ts", "TypeScript", 0, 0, 51, 0, 0, 0, 0, 0, 0, 0, 3, 54
+"d:\CodeData\Project\bee-channel-front\components\common\tabs.tsx", "TypeScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 4, 46
+"d:\CodeData\Project\bee-channel-front\components\common\theme-switch.tsx", "TypeScript JSX", 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 8, 78
+"d:\CodeData\Project\bee-channel-front\components\media\chatComment.tsx", "TypeScript JSX", 0, 0, 0, 306, 0, 0, 0, 0, 0, 10, 19, 335
+"d:\CodeData\Project\bee-channel-front\components\media\mediaAssembly.tsx", "TypeScript JSX", 0, 0, 0, 268, 0, 0, 0, 0, 0, 0, 17, 285
+"d:\CodeData\Project\bee-channel-front\components\user\userAssembly.tsx", "TypeScript JSX", 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 2, 68
+"d:\CodeData\Project\bee-channel-front\config\fonts.ts", "TypeScript", 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 3, 12
+"d:\CodeData\Project\bee-channel-front\config\site.tsx", "TypeScript JSX", 0, 0, 0, 54, 0, 0, 0, 0, 0, 0, 2, 56
+"d:\CodeData\Project\bee-channel-front\next.config.js", "JavaScript", 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 5
+"d:\CodeData\Project\bee-channel-front\package-lock.json", "JSON", 0, 0, 0, 0, 0, 9501, 0, 0, 0, 0, 1, 9502
+"d:\CodeData\Project\bee-channel-front\package.json", "JSON", 0, 0, 0, 0, 0, 54, 0, 0, 0, 0, 1, 55
+"d:\CodeData\Project\bee-channel-front\pnpm-lock.yaml", "YAML", 0, 0, 0, 0, 0, 0, 0, 0, 6232, 0, 566, 6798
+"d:\CodeData\Project\bee-channel-front\postcss.config.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"d:\CodeData\Project\bee-channel-front\public\next.svg", "XML", 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+"d:\CodeData\Project\bee-channel-front\public\vercel.svg", "XML", 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+"d:\CodeData\Project\bee-channel-front\store\hooks.ts", "TypeScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 9, 1, 14
+"d:\CodeData\Project\bee-channel-front\store\index.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 8, 5, 23
+"d:\CodeData\Project\bee-channel-front\store\slices\menuSlice.ts", "TypeScript", 0, 0, 23, 0, 0, 0, 0, 0, 0, 8, 5, 36
+"d:\CodeData\Project\bee-channel-front\styles\globals.css", "CSS", 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3
+"d:\CodeData\Project\bee-channel-front\tailwind.config.js", "JavaScript", 28, 0, 0, 0, 0, 0, 0, 0, 0, 9, 3, 40
+"d:\CodeData\Project\bee-channel-front\tsconfig.json", "JSON with Comments", 0, 26, 0, 0, 0, 0, 0, 0, 0, 2, 1, 29
+"d:\CodeData\Project\bee-channel-front\types\index.ts", "TypeScript", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 2, 6
+"d:\CodeData\Project\bee-channel-front\types\normal.d.ts", "TypeScript", 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 2, 14
+"d:\CodeData\Project\bee-channel-front\utils\common\fileUpload.ts", "TypeScript", 0, 0, 86, 0, 0, 0, 0, 0, 0, 32, 23, 141
+"Total", "-", 36, 29, 199, 2279, 3, 9555, 2, 21, 6232, 187, 804, 19347

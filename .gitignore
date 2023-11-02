@@ -13,7 +13,7 @@
 /out/
 
 # VSCode Counter
-/VSCodeCounter
+/.VSCodeCounter
 
 # production
 /build

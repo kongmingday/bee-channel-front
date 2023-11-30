@@ -11,6 +11,7 @@ import { Providers } from "../providers";
 import { Metadata } from "next";
 import { fontSans } from "@/config/fonts";
 import { clsx } from "clsx";
+import { TopNav } from "../../components/common/top-nav";
 
 export const metadata: Metadata = {
   title: {
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="flex flex-col h-full min-h-screen">
+            <TopNav />
             {children}
           </div>
         </Providers>

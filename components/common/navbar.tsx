@@ -23,8 +23,9 @@ import {
 	Logo
 } from "@/components/common/icons";
 import { changeOpenState } from "@/store/slices/menuSlice";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getAuthInfo } from "@/utils/common/tokenUtils";
+import { AuthInfo } from "@/types/auth";
 
 export const Navbar = () => {
 
@@ -32,7 +33,7 @@ export const Navbar = () => {
 	const menu = useAppSelector(state => state.menu)
 	const dispatch = useAppDispatch()
 
-	const [signState, setSignState] = useState(false)
+	const authInfo = getAuthInfo()
 
 	const searchInput = (
 		<Input
@@ -79,10 +80,16 @@ export const Navbar = () => {
 				<NavbarItem className="flex basis-full gap-2">
 					<ThemeSwitch />
 					{
-						signState ?
-							<Avatar name="john"></Avatar> :
+						authInfo ?
+							<Avatar
+								// src={authInfo.information?.profile}
+								name={authInfo.information!.username}></Avatar> :
 							<>
-								<Button variant="light" size="sm">Sign in</Button>
+								<Button variant="light"
+									onClick={() => { router.push("/sign-in") }}
+									size="sm">
+									Sign in
+								</Button>
 								<Button color="primary" size="sm"
 									onClick={() => { router.push("/sign-up") }}>
 									Sign up

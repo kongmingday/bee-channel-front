@@ -1,44 +1,70 @@
 "use client";
 import clsx from "clsx";
 
-import { Meida } from "@/types/normal";
 import {
   Card, CardBody, CardFooter, CardHeader,
   Image, User, Button, Chip
 } from "@nextui-org/react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { ClassValue } from "tailwind-variants";
+import { Category, SimpleVideo } from "@/types/media";
+import { getModuleRecommend } from "@/api/media";
+import { StoreFileHost } from "@/types";
 
-const MediaCard = () => {
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import { useRouter } from "next/navigation";
+
+const calculateDuration = (targetTime: string) => {
+  dayjs.extend(relativeTime)
+  return dayjs(targetTime).fromNow()
+}
+
+const MediaCard = (
+  props: {
+    video: SimpleVideo
+  }
+) => {
+
+  const fromNow = useMemo(() => {
+    return calculateDuration(props.video.publicTime)
+  }, [props.video])
+  const router = useRouter()
+
   return (
     <>
       <Card
+        onClick={() => {
+          router.push(`/watch?id=${props.video.id}`)
+        }}
         isBlurred
-        className="border-none bg-background/60 dark:bg-default-100/50"
+        className="border-none bg-background/60 dark:bg-default-100/50 items-start"
         shadow="sm"
       >
-        <CardBody className="overflow-visible p-0">
-          <Image isBlurred
-            shadow="sm"
-            radius="lg"
-            width="100%"
-            className="w-full object-cover h-[230px]"
-            src="https://nextui-docs-v2.vercel.app/images/album-cover.png"
-            alt="NextUI Album Cover" />
-        </CardBody>
-        <CardFooter className="text-small">
+        <Image isBlurred
+          shadow="sm"
+          radius="lg"
+          width="100%"
+          className="w-full object-cover"
+          src={StoreFileHost + props.video.coverPath}
+          alt="NextUI Album Cover" />
+        <CardFooter className="text-small flex-grow items-start">
           <User
+            onClick={() => { console.log(1) }}
             className="items-start"
-            name="ASMR Chinese Ancient Face Spa Treatment + Scalp Message" // title
+            classNames={{
+              name: "line-clamp-1"
+            }}
+            name={props.video.title} // title
             description={
               <>
-                <div>Product Design</div>
-                <div>2K views · 3 years ago</div>
+                <div>{props.video.user.username}</div>
+                <div>{props.video.clickedCount} views · {fromNow}</div>
               </>
             }
             avatarProps={{
               className: 'flex-none w-[32px] h-[32px] mt-1 mr-1',
-              src: "https://i.pravatar.cc/150?u=a04258114e29026702d"
+              src: StoreFileHost + props.video.user.profile
             }}
           />
         </CardFooter>
@@ -49,7 +75,7 @@ const MediaCard = () => {
 
 export const MediaCardGrid = (
   props: {
-    mediaList: any[],
+    mediaList: SimpleVideo[],
     grid?: string,
     gap?: string,
   }
@@ -57,12 +83,36 @@ export const MediaCardGrid = (
   return (
     <div className={clsx(
       "grid",
-      props.grid || "md:grid-cols-2 lg:grid-cols-3 ",
+      props.grid || "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ",
       props.gap || "gap-4"
     )}>
       {
         props.mediaList.map((item, index) =>
-          <MediaCard key={item}></MediaCard>)
+          <MediaCard key={item.id} video={item}></MediaCard>)
+      }
+    </div>
+  )
+}
+
+export const ChipModule = (
+  props: {
+    chipList: any[]
+  }
+) => {
+  return (
+    <div className="flex gap-4">
+      {
+        props.chipList.map((item, index) =>
+          <Chip key={item.id}
+            className="h-8"
+            classNames={{
+              content: "w-20 text-base/7 flex justify-center h-full"
+            }}
+            color="primary"
+            radius="sm">
+            {item.name}
+          </Chip>
+        )
       }
     </div>
   )
@@ -70,13 +120,24 @@ export const MediaCardGrid = (
 
 export const MediaCardModule = (
   props: {
-    mediaList: any[],
+    module: Category,
     isList?: boolean,
     slot?: ReactNode,
     grid?: string,
     gap?: string,
   }
 ) => {
+
+  const [videList, setVideoList] = useState<SimpleVideo[]>([])
+  useEffect(() => {
+    const fetchData = async () => {
+      await getModuleRecommend(props.module.id).then(res => {
+        setVideoList(res.result)
+      })
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className="mb-10">
       <div className="flex justify-between">
@@ -84,7 +145,7 @@ export const MediaCardModule = (
           props.slot ||
           (
             <>
-              <h1 className="text-xl mb-4">Test Module Title</h1>
+              <h1 className="text-xl mb-4">{props.module.name}</h1>
               <Button radius="full"
                 variant="shadow"
                 color="primary"
@@ -98,13 +159,13 @@ export const MediaCardModule = (
       {
         !props.isList ? (
           <MediaCardGrid
-            mediaList={props.mediaList}
+            mediaList={videList}
             grid={props.grid}
             gap={props.gap}
           />
         ) : (
           <MediaCardList
-            mediaList={props.mediaList}
+            mediaList={videList}
           />
         )
       }

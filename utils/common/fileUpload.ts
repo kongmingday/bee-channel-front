@@ -56,7 +56,7 @@ const caculateHash = (chunks: Blob[]) => {
     // caculate the hash code
     fileReader.readAsArrayBuffer(new Blob(targets))
     fileReader.onload = (e) => {
-      spark.append((e.target as FileReader).result)
+      spark.append((e.target as FileReader).result as string)
       resolve(spark.end())
     }
   }).catch(error => {

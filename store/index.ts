@@ -8,10 +8,12 @@
  */
 import { configureStore } from '@reduxjs/toolkit'
 import { menuReducer } from './slices/menuSlice'
+import { videoReducer } from './slices/videoSlice'
 
 const store = configureStore({
   reducer: {
-    menu: menuReducer
+    menu: menuReducer,
+    video: videoReducer
   }
 },)
 

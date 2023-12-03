@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 import {
   Card, CardBody, CardFooter, CardHeader,
-  Image, User, Button, Chip
+  Image, User, Button, Chip, Avatar, Skeleton
 } from "@nextui-org/react";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { ClassValue } from "tailwind-variants";
@@ -14,17 +14,27 @@ import { StoreFileHost } from "@/types";
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/store/hooks";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
+import { MediaType } from "@/types/enum";
+import numberal from 'numeral';
 
 const calculateDuration = (targetTime: string) => {
   dayjs.extend(relativeTime)
   return dayjs(targetTime).fromNow()
 }
 
+const pushVideo = (video: SimpleVideo, router: AppRouterInstance) => {
+  router.push(`/watch?id=${video.id}&type=${MediaType.VIDEO}`)
+}
+
 const MediaCard = (
   props: {
-    video: SimpleVideo
+    video: SimpleVideo,
+    isLoading: boolean
   }
 ) => {
+  const dispatch = useAppDispatch()
 
   const fromNow = useMemo(() => {
     return calculateDuration(props.video.publicTime)
@@ -34,11 +44,12 @@ const MediaCard = (
   return (
     <>
       <Card
-        onClick={() => {
-          router.push(`/watch?id=${props.video.id}`)
+        isPressable
+        onPress={(e) => {
+          pushVideo(props.video, router)
         }}
         isBlurred
-        className="border-none bg-background/60 dark:bg-default-100/50 items-start"
+        className="border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer"
         shadow="sm"
       >
         <Image isBlurred
@@ -49,24 +60,19 @@ const MediaCard = (
           src={StoreFileHost + props.video.coverPath}
           alt="NextUI Album Cover" />
         <CardFooter className="text-small flex-grow items-start">
-          <User
-            onClick={() => { console.log(1) }}
-            className="items-start"
-            classNames={{
-              name: "line-clamp-1"
-            }}
-            name={props.video.title} // title
-            description={
-              <>
-                <div>{props.video.user.username}</div>
-                <div>{props.video.clickedCount} views · {fromNow}</div>
-              </>
-            }
-            avatarProps={{
-              className: 'flex-none w-[32px] h-[32px] mt-1 mr-1',
-              src: StoreFileHost + props.video.user.profile
-            }}
-          />
+          <div className="flex items-start gap-4">
+            <Avatar
+              onClick={() => { console.log(1) }}
+              className='flex-none w-[32px] h-[32px] mt-1'
+              src={StoreFileHost + props.video.author.profile} />
+            <div className="flex flex-col justify-start text-start gap-1">
+              <p className="line-clamp-1">{props.video.title}</p>
+              <div className="text-default-400 text-xs">
+                <p>{props.video.author.username}</p>
+                <p>{props.video.clickedCount} views · {fromNow}</p>
+              </div>
+            </div>
+          </div>
         </CardFooter>
       </Card>
     </>
@@ -88,7 +94,7 @@ export const MediaCardGrid = (
     )}>
       {
         props.mediaList.map((item, index) =>
-          <MediaCard key={item.id} video={item}></MediaCard>)
+          <MediaCard isLoading={false} key={item.id} video={item}></MediaCard>)
       }
     </div>
   )
@@ -175,6 +181,7 @@ export const MediaCardModule = (
 
 const MediaCommonItem = (
   props: {
+    information: SimpleVideo,
     className?: ClassValue,
     imageSize?: string,
     fontSize?: string
@@ -187,8 +194,6 @@ const MediaCommonItem = (
     props.imageSize || "h-[160px] w-[250px]"
   )
 
-
-
   return (
     <div className={clsx("w-full gap-4 flex mt-0 mb-3", props.className)}>
       <div className="flex-none">
@@ -196,18 +201,22 @@ const MediaCommonItem = (
           shadow="sm"
           radius="lg"
           className={imageClass}
-          src="https://nextui-docs-v2.vercel.app/images/album-cover.png"
+          src={`${StoreFileHost}${props.information.coverPath}`}
           alt="NextUI Album Cover" />
       </div>
       <div className="line-clamp-2">
         <p className={`line-clamp-2 ${props.fontSize || "text-lg"}`}>
-          ASMR Chinese Ancient Face Spa Treatment + Scalp Message
+          {props.information?.title}
         </p>
         <p className="text-small text-foreground-400 mb-2 line-clamp-2">
-          Product Design · 2K views · 3 years ago
+          {props.information.author.username} · {numberal(props.information.clickedCount).format("0a")} views ·
+          {calculateDuration(props.information.publicTime)}
         </p>
         {
-          props.disableDescription && <p className="text-small text-foreground-400 line-clamp-2">This is Meida Test Introduction gulugulugulu</p>
+          props.disableDescription &&
+          <p className="text-small text-foreground-400 line-clamp-2">
+            {props.information.introduction}
+          </p>
         }
       </div>
     </div>
@@ -232,7 +241,7 @@ const MediaListItem = () => {
           />
         </CardHeader>
         <CardBody className="overflow-hidden px-3 pb-3 pt-0">
-          <MediaCommonItem />
+          <MediaCommonItem information={{} as SimpleVideo} />
         </CardBody>
       </Card>
     </>
@@ -241,15 +250,16 @@ const MediaListItem = () => {
 
 export const MediaList = (
   props: {
-    mediaList: any[]
+    mediaList: SimpleVideo[]
   }
 ) => {
   return (
     <div className="mx-3 flex-col">
       {
         props.mediaList.map((item, index) =>
-          <MediaCommonItem key={item}
-            imageSize="h-[100px] w-[150px]"
+          <MediaCommonItem key={item.id}
+            information={item}
+            imageSize="h-[110px] w-[180px]"
             fontSize="text-sm" />
         )
       }
@@ -297,6 +307,7 @@ export const PlayList = (
           {
             resData.map((item, index) =>
               <MediaCommonItem key={item}
+                information={{} as SimpleVideo}
                 className={clsx(
                   "px-2 pt-2 rounded-lg",
                   { "bg-default-200 shadow": index === 1 }
@@ -329,7 +340,7 @@ export const BriefArea = (
       shadow='sm'
       isPressable
       className={clsx(
-        'mb-10',
+        'mb-10 bg-[#f2f2f2] dark:bg-[#3F3F46] w-full',
         props.className
       )}
       classNames={{

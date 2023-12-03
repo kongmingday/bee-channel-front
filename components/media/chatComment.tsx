@@ -18,6 +18,10 @@ import data from '@emoji-mart/data'
 import { useRef, useState, Ref, useEffect } from "react";
 import { ClassValue } from "tailwind-variants";
 import clsx from "clsx";
+import { SimpleVideo, Comment } from "@/types/media";
+import { StoreFileHost } from "@/types";
+import { getAuthInfo } from "@/utils/common/tokenUtils";
+import { getCommentPage } from "@/api/media";
 
 const ChatCommentItem = (
   props: {
@@ -64,7 +68,7 @@ const ChatCommentItem = (
 
 const ChatCommentList = (
   props: {
-
+    sourceId: string
   }
 ) => {
   const resData = [
@@ -74,6 +78,8 @@ const ChatCommentList = (
     { value: 1, childern: null },
     { value: 1, childern: null }]
   const [replyComentState, setReplyComentState] = useState(new Array<boolean>(resData.length).fill(false))
+  const [commmentList, setCommentList] = useState<Comment[]>([])
+
   const handleMoreReplyClick = (index: number) => {
     setReplyComentState(arr => {
       arr[index] = !arr[index]
@@ -82,25 +88,32 @@ const ChatCommentList = (
     })
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await getCommentPage(props.sourceId!, 1, 5).then((res) => {
+        setCommentList(old => {
+          return [...old, ...res.result]
+        })
+      })
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className="flex-col mt-6 gap-8 flex items-start">
       {
-        resData.map((item, index) =>
+        commmentList.map((item, index) =>
           <div key={index} >
             <ChatCommentItem />
             {
-              item.childern && <Button className="ml-12 px-0 block" variant="light" radius="full"
+              item.childrenCount > 0 && <Button className="ml-12 px-0 block" variant="light" radius="full"
                 onClick={() => { handleMoreReplyClick(index) }}>
-                15 replies
+                {item.childrenCount} replies
               </Button>
             }
             {
               replyComentState[index] &&
-              item.childern?.map((item, index) =>
-                <div className="ml-12" key={index} >
-                  <ChatCommentItem />
-                </div>
-              )
+              item.childrenCount > 0 && <ChatCommentItem />
             }
             {
               replyComentState[index] &&
@@ -205,10 +218,12 @@ const LiveChatInput = (
 }
 
 const CommentInput = (
-  prop: {
+  props: {
     className?: ClassValue
   }
 ) => {
+
+  const currentUser = getAuthInfo()
 
   const theme = useTheme()
   const inputRef = useRef<HTMLInputElement>()
@@ -232,11 +247,15 @@ const CommentInput = (
 
   return (
     <div className={
-      clsx("flex gap-4", prop.className)
+      clsx("flex gap-4", props.className)
     }>
-      <Avatar
-        className="flex-none"
-        src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
+      {
+        currentUser ? <Avatar
+          className="flex-none"
+          src={`${StoreFileHost}${currentUser.information?.profile}`} /> :
+          <Avatar
+            className="flex-none" name="No" />
+      }
       <div className="flex-col flex-1 items-start">
         <Textarea
           minRows={1}
@@ -318,18 +337,18 @@ export const LiveChat = (
 
 export const ChatComment = (
   props: {
-
+    media?: SimpleVideo
   }
 ) => {
 
   return (
     <div className="flex-col ">
       <div className="flex items-center mb-2">
-        <p className="text-lg">1013 Comments</p>
+        <p className="text-lg">{props.media?.commentCount} Comments</p>
         <Button className="bg-inherit text-md"><SortIcon />Sort by</Button>
       </div>
       <CommentInput />
-      <ChatCommentList />
+      <ChatCommentList sourceId={props.media?.id!} />
     </div>
   )
 }

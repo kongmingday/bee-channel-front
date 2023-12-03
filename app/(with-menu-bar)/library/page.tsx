@@ -51,7 +51,10 @@ export default function Page() {
 			{
 				moduleMap.map(item =>
 					<MediaCardModule key={item.title}
-						mediaList={item.mediaList}
+						module={{
+							id: '1',
+							name: 'Music'
+						}}
 						grid="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
 						slot={
 							<TitleTemplate

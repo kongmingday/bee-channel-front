@@ -63,12 +63,12 @@ export const request = (
   headers?: any,
 ) => {
 
-  const authToken = getAuthToken()
+  const authToken = getAuthToken() || ''
 
   const options = {
     method: method || 'GET',
     headers: {
-      authToken,
+      'Authorization': authToken,
       'Content-Type': 'application/json',
       ...headers
     },
@@ -89,6 +89,7 @@ export const request = (
     }
     return response.json()
   }).catch(error => {
+    console.log(error + "wsedasoiuidhasoihd")
     if (error instanceof SyntaxError) {
       return 'no response data'
     } else if (error instanceof AuthenticationError) {

@@ -10,3 +10,12 @@ export const getCategoryList = () => {
 export const getModuleRecommend = (categoryId: string) => {
   return get(`/${serviceName}/video`, { categoryId })
 }
+
+export const getVideoInfo = (videoId: string) => {
+  return get(`/${serviceName}/video/${videoId}`)
+}
+
+
+export const getCommentPage = (videoId: string, pageNo: number, pageSize: number) => {
+  return get(`/${serviceName}/comment/${videoId}`, { pageNo, pageSize })
+}

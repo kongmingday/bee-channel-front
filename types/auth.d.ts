@@ -41,6 +41,11 @@ export type UserInfo = {
   profile: string
 }
 
+export type FullUser = UserInfo & {
+  hasConcern?: boolean
+  subscribeCount?: number
+}
+
 export type AllUserInfo = UserInfo & {
   background?: string
   introduction?: string

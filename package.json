@@ -26,6 +26,7 @@
     "@react-aria/visually-hidden": "^3.8.3",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/node": "20.5.7",
+    "@types/numeral": "^2.0.5",
     "@types/qs": "^6.9.10",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
@@ -41,6 +42,7 @@
     "jwt-decode": "^4.0.0",
     "next": "13.4.19",
     "next-themes": "^0.2.1",
+    "numeral": "^2.0.6",
     "postcss": "8.4.29",
     "qs": "^6.11.2",
     "react": "18.2.0",
@@ -52,7 +54,8 @@
     "spark-md5": "^3.0.2",
     "tailwind-variants": "^0.1.13",
     "tailwindcss": "3.3.3",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "video.js": "^8.6.1"
   },
   "devDependencies": {
     "daisyui": "^3.7.7"

@@ -18,14 +18,19 @@ module.exports = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        'spread': '0 1px 2px 1px rgba(0, 0, 0, 0.1)',
+        'white-lg': '0 20px 50px 5px rgba(255, 255, 255, 0.3)',
+      }
+    },
   },
   darkMode: "class",
   plugins: [nextui({
     themes: {
       light: {
         colors: {
-          'primary': '#E4E4E7'
+          'primary': '#f2f2f2'
         }
       },
       dark: {

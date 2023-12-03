@@ -83,7 +83,7 @@ export const Navbar = () => {
 						authInfo ?
 							<Avatar
 								// src={authInfo.information?.profile}
-								name={authInfo.information!.username}></Avatar> :
+								name={authInfo.information?.username}></Avatar> :
 							<>
 								<Button variant="light"
 									onClick={() => { router.push("/sign-in") }}

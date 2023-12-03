@@ -10,8 +10,12 @@ const setAuthInfo = (
   localStorage.setItem(AUTH_INFO, JSON.stringify(value))
 }
 
-export const getAuthInfo = (): AuthInfo => {
-  return JSON.parse(localStorage.getItem(AUTH_INFO) || '')
+export const getAuthInfo = (): AuthInfo | null => {
+  const info = localStorage.getItem(AUTH_INFO)
+  if (info) {
+    return JSON.parse(localStorage.getItem(AUTH_INFO)!)
+  }
+  return null;
 }
 
 export const removeAuthInfo = () => {

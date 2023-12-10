@@ -10,6 +10,11 @@ const setAuthInfo = (
   localStorage.setItem(AUTH_INFO, JSON.stringify(value))
 }
 
+export const getCurrentUserId = () => {
+  const info = getAuthInfo()
+  return info?.information?.id
+}
+
 export const getAuthInfo = (): AuthInfo | null => {
   const info = localStorage.getItem(AUTH_INFO)
   if (info) {
@@ -61,4 +66,8 @@ export const removeToken = (
   key: string
 ) => {
   localStorage.removeItem(key)
+}
+
+export const isExist = () => {
+  return getAuthInfo() !== null
 }

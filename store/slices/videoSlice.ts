@@ -2,23 +2,23 @@ import { SimpleVideo } from "@/types/media";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type videoSliceState = {
-  currentVideo?: SimpleVideo
+  currentVideoId?: string
 }
 
 const initialState: videoSliceState = {
-  currentVideo: undefined
+  currentVideoId: undefined
 }
 
 const videoSlice = createSlice({
   name: "video",
   initialState,
   reducers: {
-    setCurrentVideo: (state, action: PayloadAction<SimpleVideo>) => {
-      state.currentVideo = action.payload
+    setCurrentVideoId: (state, action: PayloadAction<string>) => {
+      state.currentVideoId = action.payload
     },
   }
 })
 
-export const { setCurrentVideo } = videoSlice.actions
+export const { setCurrentVideoId } = videoSlice.actions
 
 export const videoReducer = videoSlice.reducer

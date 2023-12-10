@@ -1,5 +1,6 @@
-import { Toast, ToastMode } from "@/components/common/toast";
-import { post, get } from "@/utils/common/fetchUtil";
+import { PageParams } from "@/types";
+import { CommitParam, FavoriteParam } from "@/types/media";
+import { del, get, post } from "@/utils/common/fetchUtil";
 
 const serviceName = 'media'
 
@@ -16,6 +17,22 @@ export const getVideoInfo = (videoId: string) => {
 }
 
 
-export const getCommentPage = (videoId: string, pageNo: number, pageSize: number) => {
-  return get(`/${serviceName}/comment/${videoId}`, { pageNo, pageSize })
+export const getCommentPage = (videoId: string, pageNo: number, pageSize: number, orderBy: number) => {
+  return get(`/${serviceName}/comment/${videoId}`, { pageNo, pageSize, orderBy })
+}
+
+export const getChildrenCommen = (parentId: string, pageParams: PageParams) => {
+  return get(`/${serviceName}/comment/children/${parentId}`, pageParams)
+}
+
+export const favoriteAction = (param: FavoriteParam) => {
+  return post(`/${serviceName}/favorite/change`, param)
+}
+
+export const deleteComment = (commentId: string) => {
+  return del(`/${serviceName}/comment/${commentId}`)
+}
+
+export const commitComment = (data: CommitParam) => {
+  return post(`/${serviceName}/comment`, data)
 }

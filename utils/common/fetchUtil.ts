@@ -79,7 +79,6 @@ export const request = (
   if (method === 'GET') {
     url = `${url}?${qs.stringify(data)}`
   }
-
   const result = fetch(url, options).then((response) => {
     if (response.status === 401) {
       throw new AuthenticationError('The account or password is incorrect')

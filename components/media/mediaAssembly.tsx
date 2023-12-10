@@ -10,19 +10,13 @@ import { ClassValue } from "tailwind-variants";
 import { Category, SimpleVideo } from "@/types/media";
 import { getModuleRecommend } from "@/api/media";
 import { StoreFileHost } from "@/types";
+import { calculateDuration } from "@/utils/common/memoFun"
 
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/hooks";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { MediaType } from "@/types/enum";
 import numberal from 'numeral';
-
-const calculateDuration = (targetTime: string) => {
-  dayjs.extend(relativeTime)
-  return dayjs(targetTime).fromNow()
-}
 
 const pushVideo = (video: SimpleVideo, router: AppRouterInstance) => {
   router.push(`/watch?id=${video.id}&type=${MediaType.VIDEO}`)
@@ -68,8 +62,8 @@ const MediaCard = (
             <div className="flex flex-col justify-start text-start gap-1">
               <p className="line-clamp-1">{props.video.title}</p>
               <div className="text-default-400 text-xs">
-                <p>{props.video.author.username}</p>
-                <p>{props.video.clickedCount} views · {fromNow}</p>
+                <p className="line-clamp-1">{props.video.author.username}</p>
+                <p className="line-clamp-1">{props.video.clickedCount} views · {fromNow}</p>
               </div>
             </div>
           </div>
@@ -89,7 +83,7 @@ export const MediaCardGrid = (
   return (
     <div className={clsx(
       "grid",
-      props.grid || "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ",
+      props.grid || "grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ",
       props.gap || "gap-4"
     )}>
       {

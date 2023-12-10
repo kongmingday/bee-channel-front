@@ -30,7 +30,7 @@ module.exports = {
     themes: {
       light: {
         colors: {
-          'primary': '#f2f2f2'
+          'primary': '#f2f2f2',
         }
       },
       dark: {
@@ -38,7 +38,7 @@ module.exports = {
           'primary': '#3F3F46',
           'background': '#18181B'
         }
-      }
+      },
     },
   })],
 }

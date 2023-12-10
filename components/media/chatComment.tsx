@@ -137,7 +137,12 @@ const ChatCommentItem = (
             replyState &&
             <CommentInput
               className="mt-2"
-              refresh={() => { props.refresh!(props.param.parentArrIndex!) }}
+              refresh={() => {
+                props.refresh!(
+                  props.param.isChildren ?
+                    props.param.parentArrIndex! : props.param.index! as number
+                )
+              }}
               parentId={props.param.isChildren ? props.param.index as string : props.comment?.id!}
               useToId={props.param.isChildren ? props.comment?.fromUser.id : undefined}
               deriveType={DeriveType.VIDEO} />
@@ -304,7 +309,7 @@ const ChatCommentList = (
 
       if (zeroFlag) {
         childrenClean(param.index! as string)
-      } else if (childrenPluginTree[param.index!].data.length === 0) {
+      } else if (childrenCount! % childrenPageSize === 0) {
         const targetPage = childrenCount! / childrenPageSize
         fetchChildrenNode(param.index! as string, targetPage)
       } else {
@@ -323,11 +328,32 @@ const ChatCommentList = (
   }
 
   const refreshChildrenComment = (parentArrIndex: number) => {
-    setCommentList(pre => {
-      pre[parentArrIndex].childrenCount += 1
-      fetchChildrenNode(pre[parentArrIndex].id)
-      return [...pre]
-    })
+    const sourceId = commmentList[parentArrIndex].id
+    if (childrenPluginTree[sourceId]) {
+      setCommentList(pre => {
+        pre[parentArrIndex].childrenCount += 1
+        childrenOpenTree[sourceId] && fetchChildrenNode(pre[parentArrIndex].id)
+        return [...pre]
+      })
+    } else {
+      setCommentList(pre => {
+        pre[parentArrIndex].childrenCount += 1
+        return [...pre]
+      })
+      let openNode: ChildrenOpenTree = {}
+      openNode[sourceId] = false
+      let pluginNode: ChildrenPlugin = {}
+      pluginNode[sourceId] = {
+        isLoading: false,
+        data: []
+      }
+      setChildrenOpenTree(pre => {
+        return { ...pre, ...openNode }
+      })
+      setChildrenPluginTree(pre => {
+        return { ...pre, ...pluginNode }
+      })
+    }
   }
 
   useEffect(() => {
@@ -358,6 +384,7 @@ const ChatCommentList = (
           commmentList.map((item, index) =>
             <div className="w-full" key={index} >
               <ChatCommentItem
+                refresh={refreshChildrenComment}
                 comment={item} param={{ index }}
                 delComment={removeCommentNode}
                 favoriteChange={favoriteChange} />
@@ -463,9 +490,8 @@ const CommentInput = (
     }).then(res => {
       if (res.result) {
         if (props.parentId) {
-          props.refresh
+          props.refresh!()
         }
-
       }
     })
   }

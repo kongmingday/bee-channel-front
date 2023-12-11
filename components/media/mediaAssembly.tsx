@@ -282,11 +282,20 @@ export const PlayList = (
     className?: ClassValue
   }
 ) => {
-  const resData = [1, 23, 4, 4, 5]
+  const [recommend, setRecommend] = useState<SimpleVideo[]>([])
+  const fetchData = async () => {
+    await getModuleRecommend('1').then(res => {
+      setRecommend(res?.result)
+    })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
-    <div className={clsx(props.className)}>
-      <Card>
+    <div className={clsx(props.className, "mb-4 rounded-xl dark:shadow-white-lg")}>
+      <Card className="">
         <CardHeader className="flex gap-3 px-4">
           <div className="flex flex-col">
             <p className="text-xl ml-2 mb-2">Title</p>
@@ -297,13 +306,13 @@ export const PlayList = (
             </div>
           </div>
         </CardHeader>
-        <CardBody className="py-1 px-2">
+        <CardBody className="py-1 px-5 max-h-[400px] scrollbar">
           {
-            resData.map((item, index) =>
-              <MediaCommonItem key={item}
-                information={{} as SimpleVideo}
+            recommend.map((item, index) =>
+              <MediaCommonItem key={index}
+                information={item}
                 className={clsx(
-                  "px-2 pt-2 rounded-lg",
+                  "px-2 py-2 rounded-lg",
                   { "bg-default-200 shadow": index === 1 }
                 )}
                 imageSize="h-[80px] w-[150px]"

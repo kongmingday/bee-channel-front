@@ -26,6 +26,7 @@ import { changeOpenState } from "@/store/slices/menuSlice";
 import { useRouter } from "next/navigation";
 import { getAuthInfo } from "@/utils/common/tokenUtils";
 import { AuthInfo } from "@/types/auth";
+import { StoreFileHost } from "@/types";
 
 export const Navbar = () => {
 
@@ -82,7 +83,7 @@ export const Navbar = () => {
 					{
 						authInfo ?
 							<Avatar
-								// src={authInfo.information?.profile}
+								src={`${StoreFileHost}${authInfo.information?.profile}`}
 								name={authInfo.information?.username}></Avatar> :
 							<>
 								<Button variant="light"

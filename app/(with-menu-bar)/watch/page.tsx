@@ -8,7 +8,7 @@
  */
 "use client";
 import { useRouter, useSearchParams } from 'next/navigation'
-import { MediaList } from '@/components/media/mediaAssembly';
+import { MediaList, PlayList } from '@/components/media/mediaAssembly';
 import { Avatar, Button, ButtonGroup, Skeleton } from '@nextui-org/react';
 import { LikeIcon, MoreIcon, ShareIcon, UnlikeIcon } from '@/components/common/icons';
 import { ChatComment } from '@/components/media/chatComment';
@@ -22,14 +22,15 @@ import { StoreFileHost } from '@/types';
 import { VideoContainer } from '@/components/media/videoContainer';
 import numberal from 'numeral';
 import { subscribeActoin } from '@/api/user';
-import { isExist } from '@/utils/common/tokenUtils';
+import { getAuthInfo, isExist } from '@/utils/common/tokenUtils';
 import { favoriteDataPackaging } from '@/utils/media';
+import { LoginPopover } from '@/components/common/popover';
 
 export default function Page() {
 
-	const searchParams = useSearchParams()
-	const playerRef = useRef(null);
 	const router = useRouter()
+	const playerRef = useRef(null);
+	const searchParams = useSearchParams()
 	const [curMedia, setCurMedia] = useState<SimpleVideo>()
 	const [liveState, setLiveState] = useState<boolean>()
 	const [videoOptions, setOptions] = useState<VideoOptions>({
@@ -162,28 +163,34 @@ export default function Page() {
 									{numberal(curMedia?.author.subscribeCount).format("0a")} subscribers
 								</div>
 							</div>
-							<Button
-								onClick={() => { subscribeChange() }}
-								radius='full'
-								color="primary"
-								className='ml-6'>
-								{
-									curMedia?.author.hasConcern ? 'Unsubscribe' : 'Subscribe'
-								}
-							</Button>
+							<LoginPopover>
+								<Button
+									onClick={() => { subscribeChange() }}
+									radius='full'
+									color="primary"
+									className='ml-6'>
+									{
+										curMedia?.author.hasConcern ? 'Unsubscribe' : 'Subscribe'
+									}
+								</Button>
+							</LoginPopover>
 						</div>
 						<div className='flex flex-1 items-center justify-end'>
 							<ButtonGroup
 								color="primary"
 								radius='full'
 								className='ml-6'>
-								<Button onClick={() => { favoriteChange(FavoriteType.LIKE) }}>
-									<LikeIcon fill={curMedia?.favoriteType === FavoriteType.LIKE ? '#8c51c9' : undefined} />
-									{numberal(curMedia?.likeCount).format("0a")}
-								</Button>
-								<Button onClick={() => { favoriteChange(FavoriteType.UNLIKE) }}>
-									<UnlikeIcon fill={curMedia?.favoriteType === FavoriteType.UNLIKE ? '#8c51c9' : undefined} />
-								</Button>
+								<LoginPopover>
+									<Button onClick={() => { favoriteChange(FavoriteType.LIKE) }}>
+										<LikeIcon fill={curMedia?.favoriteType === FavoriteType.LIKE ? '#8c51c9' : undefined} />
+										{numberal(curMedia?.likeCount).format("0a")}
+									</Button>
+								</LoginPopover>
+								<LoginPopover>
+									<Button onClick={() => { favoriteChange(FavoriteType.UNLIKE) }}>
+										<UnlikeIcon fill={curMedia?.favoriteType === FavoriteType.UNLIKE ? '#8c51c9' : undefined} />
+									</Button>
+								</LoginPopover>
 							</ButtonGroup>
 							<Button
 								color="primary"
@@ -191,13 +198,13 @@ export default function Page() {
 								className='ml-4'>
 								<ShareIcon />Share
 							</Button>
-							<Button
+							{/* <Button
 								isIconOnly
 								color="primary"
 								radius='full'
 								className='ml-4'>
 								<MoreIcon />
-							</Button>
+							</Button> */}
 						</div>
 					</div>
 					<BriefArea content={curMedia?.introduction || ''} />
@@ -206,11 +213,10 @@ export default function Page() {
 					</div>
 				</div>
 			</div>
-			{
-				// hidden lg:inline-block
-			}
 			<div className='flex-[1_1_0%] px-8'>
-				{/* TODO if into page by playlist， it will show */}
+				{/* { TODO the video collection
+					<PlayList />
+				} */}
 				{
 					liveState ? <LiveChat /> : <MediaList mediaList={recommend} />
 				}

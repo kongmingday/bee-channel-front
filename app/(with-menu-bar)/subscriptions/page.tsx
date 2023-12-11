@@ -53,7 +53,7 @@ export default function Page() {
 
   const tabsOptions = [{
     key: 'Video',
-    content: <MediaCardList mediaList={resData} />
+    content: <> </> // <MediaCardList mediaList={resData} />
   }, {
     key: 'User',
     content: <AuthorListFragment authorList={resData} />

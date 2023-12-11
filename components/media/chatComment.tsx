@@ -22,6 +22,7 @@ import { commitComment, deleteComment, favoriteAction, getChildrenCommen, getCom
 import { DeriveType, FavoriteType, OrderType } from "@/types/enum";
 import { useRouter, useSearchParams } from "next/navigation";
 import { favoriteDataPackaging } from "@/utils/media";
+import { LoginPopover } from "../common/popover";
 
 type CommentItemParam = {
   index?: number | string
@@ -71,6 +72,9 @@ const ChatCommentItem = (
   }
 
   const favoriteChangeHandle = (favroiteType: FavoriteType) => {
+    if (!isExist()) {
+      return;
+    }
     props.favoriteChange!({
       favoriteType: favroiteType,
       sourceId: props.comment?.id,
@@ -107,20 +111,24 @@ const ChatCommentItem = (
           </div>
           <div className="flex gap-4 items-center -translate-x-2">
             <div className="flex items-center justify-start">
-              <Button radius="full" variant="light" isIconOnly>
-                <LikeIcon
-                  onClick={() => { favoriteChangeHandle(FavoriteType.LIKE) }}
-                  fill={props.comment?.favoriteType === FavoriteType.LIKE ? '#8c51c9' : undefined}
-                  size={25} />
-              </Button>
+              <LoginPopover>
+                <Button radius="full" variant="light" isIconOnly>
+                  <LikeIcon
+                    onClick={() => { favoriteChangeHandle(FavoriteType.LIKE) }}
+                    fill={props.comment?.favoriteType === FavoriteType.LIKE ? '#8c51c9' : undefined}
+                    size={25} />
+                </Button>
+              </LoginPopover>
               <span>{props.comment?.likeCount}</span>
             </div>
-            <Button variant="light" radius="full" isIconOnly>
-              <UnlikeIcon
-                onClick={() => { favoriteChangeHandle(FavoriteType.UNLIKE) }}
-                fill={props.comment?.favoriteType === FavoriteType.UNLIKE ? '#8c51c9' : undefined}
-                size={25} />
-            </Button>
+            <LoginPopover>
+              <Button variant="light" radius="full" isIconOnly>
+                <UnlikeIcon
+                  onClick={() => { favoriteChangeHandle(FavoriteType.UNLIKE) }}
+                  fill={props.comment?.favoriteType === FavoriteType.UNLIKE ? '#8c51c9' : undefined}
+                  size={25} />
+              </Button>
+            </LoginPopover>
             <Button variant="light" radius="full"
               onClick={() => { setReplyState(state => !state) }}>
               Reply
@@ -464,6 +472,10 @@ const CommentInput = (
   const [comment, setComment] = useState('')
   const videoId = searchParams.get('id')
   const handleEmojiChange = (emoji: any) => {
+    if (!currentUser) {
+      return;
+    }
+
     const current = inputRef.current!
     const position = current.selectionStart!
 
@@ -509,12 +521,15 @@ const CommentInput = (
       }
       <div className="flex-col flex-1 items-start">
         <Textarea
+          isDisabled={currentUser === null}
           minRows={1}
           ref={inputRef as Ref<HTMLInputElement>}
           classNames={{
             label: "hidden"
           }}
-          placeholder="Add a comment"
+          placeholder={
+            currentUser === null ? 'Please login' : 'Add a comment'
+          }
           value={comment}
           onValueChange={setComment}
         />

@@ -50,10 +50,17 @@ export type AllUserInfo = UserInfo & {
   background?: string
   introduction?: string
   birthday?: string
-  sex?: number
+  gender?: number
 }
 
 export type AuthInfo = {
   authorities?: string[]
-  information?: UserInfo
+  information?: AllUserInfo
+}
+
+export type UploadUserInfo = {
+  username?: string
+  introduction?: string
+  birthday?: string
+  gender?: number
 }

@@ -1,33 +1,20 @@
-"use client"
-import { useRouter, useSearchParams } from 'next/navigation'
-import { MediaList, PlayList } from '@/components/media/mediaAssembly';
-import { Avatar, Button, ButtonGroup, Skeleton } from '@nextui-org/react';
-import { LikeIcon, MoreIcon, ShareIcon, UnlikeIcon } from '@/components/common/icons';
-import { ChatComment } from '@/components/media/chatComment';
-import { LiveChat } from '@/components/media/liveChat'
-import { useEffect, useRef, useState } from 'react';
-import { BriefArea } from '@/components/media/mediaAssembly';
-import { DeriveType, FavoriteType, MediaSourceType, MediaType } from '@/types/enum';
-import { favoriteAction, getModuleRecommend, getVideoInfo } from '@/api/media';
-import { SimpleVideo, VideoOptions } from '@/types/media';
-import { StoreFileHost } from '@/types';
-import { VideoContainer } from '@/components/media/videoContainer';
-import numberal from 'numeral';
-import { subscribeActoin } from '@/api/user';
-import { isExist } from '@/utils/common/tokenUtils';
-import { favoriteDataPackaging } from '@/utils/media';
-import { LoginPopover } from '@/components/common/popover';
-
-export default function Page() {
-
-	const router = useRouter()
-	const searchParams = useSearchParams()
+export const WatchPage = () => {
+  const router = useRouter()
 	const playerRef = useRef(null);
 	const [curMedia, setCurMedia] = useState<SimpleVideo>()
 	const [liveState, setLiveState] = useState<boolean>()
 	const [videoOptions, setOptions] = useState<VideoOptions>({
+		autoplay: false,
+		controls: true,
+		responsive: true,
+		fluid: true,
 		sources: [],
-		title: ''
+		playbackRates: [0.5, 1, 1.5, 2],
+		controlBar: {
+			volumePanel: {
+				inline: false
+			}
+		}
 	})
 	const goToUser = (userId: string) => { router.push(`/user/${userId}`) }
 
@@ -84,37 +71,9 @@ export default function Page() {
 		});
 	};
 
-	useEffect(() => {
-		const type = searchParams.get('type')
-		const id = searchParams.get('id')
-
-		const fetchVideo = async () => {
-			await getVideoInfo(id!).then((res) => {
-				if (res) {
-					setCurMedia(res.result)
-					setOptions({
-						...videoOptions,
-						title: res.result.title,
-						sources: [{
-							src: `${StoreFileHost}${res.result.savePath}`,
-							type: MediaSourceType.VIDEO
-						}]
-					})
-					document.title = res.result.title
-				}
-			})
-		}
-		setLiveState(type === MediaType.LIVE)
-		if (liveState) {
-			// TODO live initiate
-		} else {
-			fetchVideo()
-		}
-	}, [])
-
 	return (
 		<div className='flex flex-wrap px-4 md:px-12 gap-4'>
-			<div className='flex-col  flex-[2_1_0%]'>
+			<div className='flex-col min-w-[875px] flex-[2_1_0%]'>
 				<div className='w-full rounded-lg overflow-hidden shadow-2xl dark:shadow-white-lg'>
 					{
 						curMedia?.savePath ?
@@ -190,7 +149,7 @@ export default function Page() {
 					</div>
 				</div>
 			</div>
-			<div className='flex-1'>
+			<div className='flex-[1_1_0%] px-8'>
 				{/* { TODO the video collection
 					<PlayList />
 				} */}

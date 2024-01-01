@@ -3,7 +3,6 @@
 import * as React from "react";
 import { IconSvgProps } from "@/types";
 import clsx from "clsx";
-import Image from "next/image";
 
 
 export const Logo: React.FC<IconSvgProps> = ({
@@ -591,3 +590,205 @@ export const NextUILogo: React.FC<IconSvgProps> = (props) => {
 		</svg>
 	);
 };
+
+export const UserIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} d="M23.74,16.18a1,1,0,1,0-1.41,1.42A9,9,0,0,1,25,24c0,1.22-3.51,3-9,3s-9-1.78-9-3a9,9,0,0,1,2.63-6.37,1,1,0,0,0,0-1.41,1,1,0,0,0-1.41,0A10.92,10.92,0,0,0,5,24c0,3.25,5.67,5,11,5s11-1.75,11-5A10.94,10.94,0,0,0,23.74,16.18Z" />
+			<path fill={fill || 'currentColor'} d="M16,17a7,7,0,1,0-7-7A7,7,0,0,0,16,17ZM16,5a5,5,0,1,1-5,5A5,5,0,0,1,16,5Z" />
+		</svg>
+	)
+}
+
+export const UploadIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} d="M16.47,15.12,26.34,25a1,1,0,0,1-1.41,1.41l-9.06-9.06-8.8,8.8a1,1,0,0,1-1.41,0h0a1,1,0,0,1,0-1.42l9.61-9.61A.85.85,0,0,1,16.47,15.12Z" />
+			<path fill={fill || 'currentColor'} d="M16.47,5.54l9.87,9.88a1,1,0,0,1-1.41,1.41L15.87,7.77l-8.8,8.8a1,1,0,0,1-1.41,0h0a1,1,0,0,1,0-1.41l9.61-9.62A.85.85,0,0,1,16.47,5.54Z" />
+		</svg>
+	)
+}
+
+export const SignOutIcon: React.FC<IconSvgProps> = ({
+	size = 30,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} d="M15,30H2V2h13c0.552,0,1-0.448,1-1s-0.448-1-1-1H1C0.448,0,0,0.448,0,1v30c0,0.552,0.448,1,1,1h14   c0.552,0,1-0.448,1-1S15.552,30,15,30z" />
+			<path fill={fill || 'currentColor'} d="M31.71,15.302l-6.9-6.999c-0.391-0.395-1.024-0.394-1.414,0c-0.391,0.394-0.391,1.034,0,1.428l5.2,5.275   H8.003c-0.552,0-1,0.452-1,1.01c0,0.558,0.448,1.01,1,1.01h20.593l-5.2,5.275c-0.391,0.395-0.391,1.034,0,1.428   c0.391,0.395,1.024,0.395,1.414,0l6.899-6.999C32.095,16.341,32.099,15.69,31.71,15.302z" />
+		</svg >
+	)
+}
+
+export const ChevronRightIcon: React.FC<IconSvgProps> = ({
+	size = 20,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} clip-rule="evenodd" d="M21.698,15.286l-9.002-8.999  c-0.395-0.394-1.035-0.394-1.431,0c-0.395,0.394-0.395,1.034,0,1.428L19.553,16l-8.287,8.285c-0.395,0.394-0.395,1.034,0,1.429  c0.395,0.394,1.036,0.394,1.431,0l9.002-8.999C22.088,16.325,22.088,15.675,21.698,15.286z" />
+		</svg>
+	)
+}
+
+export const ArrowLeftIcon: React.FC<IconSvgProps> = ({
+	size = 20,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} d="M28,14H8.8l4.62-4.62C13.814,8.986,14,8.516,14,8c0-0.984-0.813-2-2-2c-0.531,0-0.994,0.193-1.38,0.58l-7.958,7.958  C2.334,14.866,2,15.271,2,16s0.279,1.08,0.646,1.447l7.974,7.973C11.006,25.807,11.469,26,12,26c1.188,0,2-1.016,2-2  c0-0.516-0.186-0.986-0.58-1.38L8.8,18H28c1.104,0,2-0.896,2-2S29.104,14,28,14z" />
+		</svg>
+	)
+}
+
+export const LiveIcon: React.FC<IconSvgProps> = ({
+	size = 20,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 24 24"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} d="M5.98959 4.92865C6.28249 5.22155 6.28249 5.69642 5.98959 5.98931C2.67014 9.30877 2.67014 14.6907 5.98959 18.0101C6.28249 18.303 6.28249 18.7779 5.98959 19.0708C5.6967 19.3637 5.22183 19.3637 4.92893 19.0708C1.02369 15.1655 1.02369 8.8339 4.92893 4.92865C5.22183 4.63576 5.6967 4.63576 5.98959 4.92865ZM19.0711 4.92865C22.9763 8.8339 22.9763 15.1655 19.0711 19.0708C18.7782 19.3637 18.3033 19.3637 18.0104 19.0708C17.7175 18.7779 17.7175 18.303 18.0104 18.0101C21.3299 14.6907 21.3299 9.30877 18.0104 5.98931C17.7175 5.69642 17.7175 5.22155 18.0104 4.92865C18.3033 4.63576 18.7782 4.63576 19.0711 4.92865ZM8.81802 7.75708C9.11091 8.04997 9.11091 8.52485 8.81802 8.81774C7.06066 10.5751 7.06066 13.4243 8.81802 15.1817C9.11091 15.4746 9.11091 15.9495 8.81802 16.2424C8.52513 16.5353 8.05025 16.5353 7.75736 16.2424C5.41421 13.8992 5.41421 10.1002 7.75736 7.75708C8.05025 7.46419 8.52513 7.46419 8.81802 7.75708ZM16.2426 7.75708C18.5858 10.1002 18.5858 13.8992 16.2426 16.2424C15.9497 16.5353 15.4749 16.5353 15.182 16.2424C14.8891 15.9495 14.8891 15.4746 15.182 15.1817C16.9393 13.4243 16.9393 10.5751 15.182 8.81774C14.8891 8.52485 14.8891 8.04997 15.182 7.75708C15.4749 7.46419 15.9497 7.46419 16.2426 7.75708ZM12 10.4997C12.8284 10.4997 13.5 11.1713 13.5 11.9997C13.5 12.8281 12.8284 13.4997 12 13.4997C11.1716 13.4997 10.5 12.8281 10.5 11.9997C10.5 11.1713 11.1716 10.4997 12 10.4997Z" />
+		</svg>
+	)
+}
+
+export const PictureIcon: React.FC<IconSvgProps> = ({
+	size = 20,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 80 70"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} d="M5.4,5.6v58.8h69.1V5.6H5.4z M71.6,61.4H8.4V8.6h63.1V61.4z" />
+			<polygon fill={fill || 'currentColor'} points="28.3,27.7 39,38.4 41.2,36.3 28.3,23.4 15.4,36.3 17.6,38.4   " />
+			<polygon fill={fill || 'currentColor'} points="41.8,27.7 62.3,48.2 64.4,46.1 41.8,23.4 35.3,29.9 37.4,32   " />
+			<path fill={fill || 'currentColor'} d="M59.4,23.1c3,0,5.4-2.4,5.4-5.4s-2.4-5.4-5.4-5.4S54,14.8,54,17.7S56.5,23.1,59.4,23.1L59.4,23.1z M59.4,15.4    c1.3,0,2.4,1.1,2.4,2.4c0,1.3-1.1,2.4-2.4,2.4c-1.3,0-2.4-1.1-2.4-2.4C57,16.4,58.1,15.4,59.4,15.4C59.4,15.3,59.4,15.3,59.4,15.4    L59.4,15.4z" />
+		</svg>
+	)
+}
+
+export const OkIcon: React.FC<IconSvgProps> = ({
+	size = 20,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'green'} d="M15,21a1,1,0,0,1-.71-.29l-4-4a1,1,0,0,1,1.42-1.42L15,18.59l6.29-6.3a1,1,0,0,1,1.42,1.42l-7,7A1,1,0,0,1,15,21Z" />
+			<path fill={fill || 'green'} d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z" />
+			<rect fill="none" height="32" width="32" />
+		</svg >
+	)
+}
+
+export const FailedIcon: React.FC<IconSvgProps> = ({
+	size = 20,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'red'} d="M16,29A13,13,0,1,1,29,16,13,13,0,0,1,16,29ZM16,5A11,11,0,1,0,27,16,11,11,0,0,0,16,5Z" />
+			<path fill={fill || 'red'} d="M11.76,21.24a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.41l8.49-8.49A1,1,0,0,1,21,12.46L12.46,21A1,1,0,0,1,11.76,21.24Z" />
+			<path fill={fill || 'red'} d="M20.24,21.24a1,1,0,0,1-.7-.29l-8.49-8.49a1,1,0,0,1,1.41-1.41L21,19.54A1,1,0,0,1,21,21,1,1,0,0,1,20.24,21.24Z" />
+			<rect fill="none" height="32" width="32" />
+		</svg >
+	)
+}
+
+export const ClockIcon: React.FC<IconSvgProps> = ({
+	size = 20,
+	width,
+	height,
+	fill,
+	...props
+}) => {
+	return (
+		<svg
+			height={size || height}
+			viewBox="0 0 32 32"
+			width={size || width}
+			{...props}
+		>
+			<path fill={fill || 'currentColor'} d="M16,31A15,15,0,1,1,31,16,15,15,0,0,1,16,31ZM16,3A13,13,0,1,0,29,16,13,13,0,0,0,16,3Z" />
+			<path fill={fill || 'currentColor'} d="M20.24,21.66l-4.95-4.95A1,1,0,0,1,15,16V8h2v7.59l4.66,4.65Z" />
+		</svg >
+	)
+}

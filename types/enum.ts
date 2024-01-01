@@ -30,3 +30,9 @@ export enum OrderType {
   HOT = 0,
   TIME = 1
 }
+
+export enum AuditStatusType {
+  WAITED = 0,
+  UNAPPROVED = 1,
+  APPROVED = 2
+}

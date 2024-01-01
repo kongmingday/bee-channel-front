@@ -13,6 +13,7 @@ import { Navbar } from "@/components/common/navbar";
 import { Metadata } from "next";
 import clsx from "clsx";
 import { RouterJudge } from "./routerJudge";
+import Head from "next/head";
 
 export const metadata: Metadata = {
 	title: {
@@ -29,6 +30,7 @@ export default function RootLayout({
 
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<Head>{ }</Head>
 			<body
 				className={clsx(
 					"min-h-screen bg-background font-sans antialiased",

@@ -1,3 +1,4 @@
+"use client"
 import { createRoot } from 'react-dom/client';
 import { Card } from '@nextui-org/react';
 import clsx from 'clsx';
@@ -48,7 +49,8 @@ const ToastBox = (
 
   const toastModeClass = clsx(
     emerge,
-    'z-[100] px-5 py-3 shadow-lg bg-zinc-200 text-black min-w-[280px] transition-transform',
+    'fixed z-[100] px-5 py-3 shadow-lg bg-zinc-200 text-black min-w-[280px] transition-transform',
+    'left-1/2 -translate-x-1/2',
     {
       'bg-emerald-400': props.mode === ToastMode.SUCCESS,
       'bg-red-500': props.mode === ToastMode.ERROE,
@@ -67,13 +69,17 @@ export const Toast = (
   message?: string,
   mode?: ToastModeType,
 ) => {
+
+  const toastBoxElement = document.querySelector('#toast-box')
+  if (toastBoxElement) {
+    return;
+  }
+
   const toastRoot = document.createElement('div')
   const rootClass = [
     'z-[100]',
     'absolute',
     '-top-9',
-    'left-1/2',
-    '-translate-x-1/2',
     'transition-transform'
   ]
   toastRoot.id = 'toast-box'

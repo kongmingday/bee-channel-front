@@ -37,9 +37,10 @@
     ".next/types/**/*.ts",
     "context/MenuContext.tsx",
     "utils/common/WeChat.js",
-    "app/(with-none)/loading-section"
-, "components/media/videoContainer.js"  ],
+    "app/(with-none)/loading-section",
+    "components/media/videoContainer.js"
+  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }

@@ -4,10 +4,10 @@ import { jwtDecode } from "jwt-decode"
 export const AUTH_INFO = 'AUTH_INFO'
 export const AUTH_TOKEN = 'AUTH_TOKEN'
 
-const setAuthInfo = (
+export const setAuthInfo = (
   value: any
 ) => {
-  localStorage.setItem(AUTH_INFO, JSON.stringify(value))
+  setToken(AUTH_INFO, value)
 }
 
 export const getCurrentUserId = () => {
@@ -16,15 +16,15 @@ export const getCurrentUserId = () => {
 }
 
 export const getAuthInfo = (): AuthInfo | null => {
-  const info = localStorage.getItem(AUTH_INFO)
+  const info = getToken(AUTH_INFO)
   if (info) {
-    return JSON.parse(localStorage.getItem(AUTH_INFO)!)
+    return JSON.parse(info)
   }
   return null;
 }
 
 export const removeAuthInfo = () => {
-  localStorage.removeItem(AUTH_INFO)
+  removeToken(AUTH_INFO)
 }
 
 export const setAuthToken = (
@@ -36,16 +36,16 @@ export const setAuthToken = (
     information: JSON.parse(user.user_name || '')
   }
   setAuthInfo(userInfo)
-  localStorage.setItem(AUTH_TOKEN, `Bearer ${value}`)
+  localStorage?.setItem(AUTH_TOKEN, `Bearer ${value}`)
 }
 
 export const getAuthToken = () => {
-  return localStorage.getItem(AUTH_TOKEN)
+  return getToken(AUTH_TOKEN)
 }
 
 export const removeAuthToken = () => {
   removeAuthInfo()
-  localStorage.removeItem(AUTH_TOKEN)
+  removeToken(AUTH_TOKEN)
 }
 
 
@@ -53,19 +53,19 @@ export const setToken = (
   key: string,
   value: any
 ) => {
-  localStorage.setItem(key, JSON.stringify(value))
+  localStorage?.setItem(key, JSON.stringify(value))
 }
 
 export const getToken = (
   key: string
 ) => {
-  return localStorage.getItem(key)
+  return localStorage?.getItem(key)
 }
 
 export const removeToken = (
   key: string
 ) => {
-  localStorage.removeItem(key)
+  localStorage?.removeItem(key)
 }
 
 export const isExist = () => {

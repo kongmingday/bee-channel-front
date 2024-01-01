@@ -2,10 +2,31 @@ import { useEffect, useRef } from 'react'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 
+const TitleBar = (title) => {
+  const titleBar = document.querySelector('.vjs-title-bar')
+  titleBar.classList.remove('vjs-hidden')
+  const titleDiv = document.querySelector('.vjs-title-bar-title')
+  titleDiv.innerHTML = title
+}
+
 export const VideoContainer = (props) => {
   const videoRef = useRef()
   const playerRef = useRef()
-  const { options, onReady } = props
+  let { options, onReady } = props
+
+  options = {
+    ...options,
+    autoplay: false,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    playbackRates: [0.5, 1, 1.5, 2],
+    controlBar: {
+      volumePanel: {
+        inline: false
+      }
+    }
+  }
 
   useEffect(() => {
     // Make sure Video.js player is only initialized once
@@ -20,7 +41,7 @@ export const VideoContainer = (props) => {
         videojs.log('player is ready');
         onReady && onReady(player);
       })
-
+      TitleBar(options.title)
       // You could update an existing player in the `else` block here
       // on prop change, for example:
     } else {

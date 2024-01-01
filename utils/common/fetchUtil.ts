@@ -19,7 +19,7 @@ class AuthenticationError extends Error {
   }
 }
 
-const baseUrl = "http://localhost:8160"
+const baseUrl = process.env.NEXT_PUBLIC_GATEWAY_HOST
 
 export const get = (
   url: string,
@@ -63,7 +63,10 @@ export const request = (
   headers?: any,
 ) => {
 
-  const authToken = getAuthToken() || ''
+  let authToken: string = ''
+  if (typeof window !== 'undefined') {
+    authToken = getAuthToken() || ''
+  }
 
   const options = {
     method: method || 'GET',
@@ -81,23 +84,43 @@ export const request = (
   }
   const result = fetch(url, options).then((response) => {
     if (response.status === 401) {
-      throw new AuthenticationError('The account or password is incorrect')
+      throw new AuthenticationError('The account is incorrect or the access is expired')
     }
     if (response.status !== 200) {
       throw new Error('Something error')
     }
     return response.json()
   }).catch(error => {
-    console.log(error + "wsedasoiuidhasoihd")
     if (error instanceof SyntaxError) {
       return 'no response data'
     } else if (error instanceof AuthenticationError) {
       Toast(error.message, ToastMode.ERROE)
       removeAuthToken()
     } else {
-      Toast(error.message, ToastMode.ERROE)
+      Toast('server error, please try again', ToastMode.ERROE)
       return;
     }
   })
   return result
+}
+
+
+export const formDataPost = (
+  url: string,
+  body: any,
+) => {
+  const authToken = getAuthToken() || ''
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Authorization': authToken,
+    },
+    body
+  }
+  url = `${baseUrl}${url}`
+  console.log(url)
+  return fetch(url, options).then((res) => {
+    return res.json()
+  })
 }

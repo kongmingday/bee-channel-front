@@ -1,6 +1,6 @@
-# Next.js & NextUI Template
+# Bee Channel
 
-This is a template for creating applications using Next.js 13 (app directory) and NextUI (v2).
+This is a video website project based on Next.js 
 
 ## Technologies Used
 

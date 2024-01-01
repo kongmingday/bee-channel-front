@@ -9,7 +9,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { siteConfig } from '@/config/site';
 import { Logo, MenuIcon } from './icons';
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { User as UserType } from '@/types/normal';
+import { UserInfo } from '@/types/auth';
 import clsx from 'clsx';
 import { changeOpenState } from "@/store/slices/menuSlice";
 
@@ -62,7 +62,7 @@ const MenuListBox = (
 
 const SubscriptionListBox = (
   props: {
-    itemList: UserType[]
+    itemList: UserInfo[]
   }
 ) => {
 
@@ -87,9 +87,9 @@ const SubscriptionListBox = (
         {
           props.itemList.map(item =>
             <ListboxItem
-              key={item.userId}
+              key={item.id}
               // startContent={<div className={menuIconClass}>{item.Icon}</div>}
-              onClick={() => handleSelectionChange(item.userId)}
+              onClick={() => handleSelectionChange(item.id)}
               className={
                 clsx(
                   {
@@ -115,14 +115,9 @@ export const CommonMenu = () => {
   const menu = useAppSelector(state => state.menu)
   const dispatch = useAppDispatch()
   const menuMap = siteConfig.navItems
-  const [subscriptions, setSubscriptions] = useState([] as UserType[])
+  const [subscriptions, setSubscriptions] = useState([] as UserInfo[])
 
   useEffect(() => {
-    setSubscriptions([{
-      userId: '123123',
-      username: 'nihao',
-      avatar: 'none'
-    }])
   }, [])
 
   const menuClass = clsx(
@@ -141,7 +136,7 @@ export const CommonMenu = () => {
 
 
   const maskClass = clsx(
-    "fixed z-30 w-full h-full bg-slate-500 opacity-20",
+    "fixed z-30 w-full h-full bg-black opacity-50",
     {
       "hidden": !menu.isOpen
     },

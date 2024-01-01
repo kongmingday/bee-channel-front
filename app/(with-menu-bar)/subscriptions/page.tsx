@@ -35,7 +35,7 @@ const AuthorListFragment = (
       <Pagination
         className="w-full flex justify-center mt-5"
         classNames={{
-          cursor: "bg-black text-white dark:bg-white dark:text-black"
+          cursor: "shadow-md bg-stone-200 dark:bg-primary"
         }}
         total={10}
         initialPage={1} />

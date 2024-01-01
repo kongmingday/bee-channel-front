@@ -39,13 +39,8 @@ export type VideoSource = {
 }
 
 export type VideoOptions = {
-  autoplay: boolean
-  controls: boolean
-  responsive: boolean
-  fluid: boolean
   sources: VideoSource[]
-  playbackRates: number[]
-  controlBar?: any
+  title: string
 }
 
 export type Comment = {
@@ -91,4 +86,23 @@ export type CommitParam = {
   content: string
   userToId?: string
   parentId?: strinng
+}
+
+export type Supervise = {
+  id: string
+  reason: string
+  status: AuditStatusType
+  superviseTime: string
+}
+
+export type AuditVideo = {
+  id: string
+  coverPath: string
+  introduction: string
+  publicTime: string
+  savePath: string
+  supervise: Supervise
+  title: string
+  upTime: string
+  categoryId: number
 }

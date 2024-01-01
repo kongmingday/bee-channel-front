@@ -10,15 +10,27 @@
 import { Button } from "@nextui-org/react"
 import { ThemeSwitch } from "@/components/common/theme-switch"
 import { useRouter } from "next/navigation";
+import { ArrowLeftIcon } from "./icons";
+import clsx from "clsx";
 
-export const TopNav = () => {
+export const TopNav = (
+  props: {
+    isFixed?: boolean
+  }
+) => {
   const router = useRouter()
 
   return (
-    <div className="flex justify-between mx-8 mt-6 grow-0">
+    <div className={
+      clsx("flex justify-between px-8 py-2 grow-0 z-50 w-full bg-background",
+        {
+          'fixed bg-sd-background shadow-md': props.isFixed
+        })
+    }>
       <Button
+        variant='light'
         onClick={() => { router.push("/") }}>
-        Back Home
+        <ArrowLeftIcon /> Home
       </Button>
       <ThemeSwitch />
     </div>

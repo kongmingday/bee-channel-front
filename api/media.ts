@@ -2,7 +2,7 @@ import { PageParams } from "@/types";
 import { CommitParam, FavoriteParam } from "@/types/media";
 import { del, get, post } from "@/utils/common/fetchUtil";
 
-const serviceName = 'media'
+const serviceName = process.env.NEXT_PUBLIC_MEDIA_SERVICE
 
 export const getCategoryList = () => {
   return get(`/${serviceName}/category`)
@@ -35,4 +35,8 @@ export const deleteComment = (commentId: string) => {
 
 export const commitComment = (data: CommitParam) => {
   return post(`/${serviceName}/comment`, data)
+}
+
+export const getPersonalVideoList = (pageNo: number, pageSize: number) => {
+  return get(`/${serviceName}/video/personal`, { pageNo, pageSize })
 }

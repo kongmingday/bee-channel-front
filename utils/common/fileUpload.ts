@@ -1,19 +1,19 @@
-/*
- * @Author: err0r
- * @Date: 2023-10-19 16:48:53
- * @LastEditors: err0r
- * @LastEditTime: 2023-10-20 00:21:42
- * @Description: File Upload Utils
- * @FilePath: \bee-channel-front\utils\common\fileUpload.ts
- */
-
+import qs from 'qs';
 import SparkMD5 from "spark-md5"
+import { getAuthToken } from "./tokenUtils"
+import { Toast, ToastMode } from "@/components/common/toast"
+import { checkChunk } from '@/api/upload';
+import { uploadChunk as uploadChunkPost } from '@/api/upload';
 
+const baseUrl = process.env.NEXT_PUBLIC_GATEWAY_HOST
 const CHUNK_SIZE = 5 * 1024 * 1024
 const spark = new SparkMD5()
-const fileReader = new FileReader()
+let fileReader: FileReader
+if (typeof window !== 'undefined') {
+  fileReader = new FileReader()
+}
 let fileHash: string
-let fileName: string
+let suffix: string
 
 /**
  * @description: Create chunk by upload file
@@ -77,7 +77,6 @@ const uploadChunk = async (chunks: Blob[]) => {
   const data = chunks.map((chunk, index) => {
     return {
       fileHash,
-      index,
       chunkHash: `${fileHash}-${index}`,
       chunk
     }
@@ -89,6 +88,7 @@ const uploadChunk = async (chunks: Blob[]) => {
     formData.append('fileHash', item.fileHash)
     formData.append('chunkHash', item.chunkHash)
     formData.append('chunk', item.chunk)
+    formData.append('extension', suffix)
     return formData
   })
 
@@ -98,24 +98,38 @@ const uploadChunk = async (chunks: Blob[]) => {
   const taskPool: Promise<Response>[] = []
 
   while (index < formDatas.length) {
-    const task = fetch("/upload", {
-      method: "POST",
-      body: formDatas[index]
-    })
 
-    taskPool.splice(taskPool.findIndex(item => {
-      item === task
-    }))
+    const { code, result } = await checkChunk(data[index].chunkHash + suffix)
+    if (code === 200 && !result) {
+      const task = uploadChunkPost(formDatas[index])
+      task.then(() => {
+        taskPool.splice(taskPool.findIndex(item => {
+          item === task
+        }))
+      })
 
-    taskPool.push(task)
-    if (taskPool.length === max) {
-      await Promise.race(taskPool)
+      taskPool.push(task)
+      if (taskPool.length === max) {
+        await Promise.race(taskPool)
+      }
     }
     index++
-    
   }
 
-  await Promise.all(taskPool)
+  const resArr = await Promise.all(taskPool)
+  if (resArr.length === 1 && (resArr[0] as any).code !== 200) {
+    Toast("the file upload has error")
+  } else {
+    
+  }
+}
+
+const getFileSuffix: (fileName: string) => string | null = (fileName) => {
+  const index = fileName.lastIndexOf(".")
+  if (index === -1) {
+    return null
+  }
+  return fileName.substring(index)
 }
 
 /**
@@ -123,13 +137,19 @@ const uploadChunk = async (chunks: Blob[]) => {
  * @param {Event} e the input element of the file upload component
  * @return {*}
  */
-const handleUpload = async (e: Event) => {
-  const files = (e.target as HTMLInputElement).files
+export const handleUpload = async (e: HTMLInputElement) => {
+  const files = e.files
   if (!files) {
     alert("please upload your file")
     return
   }
-  fileName = files[0].name
+
+  const tempName = getFileSuffix(files[0].name)
+  if (!tempName) {
+    Toast("the file has error", ToastMode.DANGER)
+  }
+
+  suffix = tempName as string
 
   const chunks = createChunk(files[0])
 

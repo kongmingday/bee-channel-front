@@ -19,7 +19,7 @@ import { SignInType } from "@/types/enum";
 import { sendCodeToEmail, verify } from "@/api/checkcode";
 import { setAuthToken } from "@/utils/common/tokenUtils";
 import { useRouter } from "next/navigation";
-import { Toast, waitForSeconds } from "@/components/common/toast";
+import { waitForSeconds } from "@/components/common/toast";
 
 const inputMap: FormParams[] = [
 	{

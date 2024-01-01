@@ -17,6 +17,9 @@ const nextConfig = {
     })
     return config
   },
+  publicRuntimeConfig: {
+    
+  }
 }
 
 module.exports = nextConfig

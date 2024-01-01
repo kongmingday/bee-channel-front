@@ -12,7 +12,11 @@ import {
 	NavbarContent,
 	NavbarItem,
 } from "@nextui-org/navbar";
-import { Avatar, Button } from "@nextui-org/react";
+import {
+	Avatar, Button,
+	Card, Tooltip,
+	Listbox, ListboxItem, User
+} from "@nextui-org/react";
 import { Kbd } from "@nextui-org/kbd";
 import { Input } from "@nextui-org/input";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -20,12 +24,15 @@ import { ThemeSwitch } from "@/components/common/theme-switch";
 import {
 	SearchIcon,
 	MenuIcon,
-	Logo
+	Logo,
+	SignOutIcon,
+	UserIcon,
+	UploadIcon,
+	ChevronRightIcon
 } from "@/components/common/icons";
 import { changeOpenState } from "@/store/slices/menuSlice";
 import { useRouter } from "next/navigation";
-import { getAuthInfo } from "@/utils/common/tokenUtils";
-import { AuthInfo } from "@/types/auth";
+import { getAuthInfo, removeAuthToken } from "@/utils/common/tokenUtils";
 import { StoreFileHost } from "@/types";
 
 export const Navbar = () => {
@@ -58,7 +65,7 @@ export const Navbar = () => {
 	);
 
 	return (
-		<NextUINavbar maxWidth="full" className="z-20 h-14 bg-white dark:bg-[#18181B]">
+		<NextUINavbar maxWidth="full" className="z-20 h-14 bg-white dark:bg-[#18181B] shadow-md">
 			<NavbarContent className="flex basis-1/2 ml-4"
 				justify="start"
 			>
@@ -79,23 +86,79 @@ export const Navbar = () => {
 				justify="end"
 			>
 				<NavbarItem className="flex basis-full gap-2">
-					<ThemeSwitch />
+					<ThemeSwitch className="mr-4" />
 					{
 						authInfo ?
-							<Avatar
-								src={`${StoreFileHost}${authInfo.information?.profile}`}
-								name={authInfo.information?.username}></Avatar> :
-							<>
-								<Button variant="light"
-									onClick={() => { router.push("/sign-in") }}
-									size="sm">
-									Sign in
-								</Button>
-								<Button color="primary" size="sm"
-									onClick={() => { router.push("/sign-up") }}>
-									Sign up
-								</Button>
-							</>
+							<Tooltip
+								placement="left-end"
+								className="px-0 dark:shadow-white-sm"
+								content={
+									<>
+										<Card className="w-full shadow-none p-2 m-3 cursor-default">
+											<User
+												classNames={{
+													name: 'text-lg'
+												}}
+												name={authInfo.information?.username}
+												avatarProps={{
+													src: `${StoreFileHost}${authInfo.information?.profile}`
+												}}
+											/>
+										</Card>
+										<Listbox
+											className="gap-0 bg-content1 min-w-[280px]
+										 overflow-visible rounded-medium p-0"
+											itemClasses={{
+												base: 'px-8 last:rounded-b-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80'
+											}}>
+											<ListboxItem
+												key={`account`}
+												onPress={() => { router.push('/account') }}
+												startContent={<UserIcon size={24} />}
+												endContent={<ChevronRightIcon />}>
+												Account Center
+											</ListboxItem>
+											<ListboxItem
+												key={`upload`}
+												showDivider
+												onPress={() => { router.push('/upload') }}
+												startContent={<UploadIcon size={24} />}
+												endContent={<ChevronRightIcon />}>
+												Upload Video
+											</ListboxItem>
+											<ListboxItem
+												key={`out`}
+												onPress={() => {
+													removeAuthToken()
+													router.refresh()
+												}}
+												startContent={<SignOutIcon size={24} className="p-1" />}
+												endContent={<ChevronRightIcon />}>
+												Sign Out
+											</ListboxItem>
+										</Listbox>
+									</>
+								}>
+								<Avatar isBordered
+									size="sm"
+									src={`${StoreFileHost}${authInfo.information?.profile}`}
+									name={authInfo.information?.username}>
+								</Avatar>
+							</Tooltip>
+							:
+							(
+								<>
+									<Button variant="light"
+										onClick={() => { router.push("/sign-in") }}
+										size="sm">
+										Sign in
+									</Button>
+									<Button color="primary" size="sm"
+										onClick={() => { router.push("/sign-up") }}>
+										Sign up
+									</Button>
+								</>
+							)
 					}
 				</NavbarItem>
 			</NavbarContent>

@@ -244,13 +244,24 @@ const MediaListItem = () => {
 
 export const MediaList = (
   props: {
-    mediaList: SimpleVideo[]
+    id: string
   }
 ) => {
+
+  const [mediaList, setMediaList] = useState<SimpleVideo[]>([])
+  useEffect(() => {
+    const fetchData = async () => {
+      await getModuleRecommend(props.id).then(res => {
+        setMediaList(res?.result)
+      })
+    }
+    fetchData()
+  }, [])
+
   return (
-    <div className="mx-3 flex-col">
+    <div className="mx-3 flex-col min-w-[350px]">
       {
-        props.mediaList.map((item, index) =>
+        mediaList.map((item, index) =>
           <MediaCommonItem key={item.id}
             information={item}
             imageSize="h-[110px] w-[180px]"

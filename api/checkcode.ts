@@ -1,7 +1,7 @@
 import { Toast, ToastMode } from "@/components/common/toast";
 import { post } from "@/utils/common/fetchUtil";
 
-const serviceName = 'checkcode'
+const serviceName = process.env.NEXT_PUBLIC_CHECKCODE_SERVICE
 
 export const getVerifyCode = () => {
   return post(`/${serviceName}/pic`)

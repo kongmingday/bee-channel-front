@@ -33,7 +33,8 @@ import {
 import { changeOpenState } from "@/store/slices/menuSlice";
 import { useRouter } from "next/navigation";
 import { getAuthInfo, removeAuthToken } from "@/utils/common/tokenUtils";
-import { StoreFileHost } from "@/types";
+
+const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
 
 export const Navbar = () => {
 
@@ -65,7 +66,7 @@ export const Navbar = () => {
 	);
 
 	return (
-		<NextUINavbar maxWidth="full" className="z-20 h-14 bg-white dark:bg-[#18181B] shadow-md">
+		<NextUINavbar maxWidth="full" className="z-20 h-14 bg-white dark:bg-[#18181B] shadow-sm">
 			<NavbarContent className="flex basis-1/2 ml-4"
 				justify="start"
 			>

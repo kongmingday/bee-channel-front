@@ -7,7 +7,7 @@ export type Category = {
   name: string
 }
 
-export type SimpleVideo = {
+export type SimpleMedia = {
   id: string
   authorId: string
   title: string
@@ -26,20 +26,20 @@ export type SimpleVideo = {
   favoriteType?: number // 0-unliked 1-liked undefined-no react
 }
 
-export type Video = SimpleVideo & {
+export type Video = SimpleMedia & {
   saveId?: string
   coverId?: string
   status?: number
   upTime?: string
 }
 
-export type VideoSource = {
+export type MeidaSource = {
   src: string
   type: string
 }
 
-export type VideoOptions = {
-  sources: VideoSource[]
+export type MediaOptions = {
+  sources: MeidaSource[]
   title: string
 }
 
@@ -105,4 +105,9 @@ export type AuditVideo = {
   title: string
   upTime: string
   categoryId: number
+}
+
+export type FileUploadResult = {
+  fileId?: string
+  filePath?: string
 }

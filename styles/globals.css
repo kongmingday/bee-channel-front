@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+
+#text {
+  color: red;
+}
+
+* {
+  box-sizing: border-box !important;
+  margin: 0;
+  padding: 0;
+}
+
 .video-js .vjs-current-time {
   display: block !important;
 }

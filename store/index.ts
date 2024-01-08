@@ -9,11 +9,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { menuReducer } from './slices/menuSlice'
 import { videoReducer } from './slices/videoSlice'
+import { liveReducer } from './slices/liveSlice'
 
 const store = configureStore({
   reducer: {
     menu: menuReducer,
-    video: videoReducer
+    video: videoReducer,
+    live: liveReducer
   }
 },)
 

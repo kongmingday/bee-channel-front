@@ -1,4 +1,4 @@
-import { SimpleVideo } from "@/types/media";
+import { SimpleMedia } from "@/types/media";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type videoSliceState = {

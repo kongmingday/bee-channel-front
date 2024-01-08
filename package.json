@@ -40,6 +40,7 @@
     "emoji-mart": "^5.5.2",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "flv.js": "^1.6.2",
     "framer-motion": "^10.16.2",
     "intl-messageformat": "^10.5.0",
     "jwt-decode": "^4.0.0",
@@ -59,6 +60,7 @@
     "tailwind-variants": "^0.1.13",
     "tailwindcss": "3.3.3",
     "typescript": "5.0.4",
-    "video.js": "^8.6.1"
+    "video.js": "^8.6.1",
+    "videojs-flvjs": "^0.3.1"
   }
 }

@@ -20,6 +20,7 @@ import { sendCodeToEmail, verify } from "@/api/checkcode";
 import { setAuthToken } from "@/utils/common/tokenUtils";
 import { useRouter } from "next/navigation";
 import { waitForSeconds } from "@/components/common/toast";
+import { getUserInfo } from "@/api/user";
 
 const inputMap: FormParams[] = [
 	{

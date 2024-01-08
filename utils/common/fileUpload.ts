@@ -1,9 +1,8 @@
-import qs from 'qs';
 import SparkMD5 from "spark-md5"
-import { getAuthToken } from "./tokenUtils"
 import { Toast, ToastMode } from "@/components/common/toast"
-import { checkChunk } from '@/api/upload';
+import { checkChunk, checkFile, mergeChunk } from '@/api/upload';
 import { uploadChunk as uploadChunkPost } from '@/api/upload';
+import { FileUploadResult } from "@/types/media";
 
 const baseUrl = process.env.NEXT_PUBLIC_GATEWAY_HOST
 const CHUNK_SIZE = 5 * 1024 * 1024
@@ -71,13 +70,24 @@ const caculateHash = (chunks: Blob[]) => {
  * @param {Blob} chunks file chunks
  * @return {*}
  */
-const uploadChunk = async (chunks: Blob[]) => {
+const uploadChunk = async (
+  chunks: Blob[],
+  setProcessPercent: (finishPercent: number) => void,
+  setVideoUploadResult: (result: FileUploadResult) => void
+) => {
+
+  const checkFileData = await checkFile(fileHash, suffix)
+  if (checkFileData.code === 200) {
+    setProcessPercent(100)
+    setVideoUploadResult(checkFileData.result)
+    return;
+  }
 
   // Organize the requierd file
   const data = chunks.map((chunk, index) => {
     return {
       fileHash,
-      chunkHash: `${fileHash}-${index}`,
+      index,
       chunk
     }
   })
@@ -86,9 +96,8 @@ const uploadChunk = async (chunks: Blob[]) => {
   const formDatas = data.map(item => {
     const formData = new FormData()
     formData.append('fileHash', item.fileHash)
-    formData.append('chunkHash', item.chunkHash)
+    formData.append('index', item.index.toString())
     formData.append('chunk', item.chunk)
-    formData.append('extension', suffix)
     return formData
   })
 
@@ -99,19 +108,24 @@ const uploadChunk = async (chunks: Blob[]) => {
 
   while (index < formDatas.length) {
 
-    const { code, result } = await checkChunk(data[index].chunkHash + suffix)
+    const { code, result } = await checkChunk(fileHash, data[index].index)
     if (code === 200 && !result) {
       const task = uploadChunkPost(formDatas[index])
+
+      // dynamic process display and remove its from taksPoll
       task.then(() => {
         taskPool.splice(taskPool.findIndex(item => {
           item === task
         }))
+        console.log(setProcessPercent)
+        setProcessPercent(90 * (1 / formDatas.length))
       })
-
       taskPool.push(task)
       if (taskPool.length === max) {
         await Promise.race(taskPool)
       }
+    } else {
+      setProcessPercent(90 * (1 / formDatas.length))
     }
     index++
   }
@@ -119,8 +133,15 @@ const uploadChunk = async (chunks: Blob[]) => {
   const resArr = await Promise.all(taskPool)
   if (resArr.length === 1 && (resArr[0] as any).code !== 200) {
     Toast("the file upload has error")
+    return;
+  }
+
+  const mergeChunkData = await mergeChunk(fileHash, formDatas.length)
+  if (mergeChunkData.code === 200) {
+    setProcessPercent(10)
+    setVideoUploadResult(mergeChunkData.result)
   } else {
-    
+    Toast("the file upload has error")
   }
 }
 
@@ -137,7 +158,11 @@ const getFileSuffix: (fileName: string) => string | null = (fileName) => {
  * @param {Event} e the input element of the file upload component
  * @return {*}
  */
-export const handleUpload = async (e: HTMLInputElement) => {
+export const handleUpload = async (
+  e: HTMLInputElement,
+  callback: (finishPercent: number) => void,
+  setVideoUploadResult: (result: FileUploadResult) => void
+) => {
   const files = e.files
   if (!files) {
     alert("please upload your file")
@@ -156,6 +181,6 @@ export const handleUpload = async (e: HTMLInputElement) => {
   const hash = await caculateHash(chunks)
   fileHash = hash as string
 
-  uploadChunk(chunks)
+  uploadChunk(chunks, callback, setVideoUploadResult)
 
 }

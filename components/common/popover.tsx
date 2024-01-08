@@ -8,11 +8,11 @@ export const LoginPopover = ({
 }) => {
 
   return (
-    <PopoverButton content="Please login" active={!isExist()}>{children}</PopoverButton>
+    <PopoverWrapper content="Please login" active={isExist()}>{children}</PopoverWrapper>
   )
 }
 
-export const PopoverButton = ({
+export const PopoverWrapper = ({
   children,
   title,
   content,
@@ -25,21 +25,22 @@ export const PopoverButton = ({
 }) => {
 
   return (
-    active ? (
-      <Popover placement="bottom" >
-        <PopoverTrigger>
-          {children}
-        </PopoverTrigger>
-        <PopoverContent>
-          <div className="px-1 py-2">
-            <div className="text-small font-bold">{title}</div>
-            <div className="text-tiny">{content}</div>
-          </div>
-        </PopoverContent>
-      </Popover >
-    ) :
+    active ?
       (
         <>{children}</>
+      ) :
+      (
+        <Popover placement="bottom" >
+          <PopoverTrigger>
+            {children}
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="px-1 py-2">
+              <div className="text-small font-bold">{title}</div>
+              <div className="text-tiny">{content}</div>
+            </div>
+          </PopoverContent>
+        </Popover >
       )
   )
 }

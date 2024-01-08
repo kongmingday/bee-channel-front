@@ -40,3 +40,7 @@ export const commitComment = (data: CommitParam) => {
 export const getPersonalVideoList = (pageNo: number, pageSize: number) => {
   return get(`/${serviceName}/video/personal`, { pageNo, pageSize })
 }
+
+export const uploadVideo = (data: any) => {
+  return post(`/${serviceName}/video/upload`, data)
+}

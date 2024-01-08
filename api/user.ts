@@ -1,18 +1,16 @@
 import { UploadUserInfo } from "@/types/auth";
 import { get, formDataPost, put } from "@/utils/common/fetchUtil";
-import { getAuthToken, setAuthInfo } from "@/utils/common/tokenUtils";
+import { setAuthInfo, setUserInfo } from "@/utils/common/tokenUtils";
 
 const serviceName = process.env.NEXT_PUBLIC_USER_SERVICE
 
 export const getUserInfo = async () => {
-  const authToken = getAuthToken()
-  if (!authToken) {
-    return;
-  }
-
-  const { result } = await get(`/${serviceName}/info`)
-  setAuthInfo(result)
-  return get(`/${serviceName}/info`)
+  return await get(`/${serviceName}/info`).then((res) => {
+    if (res.code === 200 && res.result) {
+      setUserInfo(res.result)
+    }
+    return res
+  })
 }
 
 export const uploadUserInfo = (data: UploadUserInfo) => {

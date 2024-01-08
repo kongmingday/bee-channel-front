@@ -1,9 +1,9 @@
 "use client";
 
 import { PictureIcon } from "@/components/common/icons";
-import { StoreFileHost } from "@/types";
+import { } from "@/types";
 import { getAuthInfo, setAuthInfo } from "@/utils/common/tokenUtils";
-import { Avatar, Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Avatar, Button, Input, Select, SelectItem, Textarea, user } from "@nextui-org/react";
 import { FormEvent, useRef, useState } from "react";
 import dayjs from "dayjs";
 import { uploadSingleFile, uploadUserInfo } from "@/api/user";
@@ -13,6 +13,7 @@ const genderItemList = ['female', 'male', 'primary']
 
 export default function Page() {
 
+	const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
 	const authInfo = getAuthInfo()
 	const uploadRef = useRef<HTMLInputElement>(null)
 	const [username, setUsername] = useState<string | undefined>(authInfo?.information?.username)
@@ -38,7 +39,7 @@ export default function Page() {
 			if (res.code === 200) {
 				authInfo!.information! = {
 					...authInfo!.information!,
-					...res.result
+					profile: res.result
 				}
 				setAuthInfo(authInfo)
 				Toast("upload success", ToastMode.SUCCESS)
@@ -48,7 +49,21 @@ export default function Page() {
 		})
 	}
 
+	const invalidUserName = () => {
+		if (!username) {
+			return true
+		}
+		if (username.length <= 0) {
+			return true
+		}
+		return false
+	}
+
 	const handleUserInfoUpload = async () => {
+		const userNameCheck = invalidUserName()
+		if (userNameCheck) {
+			return;
+		}
 		await uploadUserInfo({
 			username,
 			introduction,
@@ -67,6 +82,7 @@ export default function Page() {
 			}
 		})
 	}
+
 
 	return (
 		<div className="w-fit flex flex-col gap-8">
@@ -95,6 +111,7 @@ export default function Page() {
 			<div className="flex items-center gap-4">
 				<p className="text-lg min-w-[110px] text-right dark:text-white">Username:</p>
 				<Input className="w-auto"
+					isInvalid={invalidUserName()}
 					value={username}
 					onValueChange={setUsername} />
 			</div>

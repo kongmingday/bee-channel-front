@@ -15,8 +15,8 @@ import clsx from "clsx";
 
 import { LikeIcon, SmileIcon, SortIcon, UnlikeIcon } from "../common/icons"
 import InfiniteScroll from 'react-infinite-scroller'
-import { SimpleVideo, Comment, ChildrenPlugin, ChildrenOpenTree, FavoriteParam } from "@/types/media";
-import { PageParams, StoreFileHost } from "@/types";
+import { SimpleMedia, Comment, ChildrenPlugin, ChildrenOpenTree, FavoriteParam } from "@/types/media";
+import { PageParams } from "@/types";
 import { getAuthInfo, getCurrentUserId, isExist } from "@/utils/common/tokenUtils";
 import { commitComment, deleteComment, favoriteAction, getChildrenCommen, getCommentPage } from "@/api/media";
 import { DeriveType, FavoriteType, OrderType } from "@/types/enum";
@@ -30,7 +30,7 @@ type CommentItemParam = {
   childrenIndex?: number
   parentArrIndex?: number
 }
-
+const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
 const ChatCommentItem = (
   props: {
     refresh?: (parentArrIndex: number) => void,
@@ -472,10 +472,6 @@ const CommentInput = (
   const [comment, setComment] = useState('')
   const videoId = searchParams.get('id')
   const handleEmojiChange = (emoji: any) => {
-    if (!currentUser) {
-      return;
-    }
-
     const current = inputRef.current!
     const position = current.selectionStart!
 
@@ -556,11 +552,13 @@ const CommentInput = (
           </PopoverContent>
         </Popover>
       </div>
-      <Button
-        onClick={() => { handlerCommit() }}
-        color="primary">
-        Commit
-      </Button>
+      <LoginPopover>
+        <Button
+          onClick={() => { handlerCommit() }}
+          color="primary">
+          Commit
+        </Button>
+      </LoginPopover>
     </div>
   )
 }
@@ -568,7 +566,7 @@ const CommentInput = (
 
 export const ChatComment = (
   props: {
-    media?: SimpleVideo
+    media?: SimpleMedia
   }
 ) => {
 

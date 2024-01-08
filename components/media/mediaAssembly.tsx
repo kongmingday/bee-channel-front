@@ -7,9 +7,8 @@ import {
 } from "@nextui-org/react";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { ClassValue } from "tailwind-variants";
-import { Category, SimpleVideo } from "@/types/media";
+import { Category, SimpleMedia } from "@/types/media";
 import { getModuleRecommend } from "@/api/media";
-import { StoreFileHost } from "@/types";
 import { calculateDuration } from "@/utils/common/memoFun"
 
 import { useRouter } from "next/navigation";
@@ -18,13 +17,14 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { MediaType } from "@/types/enum";
 import numberal from 'numeral';
 
-const pushVideo = (video: SimpleVideo, router: AppRouterInstance) => {
+const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
+const pushVideo = (video: SimpleMedia, router: AppRouterInstance) => {
   router.push(`/watch?id=${video.id}&type=${MediaType.VIDEO}`)
 }
 
 const MediaCard = (
   props: {
-    video: SimpleVideo,
+    video: SimpleMedia,
     isLoading: boolean
   }
 ) => {
@@ -75,7 +75,7 @@ const MediaCard = (
 
 export const MediaCardGrid = (
   props: {
-    mediaList: SimpleVideo[],
+    mediaList: SimpleMedia[],
     grid?: string,
     gap?: string,
   }
@@ -128,7 +128,7 @@ export const MediaCardModule = (
   }
 ) => {
 
-  const [videList, setVideoList] = useState<SimpleVideo[]>([])
+  const [videList, setVideoList] = useState<SimpleMedia[]>([])
   useEffect(() => {
     const fetchData = async () => {
       await getModuleRecommend(props.module.id).then(res => {
@@ -175,7 +175,7 @@ export const MediaCardModule = (
 
 const MediaCommonItem = (
   props: {
-    information: SimpleVideo,
+    information: SimpleMedia,
     className?: ClassValue,
     imageSize?: string,
     fontSize?: string
@@ -235,7 +235,7 @@ const MediaListItem = () => {
           />
         </CardHeader>
         <CardBody className="overflow-hidden px-3 pb-3 pt-0">
-          <MediaCommonItem information={{} as SimpleVideo} />
+          <MediaCommonItem information={{} as SimpleMedia} />
         </CardBody>
       </Card>
     </>
@@ -248,11 +248,13 @@ export const MediaList = (
   }
 ) => {
 
-  const [mediaList, setMediaList] = useState<SimpleVideo[]>([])
+  const [mediaList, setMediaList] = useState<SimpleMedia[]>([])
   useEffect(() => {
     const fetchData = async () => {
       await getModuleRecommend(props.id).then(res => {
-        setMediaList(res?.result)
+        if (res && res.code === 200) {
+          setMediaList(res?.result)
+        }
       })
     }
     fetchData()
@@ -293,7 +295,7 @@ export const PlayList = (
     className?: ClassValue
   }
 ) => {
-  const [recommend, setRecommend] = useState<SimpleVideo[]>([])
+  const [recommend, setRecommend] = useState<SimpleMedia[]>([])
   const fetchData = async () => {
     await getModuleRecommend('1').then(res => {
       setRecommend(res?.result)

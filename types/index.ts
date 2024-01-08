@@ -1,7 +1,5 @@
 import { SVGProps } from "react";
 
-export const StoreFileHost = "http://192.168.25.128:9000"
-
 export type PageProps = {
   params: { id: string }
   searchParams: { [key: string]: string | string[] | undefined }

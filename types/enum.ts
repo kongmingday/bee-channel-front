@@ -12,7 +12,8 @@ export enum MediaType {
 
 export enum MediaSourceType {
   VIDEO = "video/mp4",
-  RMTP = "rtmp/flv"
+  RMTP = "rtmp/flv",
+  HTTP_FLV = "flv"
 }
 
 export enum DeriveType {
@@ -32,7 +33,7 @@ export enum OrderType {
 }
 
 export enum AuditStatusType {
-  WAITED = 0,
+  WAITING = 0,
   UNAPPROVED = 1,
   APPROVED = 2
 }

@@ -37,7 +37,7 @@ const ToastBox = (
   useEffect(() => {
     waitForSeconds(1 * 1000).then(() => {
       setEmergence(true)
-      return waitForSeconds(3 * 1000)
+      return waitForSeconds(2 * 1000)
     }).then(() => {
       setEmergence(false)
       return waitForSeconds(2 * 1000)
@@ -69,11 +69,6 @@ export const Toast = (
   message?: string,
   mode?: ToastModeType,
 ) => {
-
-  const toastBoxElement = document.querySelector('#toast-box')
-  if (toastBoxElement) {
-    return;
-  }
 
   const toastRoot = document.createElement('div')
   const rootClass = [

@@ -37,3 +37,7 @@ export enum AuditStatusType {
   UNAPPROVED = 1,
   APPROVED = 2
 }
+
+export enum PayType {
+  AliPay = 0
+}

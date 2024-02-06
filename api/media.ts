@@ -1,4 +1,4 @@
-import { PageParams } from "@/types";
+import { PageParams, SearchParams } from "@/types";
 import { CommitParam, FavoriteParam } from "@/types/media";
 import { del, get, post } from "@/utils/common/fetchUtil";
 
@@ -6,6 +6,10 @@ const serviceName = process.env.NEXT_PUBLIC_MEDIA_SERVICE
 
 export const getCategoryList = () => {
   return get(`/${serviceName}/category`)
+}
+
+export const searchVideoList = (data: SearchParams) => {
+  return get(`/${serviceName}/video/page`, data)
 }
 
 export const getModuleRecommend = (categoryId: string) => {
@@ -43,4 +47,8 @@ export const getPersonalVideoList = (pageNo: number, pageSize: number) => {
 
 export const uploadVideo = (data: any) => {
   return post(`/${serviceName}/video/upload`, data)
+}
+
+export const getAuthorVideoList = (authorId: string, pageParams: PageParams) => {
+  return get(`/${serviceName}/video/personal/${authorId}`, pageParams)
 }

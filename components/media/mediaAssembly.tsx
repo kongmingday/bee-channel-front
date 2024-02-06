@@ -24,11 +24,9 @@ const pushVideo = (video: SimpleMedia, router: AppRouterInstance) => {
 
 const MediaCard = (
   props: {
-    video: SimpleMedia,
-    isLoading: boolean
+    video: SimpleMedia
   }
 ) => {
-  const dispatch = useAppDispatch()
 
   const fromNow = useMemo(() => {
     return calculateDuration(props.video.publicTime)
@@ -43,7 +41,7 @@ const MediaCard = (
           pushVideo(props.video, router)
         }}
         isBlurred
-        className="border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer"
+        className="border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer h-fit"
         shadow="sm"
       >
         <Image isBlurred
@@ -73,6 +71,67 @@ const MediaCard = (
   )
 }
 
+const SimpleMediaCard = (
+  props: {
+    video: SimpleMedia,
+  }
+) => {
+
+  const fromNow = useMemo(() => {
+    return calculateDuration(props.video.publicTime)
+  }, [props.video])
+  const router = useRouter()
+
+  return (
+    <>
+      <Card
+        isPressable
+        onPress={(e) => {
+          pushVideo(props.video, router)
+        }}
+        isBlurred
+        className="border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer"
+        shadow="sm"
+      >
+        <Image isBlurred
+          shadow="sm"
+          radius="lg"
+          width="100%"
+          className="w-full object-cover"
+          src={StoreFileHost + props.video.coverPath}
+          alt="NextUI Album Cover" />
+        <CardFooter className="text-small flex-grow items-start">
+          <div className="flex items-start gap-4">
+            <div className="flex flex-col justify-start text-start gap-1">
+              <p className="line-clamp-1">{props.video.title}</p>
+              <div className="text-default-400 text-xs">
+                <p className="line-clamp-1">{props.video.clickedCount} views · {fromNow}</p>
+              </div>
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
+    </>
+  )
+}
+
+export const SimpleMediaModule = (
+  props: {
+    videoList: SimpleMedia[]
+  }
+) => {
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+      {
+        props.videoList.map(item =>
+          <SimpleMediaCard key={item.id} video={item}></SimpleMediaCard>
+        )
+      }
+    </div>
+  )
+}
+
 export const MediaCardGrid = (
   props: {
     mediaList: SimpleMedia[],
@@ -88,7 +147,7 @@ export const MediaCardGrid = (
     )}>
       {
         props.mediaList.map((item, index) =>
-          <MediaCard isLoading={false} key={item.id} video={item}></MediaCard>)
+          <MediaCard key={item.id} video={item}></MediaCard>)
       }
     </div>
   )
@@ -117,6 +176,7 @@ export const ChipModule = (
     </div>
   )
 }
+
 
 export const MediaCardModule = (
   props: {

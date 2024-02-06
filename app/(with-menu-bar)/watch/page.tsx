@@ -13,12 +13,11 @@ import { SimpleMedia, MediaOptions } from '@/types/media';
 import { VideoContainer } from '@/components/media/videoContainer';
 import numberal from 'numeral';
 import { subscribeActoin } from '@/api/user';
-import { getAuthInfo, isExist } from '@/utils/common/tokenUtils';
+import { getAuthInfo, getAuthInfoLocal, isExist } from '@/utils/common/tokenUtils';
 import { favoriteDataPackaging } from '@/utils/media';
 import { LoginPopover } from '@/components/common/popover';
 import { LiveContainer } from '@/components/media/liveContainer';
 import { getLiveUserInfo } from '@/api/live';
-import { LiveInfo } from '@/types/live';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setRoomId, setUserId } from '@/store/slices/liveSlice';
 
@@ -32,7 +31,7 @@ export default function Page() {
 	const type = searchParams.get('type')
 	const id = searchParams.get('id')
 	const playerRef = useRef(null);
-	const authInfo = getAuthInfo()
+	const authInfo = getAuthInfoLocal()
 	const [curMedia, setCurMedia] = useState<SimpleMedia>()
 	const [isLive, setLiveState] = useState<boolean>()
 	const [mediaOptions, setOptions] = useState<MediaOptions>({

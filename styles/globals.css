@@ -2,15 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
-#text {
-  color: red;
-}
-
-* {
-  box-sizing: border-box !important;
-  margin: 0;
-  padding: 0;
+input,
+textarea {
+  outline: none;
 }
 
 .video-js .vjs-current-time {
@@ -85,4 +79,14 @@
   border-radius: 10px;
   --tw-bg-opacity: 1;
   background-color: hsl(var(--nextui-default-200) / var(--nextui-default-200-opacity, var(--tw-bg-opacity)));
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

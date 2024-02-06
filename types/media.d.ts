@@ -1,5 +1,5 @@
 import { PageParams } from "."
-import { FullUser, UserInfo } from "./auth"
+import { UserAndRelationship, UserInfo } from "./auth"
 import { FavoriteType } from "./enum"
 
 export type Category = {
@@ -21,7 +21,7 @@ export type SimpleMedia = {
   publicTime: string
   sawTime: string
   clickedCount: string
-  author: FullUser
+  author: UserAndRelationship
   commentCount?: number
   favoriteType?: number // 0-unliked 1-liked undefined-no react
 }

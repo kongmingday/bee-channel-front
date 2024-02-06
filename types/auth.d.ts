@@ -37,13 +37,13 @@ export type UserInfo = {
   phone: string
   status: number
   username: string
-  wxUnionId: string
   profile: string
 }
 
-export type FullUser = UserInfo & {
+export type UserAndRelationship = UserInfo & {
   hasConcern?: boolean
   subscribeCount?: number
+  introduction?: string
 }
 
 export type AllUserInfo = UserInfo & {

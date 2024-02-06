@@ -17,7 +17,7 @@ export const cancelLicense = () => {
 }
 
 export const getPersonalLiveInfo = (liveId: string) => {
-  return get(`/${serviceName}/info//personal/${liveId}`)
+  return get(`/${serviceName}/info/personal/${liveId}`)
 }
 
 export const updateLiveInfo = (liveInfo: LiveInfo) => {

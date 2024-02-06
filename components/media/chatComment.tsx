@@ -8,7 +8,7 @@ import {
 import { useTheme } from "next-themes";
 import Picker from '@emoji-mart/react'
 import data from '@emoji-mart/data'
-import React, { useRef, useState, Ref, useMemo, useEffect } from "react";
+import React, { useRef, useState, Ref, useMemo, useEffect, Dispatch, RefObject, SetStateAction, ReactNode } from "react";
 import { ClassValue } from "tailwind-variants";
 import { calculateDuration } from "@/utils/common/memoFun";
 import clsx from "clsx";
@@ -17,7 +17,7 @@ import { LikeIcon, SmileIcon, SortIcon, UnlikeIcon } from "../common/icons"
 import InfiniteScroll from 'react-infinite-scroller'
 import { SimpleMedia, Comment, ChildrenPlugin, ChildrenOpenTree, FavoriteParam } from "@/types/media";
 import { PageParams } from "@/types";
-import { getAuthInfo, getCurrentUserId, isExist } from "@/utils/common/tokenUtils";
+import { getAuthInfo, getAuthInfoLocal, getCurrentUserId, isExist } from "@/utils/common/tokenUtils";
 import { commitComment, deleteComment, favoriteAction, getChildrenCommen, getCommentPage } from "@/api/media";
 import { DeriveType, FavoriteType, OrderType } from "@/types/enum";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -465,28 +465,11 @@ const CommentInput = (
   }
 ) => {
 
-  const currentUser = getAuthInfo()
+  const currentUser = getAuthInfoLocal()
   const searchParams = useSearchParams()
-  const theme = useTheme()
-  const inputRef = useRef<HTMLInputElement>()
+  const inputRef = useRef<HTMLTextAreaElement>(null)
   const [comment, setComment] = useState('')
   const videoId = searchParams.get('id')
-  const handleEmojiChange = (emoji: any) => {
-    const current = inputRef.current!
-    const position = current.selectionStart!
-
-    if (position == current.value.length) {
-      setComment(pre => pre + emoji.native)
-      current.focus()
-      return;
-    }
-    const front = current.value.substring(0, position);
-    const later = current.value.substring(position);
-    setComment(front + emoji.native + later)
-    current.focus()
-    current.selectionStart = position + emoji.native.length
-    current.selectionEnd = position + emoji.native.length
-  }
 
   const handlerCommit = async () => {
     await commitComment({
@@ -519,7 +502,7 @@ const CommentInput = (
         <Textarea
           isDisabled={currentUser === null}
           minRows={1}
-          ref={inputRef as Ref<HTMLInputElement>}
+          ref={inputRef}
           classNames={{
             label: "hidden"
           }}
@@ -529,28 +512,7 @@ const CommentInput = (
           value={comment}
           onValueChange={setComment}
         />
-        <Popover
-          placement="bottom-start"
-          showArrow={true}>
-          <PopoverTrigger>
-            <Button size="sm"
-              variant="light"
-              isIconOnly>
-              <SmileIcon size={20} />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="p-0">
-            <Picker
-              maxFrequentRows={0}
-              perLine={12}
-              data={data}
-              previewConfig={{
-                showPreview: false
-              }}
-              onEmojiSelect={handleEmojiChange}
-              theme={theme.resolvedTheme} />
-          </PopoverContent>
-        </Popover>
+        <EmojiPicker inputRef={inputRef} setComment={setComment} />
       </div>
       <LoginPopover>
         <Button
@@ -560,6 +522,58 @@ const CommentInput = (
         </Button>
       </LoginPopover>
     </div>
+  )
+}
+
+export const EmojiPicker = (
+  props: {
+    inputRef: RefObject<HTMLTextAreaElement> | RefObject<HTMLInputElement>,
+    setComment: Dispatch<SetStateAction<string>>,
+    iconSize?: number
+  }
+) => {
+
+  const handleEmojiChange = (emoji: any) => {
+    const current = props.inputRef.current!
+    const position = current.selectionStart!
+
+    if (position == current.value.length) {
+      props.setComment(pre => pre + emoji.native)
+      current.focus()
+      return;
+    }
+    const front = current.value.substring(0, position);
+    const later = current.value.substring(position);
+    props.setComment(front + emoji.native + later)
+    current.focus()
+    current.selectionStart = position + emoji.native.length
+    current.selectionEnd = position + emoji.native.length
+  }
+
+  const theme = useTheme()
+  return (
+    <Popover
+      placement="bottom-start"
+      showArrow={true}>
+      <PopoverTrigger>
+        <Button size="sm"
+          variant="light"
+          isIconOnly>
+          <SmileIcon size={props.iconSize || 20} />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="p-0">
+        <Picker
+          maxFrequentRows={0}
+          perLine={12}
+          data={data}
+          previewConfig={{
+            showPreview: false
+          }}
+          onEmojiSelect={handleEmojiChange}
+          theme={theme.resolvedTheme} />
+      </PopoverContent>
+    </Popover>
   )
 }
 

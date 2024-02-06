@@ -15,7 +15,7 @@ import { UserList } from "@/components/user/userAssembly";
 import { LinkTabs } from "@/components/common/tabs";
 import { Key, useState } from "react";
 
-const AuthorListFragment = (
+const UserListFragment = (
   props: {
     authorList: any[]
   }
@@ -56,7 +56,7 @@ export default function Page() {
     content: <> </> // <MediaCardList mediaList={resData} />
   }, {
     key: 'User',
-    content: <AuthorListFragment authorList={resData} />
+    content: <UserListFragment authorList={resData} />
   }]
 
   return (

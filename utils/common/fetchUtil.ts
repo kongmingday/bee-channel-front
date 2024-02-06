@@ -119,7 +119,6 @@ export const formDataPost = (
     body
   }
   url = `${baseUrl}${url}`
-  console.log(url)
   return fetch(url, options).then((res) => {
     return res.json()
   })

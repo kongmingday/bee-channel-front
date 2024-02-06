@@ -19,8 +19,18 @@ export class PageParams {
   }
 }
 
+export type SearchParams = PageParams & {
+  categoryId?: number
+  sortBy?: number
+  keyword?: string
+}
+
 export type SimpleParams = {
   pageSize: number
+  total: number
+}
+
+export type PageParamsExte = PageParams & {
   total: number
 }
 

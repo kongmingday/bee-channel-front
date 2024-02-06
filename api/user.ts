@@ -1,3 +1,4 @@
+import { SearchParams } from "@/types";
 import { UploadUserInfo } from "@/types/auth";
 import { get, formDataPost, put } from "@/utils/common/fetchUtil";
 import { setAuthInfo, setUserInfo } from "@/utils/common/tokenUtils";
@@ -13,9 +14,18 @@ export const getUserInfo = async () => {
   })
 }
 
+export const getUserFullInfo = (userId: string, currentUserId?: string) => {
+  return get(`/${serviceName}/info/full/${userId}`, { currentId: currentUserId })
+}
+
+export const searchUserFullInfoList = (data: SearchParams, currentUserId?: string) => {
+  return get(`/${serviceName}/info/full/page`, { currentId: currentUserId, ...data })
+}
+
 export const uploadUserInfo = (data: UploadUserInfo) => {
   return put(`/${serviceName}/info`, data)
 }
+
 
 export const subscribeActoin = (userToId: string) => {
   return get(`/${serviceName}/info/subscribe/${userToId}`)

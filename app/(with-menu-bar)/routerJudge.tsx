@@ -49,7 +49,7 @@ export function RouterJudge({
       })
     }
 
-    if (pathname === '/watch') {
+    if (pathname === '/watch' || pathname === '/search') {
       dispatch(changeFixedState(false))
       dispatch(changeOpenState(false))
     } else {

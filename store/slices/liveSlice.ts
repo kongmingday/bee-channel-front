@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type liveState = {
   roomId: string
   userId: string
+  webSocket?: WebSocket
 }
 
 const initialState: liveState = {
@@ -19,10 +20,13 @@ const liveSlice = createSlice({
     },
     setRoomId: (state, action: PayloadAction<string>) => {
       state.roomId = action.payload
+    },
+    setWebSocket: (state, action: PayloadAction<WebSocket>) => {
+      state.webSocket = action.payload
     }
   }
 })
 
-export const { setUserId, setRoomId } = liveSlice.actions
+export const { setUserId, setRoomId, setWebSocket } = liveSlice.actions
 
 export const liveReducer = liveSlice.reducer

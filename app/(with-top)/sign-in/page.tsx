@@ -133,7 +133,7 @@ const CommonForm = (
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 				{
 					signMethodMap.map((item, index) =>
 						<Input
@@ -156,10 +156,10 @@ const CommonForm = (
 						/>
 					)
 				}
-				<div className="flex gap-4">
+				<div className="flex gap-4 items-end">
 					<Input
 						autoComplete="off"
-						className="mb-6 w-3/5"
+						className="w-3/5 flex"
 						classNames={{
 							label: "text-lg",
 							input: 'text-md pl-2',
@@ -176,12 +176,12 @@ const CommonForm = (
 					{
 						signMethod !== SignInType.EMAIL ?
 							<Image removeWrapper
-								className="mt-11 ml-4 h-12 w-2/5 object-fill"
+								className="ml-4 h-12 w-2/5 object-fill"
 								onClick={() => fetchCode(setCodeSource)}
 								alt="verify code" src={codeSource.source} /> :
 							<Button
 								onClick={() => { sendCode() }}
-								className="h-12 mt-11
+								className="h-12
 							bg-gradient-to-tr from-pink-500 to-yellow-500
 							text-white shadow-lg w-3/5">
 								{

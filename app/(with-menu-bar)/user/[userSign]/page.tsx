@@ -1,15 +1,107 @@
-/*
- * @Author: err0r
- * @Date: 2023-10-30 18:02:03
- * @LastEditors: err0r
- * @LastEditTime: 2023-10-30 20:40:10
- * @Description: 
- * @FilePath: \bee-channel-front\app\user\[userSign]\page.tsx
- */
 "use client";
-import { Avatar, Image, Button, Tabs, Tab } from "@nextui-org/react";
-import clsx from "clsx";
-import { useState } from "react";
+import clsx from 'clsx';
+import numberal from "numeral";
+import { getUserFullInfo } from "@/api/user";
+import { UserAndRelationship } from "@/types/auth";
+import { getAuthInfo, getAuthInfoLocal } from "@/utils/common/tokenUtils";
+import { Avatar, Image, Button, Tabs, Tab, Pagination, Spinner } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { SimpleMediaModule } from "@/components/media/mediaAssembly";
+import { SimpleParams } from "@/types";
+import { getAuthorVideoList, getPersonalVideoList } from "@/api/media";
+import { SimpleMedia } from '@/types/media';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { UserItemDisplay } from '@/components/user/userAssembly';
+
+const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
+
+const UserTabs = (
+	props: {
+		userId: string
+	}
+) => {
+
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [videoList, setVideoList] = useState<SimpleMedia[]>([])
+	const [simpleParams, setSimpleParams] = useState<SimpleParams>({
+		pageSize: 8,
+		total: 0
+	})
+
+	const resData = [
+		{
+			title: "Videos",
+			content: <SimpleMediaModule videoList={videoList} />
+		},
+		// Playlists", "Community", "Channel"
+	]
+
+
+	const fetchData = async (pageNo?: number) => {
+		setIsLoading(true)
+		const { result } = await getAuthorVideoList(
+			props.userId,
+			{
+				pageNo: pageNo || 1,
+				pageSize: simpleParams.pageSize
+			}
+		)
+		setVideoList(result.data)
+		setSimpleParams(pre => {
+			return {
+				...pre,
+				total: result.total
+			}
+		})
+		setIsLoading(false)
+	}
+
+	useEffect(() => {
+		fetchData()
+	}, [])
+
+
+	return (
+		<div className="w-full">
+			<Tabs className="w-full"
+				classNames={{
+					tabList: "gap-6 w-full relative rounded-none px-20 py-0 border-b border-divider",
+					cursor: "w-full",
+					tab: "max-w-fit px-0 h-12 text-md",
+				}}
+				variant="underlined">
+				{
+					resData.map((item, index) =>
+						<Tab key={index} title={item.title}>
+							{item.content}
+						</Tab>
+					)
+				}
+			</Tabs>
+			{
+				isLoading &&
+				<div className='w-full flex justify-center py-32'>
+					<Spinner
+						color='warning'
+						classNames={{
+							wrapper: 'w-20 h-20'
+						}}
+					/>
+				</div>
+			}
+			<Pagination
+				className="w-full flex justify-center mt"
+				classNames={{
+					cursor: "shadow-md opacity-100 "
+				}}
+				total={Math.ceil(simpleParams.total / simpleParams.pageSize)}
+				onChange={(page: number) => {
+					fetchData(page)
+				}}
+				initialPage={1} />
+		</div>
+	)
+}
 
 export default function Page({
 	params
@@ -19,17 +111,24 @@ export default function Page({
 	}
 }) {
 	const briefImage = false
-	const [briefState, setBriefState] = useState(false)
-	const briefClass = clsx(
-		"cursor-default",
-		{
-			'line-clamp-2': briefState
-		}
-	)
+	const authInfo = getAuthInfoLocal()
+	const [userInfo, setUserInfo] = useState<UserAndRelationship>()
 
-	const resData = [
-		"Home", "Videos", "Playlists", "Community", "Channel"
-	]
+	useEffect(() => {
+		const fetchUserInfo = async () => {
+			const { result } = await getUserFullInfo(
+				params.userSign,
+				authInfo?.information?.id
+			)
+			if (result) {
+				setUserInfo(result)
+			}
+		}
+
+		fetchUserInfo()
+	}, [])
+
+
 	return (
 		<div className="flex flex-col gap-4 ">
 			<div className="px-20">
@@ -40,40 +139,8 @@ export default function Page({
 						alt="Above Brief Image"
 						src="https://nextui-docs-v2.vercel.app/images/album-cover.png" />
 				}
-				<div className="flex gap-6 ">
-					<Avatar className="flex-none w-20 h-20" src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-					<div className="flex flex-col gap-1">
-						<div className="text-2xl">Auhor Name</div>
-						<div className="text-default-500">{`70.7K subscriber · 12 videos`}</div>
-						<p className={briefClass}
-							onClick={() => { setBriefState(state => !state) }}
-						>
-							This is a test Brief Module
-							This is a test Brief Module
-							This is a test Brief Module
-							This is a test Brief Module
-						</p>
-						<Button
-							className="mt-2 w-20"
-							radius="full"
-							color="primary" >
-							Subscribe
-						</Button>
-					</div>
-				</div>
-			</div>
-			<div className="w-full">
-				<Tabs className="w-full"
-					classNames={{
-						tabList: "gap-6 w-full relative rounded-none px-20 py-0 border-b border-divider",
-						cursor: "w-full",
-						tab: "max-w-fit px-0 h-12 text-md",
-					}}
-					variant="underlined">
-					{resData.map(item =>
-						<Tab key={item}>{item}</Tab>
-					)}
-				</Tabs>
+				<UserItemDisplay userInfo={userInfo} setUsreInfo={setUserInfo} />
+				<UserTabs userId={params.userSign} />
 			</div>
 		</div>
 	);

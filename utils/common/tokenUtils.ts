@@ -22,11 +22,11 @@ export const setUserInfo = (
 }
 
 export const getCurrentUserId = () => {
-  const info = getAuthInfo()
+  const info = getAuthInfoLocal()
   return info?.information?.id
 }
 
-export const getAuthInfo = (): AuthInfo | null => {
+export const getAuthInfoLocal = (): AuthInfo | null => {
   const authToken = getAuthToken()
   if (!authToken) {
     return null
@@ -36,7 +36,20 @@ export const getAuthInfo = (): AuthInfo | null => {
   if (authInfo) {
     return JSON.parse(authInfo)
   }
-  getUserInfo()
+  return null;
+}
+
+export const getAuthInfo = async (): Promise<AuthInfo | null> => {
+  const authToken = getAuthToken()
+  if (!authToken) {
+    return null
+  }
+
+  const authInfo = getToken(AUTH_INFO)
+  if (authInfo) {
+    return JSON.parse(authInfo)
+  }
+  await getUserInfo()
   return JSON.parse(getToken(AUTH_INFO)!);
 }
 

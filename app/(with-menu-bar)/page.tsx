@@ -1,11 +1,3 @@
-/*
- * @Author: err0r
- * @Date: 2023-09-23 23:02:35
- * @LastEditors: err0r
- * @LastEditTime: 2023-10-20 17:18:24
- * @Description: 
- * @FilePath: \bee-channel-front\app\page.tsx
- */
 "use client"
 import { getCategoryList, getModuleRecommend } from '@/api/media';
 import { ChipModule, MediaCardModule } from '@/components/media/mediaAssembly'
@@ -25,7 +17,7 @@ export default function Page() {
 	}, [])
 	return (
 		<>
-			<ChipModule chipList={categoryList} />
+			{/* <ChipModule chipList={categoryList} /> */}
 			{
 				categoryList?.map((item, index) =>
 					<MediaCardModule key={item.id} module={item} />

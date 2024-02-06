@@ -1,11 +1,3 @@
-/*
- * @Author: err0r
- * @Date: 2023-09-23 23:02:35
- * @LastEditors: err0r
- * @LastEditTime: 2023-11-01 21:14:45
- * @Description: 
- * @FilePath: \bee-channel-front\components\common\navbar.tsx
- */
 "use client";
 import {
 	Navbar as NextUINavbar,
@@ -31,39 +23,67 @@ import {
 	ChevronRightIcon
 } from "@/components/common/icons";
 import { changeOpenState } from "@/store/slices/menuSlice";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getAuthInfo, removeAuthToken } from "@/utils/common/tokenUtils";
+import { useEffect, useState } from "react";
+import clsx, { ClassValue } from "clsx";
+import qs from 'qs';
+import { AuthInfo } from "@/types/auth";
 
 const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
 
-export const Navbar = () => {
+export const SearchInput = (
+	props: {
+		className?: ClassValue
+	}
+) => {
 
 	const router = useRouter()
-	const menu = useAppSelector(state => state.menu)
-	const dispatch = useAppDispatch()
+	const [keyword, setKeyword] = useState('')
 
-	const authInfo = getAuthInfo()
-
-	const searchInput = (
+	return (
 		<Input
+			className={clsx(props.className)}
 			aria-label="Search"
 			classNames={{
 				inputWrapper: "bg-default-100",
 				input: "text-sm",
 			}}
-			endContent={
-				<Kbd className="hidden lg:inline-block" keys={["command"]}>
-					Enter
-				</Kbd>
-			}
-			labelPlacement="outside"
-			placeholder="Search..."
+			value={keyword}
+			onValueChange={setKeyword}
+			onKeyDown={(e) => {
+				if (e.key === 'Enter') {
+					router.push(`/search?${qs.stringify({ keyword })}`)
+				}
+			}}
 			startContent={
 				<SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
 			}
-			type="search"
+			endContent={
+				<Kbd keys={['enter']}>Enter</Kbd>
+			}
 		/>
-	);
+	)
+}
+
+export const Navbar = () => {
+
+	const router = useRouter()
+	const pathname = usePathname()
+	const menu = useAppSelector(state => state.menu)
+	const dispatch = useAppDispatch()
+
+	const [authInfo, setAuthInfo] = useState<AuthInfo>()
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const result = await getAuthInfo()
+			if (result) {
+				setAuthInfo(result)
+			}
+		}
+		fetchData()
+	}, [])
 
 	return (
 		<NextUINavbar maxWidth="full" className="z-20 h-14 bg-white dark:bg-[#18181B] shadow-sm">
@@ -79,7 +99,13 @@ export const Navbar = () => {
 			<NavbarContent className="flex basis-full"
 				justify="center"
 			>
-				<NavbarItem className="basis-1/2 hidden md:flex">{searchInput}</NavbarItem>
+				{
+					pathname !== '/search' &&
+
+					<NavbarItem className="basis-1/2 hidden md:flex">
+						<SearchInput />
+					</NavbarItem>
+				}
 			</NavbarContent>
 
 			<NavbarContent

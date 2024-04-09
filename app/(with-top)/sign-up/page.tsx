@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Page() {
-  const [isFinished, setIsFinshed] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [codeSource, setCodeSource] = useState({ source: "", key: "" });
   const {
     register,
@@ -106,7 +106,7 @@ export default function Page() {
           setError("code", res.msg);
           fetchCode(setCodeSource);
         } else if (res.code === 200) {
-          setIsFinshed(true);
+          setIsFinished(true);
         } else {
           fetchCode(setCodeSource);
         }

@@ -11,6 +11,7 @@ This is a video website project based on Next.js
 - [TypeScript](https://www.typescriptlang.org/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [next-themes](https://github.com/pacocoursey/next-themes)
+- node 16.18.0
 
 ## How to Use
 

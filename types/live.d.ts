@@ -38,4 +38,5 @@ export type LiveMessage = {
   message: string
   system: boolean
   roomId: string
+  amount: number
 }

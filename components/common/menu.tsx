@@ -20,7 +20,7 @@ const MenuListBox = (
 ) => {
 
   const router = useRouter()
-  const pathame = usePathname()
+  const pathname = usePathname()
   const [selectedKeys, setSelectedKeys] = useState('')
 
   const handleSelectionChange = (key: any) => {
@@ -47,7 +47,7 @@ const MenuListBox = (
               clsx(
                 'flex items-center h-10 align-middle',
                 {
-                  "bg-default-200 shadow": pathame === `/${item.key}`
+                  "bg-default-200 shadow": pathname === `/${item.key}`
                 }
               )
             }
@@ -164,8 +164,8 @@ export const CommonMenu = () => {
             </>
           )
         }
-        <SubscriptionListBox itemList={subscriptions} />
-        <Divider />
+        {/* <SubscriptionListBox itemList={subscriptions} />
+        <Divider /> */}
       </div >
       <div className={maskClass}
         onClick={maskChangeHandle}

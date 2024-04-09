@@ -48,7 +48,12 @@ textarea {
 
 .video-js .vjs-title-bar {
   font-size: 25px !important;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0) 40%) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.3) 20%,
+    rgba(0, 0, 0, 0) 40%
+  ) !important;
 }
 
 .video-js .vjs-title-bar-title {
@@ -67,8 +72,27 @@ textarea {
   align-items: center !important;
 }
 
+body::-webkit-scrollbar {
+  width: 15px;
+  height: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  --tw-bg-opacity: 1;
+  background-color: hsl(
+    var(--nextui-default-200) /
+      var(--nextui-default-200-opacity, var(--tw-bg-opacity))
+  );
+}
+
 .scrollbar::-webkit-scrollbar {
   width: 7px;
+  height: 10px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
@@ -78,9 +102,11 @@ textarea {
 .scrollbar::-webkit-scrollbar-thumb {
   border-radius: 10px;
   --tw-bg-opacity: 1;
-  background-color: hsl(var(--nextui-default-200) / var(--nextui-default-200-opacity, var(--tw-bg-opacity)));
+  background-color: hsl(
+    var(--nextui-default-200) /
+      var(--nextui-default-200-opacity, var(--tw-bg-opacity))
+  );
 }
-
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

@@ -1,70 +1,56 @@
-/*
- * @Author: err0r
- * @Date: 2023-10-14 17:22:53
- * @LastEditors: err0r
- * @LastEditTime: 2023-10-22 08:31:39
- * @Description: 
- * @FilePath: \bee-channel-front\app\library\page.tsx
- */
-import { Metadata } from "next";
-import { MediaCardModule } from '@/components/media/mediaAssembly'
-import { HistoryIcon, LaterIcon, PlaylistIcon, FavoriteIcon } from "@/components/common/icons";
-import { ReactNode } from "react";
-
-const TitleTemplate = (
-	props: {
-		icon: ReactNode
-		title: string
-	}
-) => {
-	return (
-		<div className="flex">
-			{props.icon}
-			<h1 className="text-xl mb-4 ml-2">{props.title}</h1>
-		</div>
-	)
-}
+import {
+	MediaCardModule,
+	TitleTemplate,
+} from '@/components/media/mediaAssembly';
+import {
+	HistoryIcon,
+	LaterIcon,
+	FavoriteIcon,
+} from '@/components/common/icons';
+import { ModuleCategory } from '@/types/enum';
 
 export default function Page() {
-	const resData = [1, 2, 3, 4]
 	const moduleMap = [
 		{
-			title: "History",
 			icon: <HistoryIcon />,
-			mediaList: [1, 2, 3, 4]
-		}, {
-			title: "Watch Later",
+			mediaList: [1, 2, 3, 4],
+			module: {
+				id: ModuleCategory.HISTORY,
+				name: 'History',
+			},
+		},
+		{
 			icon: <LaterIcon />,
-			mediaList: [1, 2, 3, 4]
-		}, {
-			title: "Playlists",
-			icon: <PlaylistIcon />,
-			mediaList: [1, 2, 3, 4]
-		}, {
-			title: "Liked",
+			mediaList: [1, 2, 3, 4],
+			module: {
+				id: ModuleCategory.WATCH_LATER,
+				name: 'Watch Later',
+			},
+		},
+		{
 			icon: <FavoriteIcon />,
-			mediaList: [1, 2, 3, 4]
-		}
-	]
+			mediaList: [1, 2, 3, 4],
+			module: {
+				id: ModuleCategory.LIKED,
+				name: 'Liked',
+			},
+		},
+	];
 	return (
 		<>
-			{
-				moduleMap.map(item =>
-					<MediaCardModule key={item.title}
-						module={{
-							id: '1',
-							name: 'Music'
-						}}
-						grid="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-						slot={
-							<TitleTemplate
-								title={item.title}
-								icon={item.icon}
-							/>
-						}
-					/>
-				)
-			}
+			{moduleMap.map(item => (
+				<MediaCardModule
+					key={item.module.id}
+					module={item.module}
+					grid='grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+					slot={
+						<TitleTemplate
+							title={item.module.name}
+							icon={item.icon}
+						/>
+					}
+				/>
+			))}
 		</>
 	);
 }

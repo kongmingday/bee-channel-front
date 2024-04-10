@@ -10,7 +10,6 @@ export const setAuthInfo = (value: any) => {
 };
 
 export const setUserInfo = (information: any) => {
-	// const authInfo = getAuthInfo();
 	const authInfo = JSON.parse(getToken(AUTH_INFO)!);
 	setToken(AUTH_INFO, {
 		...authInfo,

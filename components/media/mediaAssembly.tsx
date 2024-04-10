@@ -1,5 +1,6 @@
 'use client';
 import clsx from 'clsx';
+import qs from 'qs';
 
 import {
 	Card,
@@ -30,7 +31,12 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { ModuleCategory } from '@/types/enum';
 import numberal from 'numeral';
 import { PageParams, TimePoint } from '@/types';
-import { RemoveIcon } from '../common/icons';
+import {
+	FavoriteIcon,
+	HistoryIcon,
+	LaterIcon,
+	RemoveIcon,
+} from '../common/icons';
 
 const goToUser = (userId: string, router: AppRouterInstance) => {
 	router.push(`/user/${userId}`);
@@ -209,63 +215,68 @@ export const ChipModule = (props: { chipList: any[] }) => {
 export const MediaCardModule = (props: {
 	module?: Category;
 	isList?: boolean;
-	slot?: ReactNode;
+	slot?: (fetch: () => Promise<void>) => ReactNode;
 	grid?: string;
 	gap?: string;
 	data?: SimpleMedia[];
 	recommend?: boolean;
 }) => {
+	const router = useRouter();
 	const [videList, setVideoList] = useState<SimpleMedia[]>(props.data || []);
+	const fetchData = async () => {
+		if (props.recommend) {
+			await getRecommendByUser().then(res => {
+				setVideoList(res.result);
+			});
+			return;
+		}
+
+		if (props.module?.id === ModuleCategory.HISTORY) {
+			await getHistoryVideoPage(new PageParams(1, 8)).then(res => {
+				const data: SimpleMedia[] = [];
+				res.result.data.forEach((item: HistoryVideo) => {
+					data.push(item.video);
+				});
+				setVideoList(data);
+			});
+		} else if (props.module?.id === ModuleCategory.WATCH_LATER) {
+			await getWatchLaterVideoPage(new PageParams(1, 8)).then(res => {
+				setVideoList(res.result.data);
+			});
+		} else if (props.module?.id === ModuleCategory.LIKED) {
+			await getLikedVideoPage(new PageParams(1, 8)).then(res => {
+				setVideoList(res.result.data);
+			});
+		} else {
+			await getModuleRecommend(
+				props.module?.id || '',
+				new PageParams(1, 8),
+			).then(res => {
+				setVideoList(res.result);
+			});
+		}
+	};
+	const onMorePress = () => {
+		router.push(`search?${qs.stringify({ categoryId: props.module?.id })}`);
+	};
 
 	useEffect(() => {
 		if (props.data) {
 			return;
 		}
-		const fetchData = async () => {
-			if (props.recommend) {
-				await getRecommendByUser().then(res => {
-					setVideoList(res.result);
-				});
-				return;
-			}
-
-			if (props.module?.id === ModuleCategory.HISTORY) {
-				await getHistoryVideoPage(new PageParams(1, 8)).then(res => {
-					const data: SimpleMedia[] = [];
-					res.result.data.forEach((item: HistoryVideo) => {
-						data.push(item.video);
-					});
-					setVideoList(data);
-				});
-			} else if (props.module?.id === ModuleCategory.WATCH_LATER) {
-				await getWatchLaterVideoPage(new PageParams(1, 8)).then(res => {
-					setVideoList(res.result.data);
-				});
-			} else if (props.module?.id === ModuleCategory.LIKED) {
-				await getLikedVideoPage(new PageParams(1, 8)).then(res => {
-					setVideoList(res.result.data);
-				});
-			} else {
-				await getModuleRecommend(
-					props.module?.id || '',
-					new PageParams(1, 8),
-				).then(res => {
-					setVideoList(res.result);
-				});
-			}
-		};
 		fetchData();
 	}, []);
 
 	return (
 		<div className='mb-10'>
 			<div className='flex justify-between'>
-				{props.slot || (
+				{(props.slot && props.slot(fetchData)) || (
 					<>
 						<h1 className='text-xl mb-4'>
 							{props.recommend ? 'Recommend' : props.module?.name}
 						</h1>
 						<Button
+							onPress={onMorePress}
 							radius='full'
 							variant='shadow'
 							color='primary'
@@ -299,13 +310,22 @@ const MediaCommonItem = (props: {
 	fontSize?: string;
 	disableDescription?: boolean;
 }) => {
+	const router = useRouter();
+
 	const imageClass = clsx(
 		'object-cover',
 		props.imageSize || 'h-[160px] w-[250px]',
 	);
 
 	return (
-		<div className={clsx('w-full gap-4 flex mt-0 mb-3', props.className)}>
+		<div
+			onClick={() => {
+				pushVideo(props.information.id, router);
+			}}
+			className={clsx(
+				'w-full gap-4 flex mt-0 mb-3 cursor-pointer',
+				props.className,
+			)}>
 			<div className='flex-none'>
 				<Image
 					shadow='sm'
@@ -368,22 +388,10 @@ const MediaListItem = (props: { content: SimpleMedia }) => {
 	);
 };
 
-export const MediaList = (props: { id: string }) => {
-	const [mediaList, setMediaList] = useState<SimpleMedia[]>([]);
-	useEffect(() => {
-		const fetchData = async () => {
-			await getModuleRecommend(props.id, new PageParams(1, 8)).then(res => {
-				if (res && res.code === 200) {
-					setMediaList(res?.result);
-				}
-			});
-		};
-		fetchData();
-	}, []);
-
+export const MediaList = (props: { data: SimpleMedia[] }) => {
 	return (
 		<div className='mx-3 flex-col min-w-[350px]'>
-			{mediaList.map((item, index) => (
+			{props.data.map((item, index) => (
 				<MediaCommonItem
 					key={item.id}
 					information={item}
@@ -508,5 +516,70 @@ export const BriefArea = (props: {
 				<p className={briefClass}>{props.content}</p>
 			</CardBody>
 		</Card>
+	);
+};
+
+export const LibraryPage = () => {
+	const router = useRouter();
+	const moduleMap = [
+		{
+			icon: <HistoryIcon />,
+			module: {
+				id: ModuleCategory.HISTORY,
+				name: 'History',
+			},
+			onMorePress: () => {
+				router.push('/history');
+			},
+		},
+		{
+			icon: <LaterIcon />,
+			module: {
+				id: ModuleCategory.WATCH_LATER,
+				name: 'Watch Later',
+			},
+			onMorePress: () => {
+				router.push('/later');
+			},
+		},
+		{
+			icon: <FavoriteIcon />,
+			module: {
+				id: ModuleCategory.LIKED,
+				name: 'Liked',
+			},
+			onMorePress: () => {},
+		},
+	];
+	return (
+		<>
+			{moduleMap.map(item => (
+				<MediaCardModule
+					key={item.module.id}
+					module={item.module}
+					grid='grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+					slot={fetch => {
+						return (
+							<>
+								<TitleTemplate
+									title={item.module.name}
+									icon={item.icon}
+								/>
+								{item.module.id !== ModuleCategory.LIKED && (
+									<Button
+										onPress={item.onMorePress}
+										radius='full'
+										variant='shadow'
+										color='primary'
+										size='sm'>
+										More
+									</Button>
+								)}
+							</>
+						);
+					}}
+				/>
+			))}
+		</>
 	);
 };

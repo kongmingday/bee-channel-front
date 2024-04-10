@@ -420,7 +420,7 @@ export const LiveChat = () => {
 											onClick={() => {
 												goToUserIndex(item.userId);
 											}}
-											className='text-default-500 w-[350px]'>
+											className='text-default-500 max-w-[350px]'>
 											{item.username}
 										</p>
 										<a className='w-[370px]'>{item.message}</a>

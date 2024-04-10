@@ -11,7 +11,6 @@ import {
 	Tabs,
 	Tab,
 	Button,
-	Textarea,
 	Image,
 	Tooltip,
 	Modal,
@@ -30,7 +29,8 @@ import {
 	Progress,
 	Spinner,
 } from '@nextui-org/react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Textarea } from '@nextui-org/input';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { SimpleParams } from '@/types';
 import {
@@ -135,10 +135,8 @@ const AuditTable = () => {
 									{item.supervise?.status === AuditStatusType.UNAPPROVED && (
 										<Textarea
 											isReadOnly
-											variant='flat'
 											label='Unapproved reason'
-											labelPlacement='inside'
-											minRows={1}
+											minRows={2}
 											className='col-span-12 md:col-span-6 mb-6 md:mb-0 cursor-pointer'
 											value={item.supervise.reason}
 										/>
@@ -330,7 +328,7 @@ const UploadForm = (props: { setSelectedKey: (key: string) => void }) => {
 			if (res.code === 200) {
 				setCoverUploadResult(res.result);
 			} else {
-				Toast('upload failed', ToastMode.ERROE);
+				Toast('upload failed', ToastMode.ERROR);
 			}
 		});
 	};
@@ -372,7 +370,7 @@ const UploadForm = (props: { setSelectedKey: (key: string) => void }) => {
 				Toast('the video upload has successd', ToastMode.SUCCESS);
 				props.setSelectedKey('AuditList');
 			} else {
-				Toast('the video upload has error', ToastMode.ERROE);
+				Toast('the video upload has error', ToastMode.ERROR);
 			}
 		});
 	};

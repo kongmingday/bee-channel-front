@@ -1,7 +1,7 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MediaList } from '@/components/media/mediaAssembly';
-import { Avatar, Skeleton } from '@nextui-org/react';
+import { Avatar, Skeleton, Selection } from '@nextui-org/react';
 import { Button, ButtonGroup } from '@nextui-org/button';
 import {
 	AddCollectionIcon,
@@ -26,7 +26,7 @@ import {
 } from '@nextui-org/table';
 import { ChatComment } from '@/components/media/chatComment';
 import { LiveChat } from '@/components/media/liveChat';
-import { Key, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { BriefArea } from '@/components/media/mediaAssembly';
 import {
 	DeriveType,
@@ -40,6 +40,9 @@ import {
 	getPlayList,
 	getVideoInfo,
 	historyProcess,
+	getVideoInPlayList,
+	updateVideoInPlayList,
+	getRecommendByUser,
 } from '@/api/media';
 import {
 	SimpleMedia,
@@ -58,6 +61,7 @@ import { getLiveUserInfo } from '@/api/live';
 import { useAppDispatch } from '@/store/hooks';
 import { setRoomId, setUserId } from '@/store/slices/liveSlice';
 import Player from 'video.js/dist/types/player';
+import { Toast, ToastMode } from '@/components/common/toast';
 
 const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST;
 const liveRoomHost = process.env.NEXT_PUBLIC_LIVE_ROOM_HOST;
@@ -76,12 +80,11 @@ export default function Page() {
 	const [isLive, setLiveState] = useState<boolean>();
 	const [isOpen, setOpenState] = useState<boolean>(false);
 	const watchLaterId = useRef<string>('');
-	const [playLists, setPlayLists] = useState<PlayList[]>([]);
-	const [selection, setSelection] = useState<Iterable<Key>>([]);
 	const [mediaOptions, setOptions] = useState<MediaOptions>({
 		sources: [],
 		title: '',
 	});
+	const [recommendation, setRecommendation] = useState<SimpleMedia[]>([]);
 	const [originSelectedIndex, setOriginSelectedIndex] = useState<
 		Partial<PlayVideoList>[]
 	>([]);
@@ -94,6 +97,9 @@ export default function Page() {
 	let timeOut: NodeJS.Timeout;
 
 	const unloadEvent = () => {
+		if (!historyRef || !historyRef.current) {
+			return;
+		}
 		if (historyRef.current.duration <= 0) {
 			return;
 		}
@@ -154,9 +160,24 @@ export default function Page() {
 	};
 
 	const fetchPlayList = async () => {
-		const { result } = await getPlayList();
-		setPlayLists(result);
-		setOriginSelectedIndex(result);
+		const { result: playListArray } = await getPlayList();
+		await getVideoInPlayList(id || '').then(response => {
+			const { result } = response;
+			setOriginSelectedIndex(result);
+
+			playListArray.forEach((item: ExtendPlayList) => {
+				item.checked = result.some(
+					(innerItem: PlayVideoList) => innerItem.playListId === item.id,
+				);
+			});
+			setMutableCollection(playListArray);
+
+			const temp: ExtendPlayList[] = [];
+			playListArray.forEach((item: ExtendPlayList) => {
+				temp.push({ ...item });
+			});
+			setCollectionList(temp);
+		});
 	};
 
 	const fetchWatchLater = async () => {
@@ -197,9 +218,25 @@ export default function Page() {
 	}, [mediaOptions]);
 
 	const addVideoToPlayList = () => {
-		const target = Array.from(selection).map(item => item.toString());
-		addToPlayList(curMedia!.id, target);
-		setOpenState(false);
+		const changeTarget = mutableCollection
+			.filter((_, index) => {
+				return (
+					collectionList[index].checked !== mutableCollection[index].checked
+				);
+			})
+			.map(item => ({
+				playListId: item.id,
+			}));
+
+		if (changeTarget.length > 0 && id) {
+			updateVideoInPlayList(id, changeTarget).then(res => {
+				if (res.code === 200) {
+					Toast('update success', ToastMode.SUCCESS);
+				} else {
+					Toast('update fail', ToastMode.ERROR);
+				}
+			});
+		}
 	};
 
 	const fetchVideo = async () => {
@@ -222,6 +259,10 @@ export default function Page() {
 				document.title = res.result.title;
 			}
 		});
+
+		await getRecommendByUser(10).then(res => {
+			setRecommendation(res.result);
+		});
 	};
 
 	const fetchLive = async () => {
@@ -242,6 +283,30 @@ export default function Page() {
 		});
 	};
 
+	const judgeSelection = () => {
+		return mutableCollection.filter(item => item.checked).map(item => item.id);
+	};
+
+	const onSelectionChange = (keys: Selection) => {
+		const handleResult = [...keys];
+		setMutableCollection(pre => {
+			pre.forEach(item => {
+				item.checked = handleResult.some(innerItem => item.id === innerItem);
+			});
+			return [...pre];
+		});
+	};
+
+	const onAddWatchLaterPress = () => {
+		addToPlayList(curMedia!.id, [watchLaterId.current]).then(res => {
+			if (res.code === 200) {
+				Toast('Remember watch later!', ToastMode.SUCCESS);
+			} else {
+				Toast('Add to watch later fail.', ToastMode.ERROR);
+			}
+		});
+	};
+
 	useEffect(() => {
 		setLiveState(type === MediaType.LIVE);
 
@@ -254,12 +319,14 @@ export default function Page() {
 		fetchWatchLater();
 		window.addEventListener('beforeunload', unloadEvent);
 
-		return () => {
-			unloadEvent();
-			playerRef.current?.dispose();
-			window.removeEventListener('beforeunload', unloadEvent);
-		};
-	}, []);
+		// return () => {
+		// 	unloadEvent();
+		// 	if (playerRef) {
+		// 		playerRef.current?.dispose();
+		// 	}
+		// 	window.removeEventListener('beforeunload', unloadEvent);
+		// };
+	}, [id]);
 
 	return (
 		<>
@@ -353,9 +420,7 @@ export default function Page() {
 										color='primary'
 										radius='full'
 										className='ml-4'
-										onClick={() => {
-											addToPlayList(curMedia!.id, [watchLaterId.current]);
-										}}>
+										onClick={onAddWatchLaterPress}>
 										<WatchLaterIcon />
 									</Button>
 								</div>
@@ -366,7 +431,11 @@ export default function Page() {
 					</div>
 				</div>
 				<div className='flex-1'>
-					{type === MediaType.LIVE ? <LiveChat /> : <MediaList id={'1'} />}
+					{type === MediaType.LIVE ? (
+						<LiveChat />
+					) : (
+						<MediaList data={recommendation} />
+					)}
 				</div>
 			</div>
 			<Modal
@@ -378,19 +447,19 @@ export default function Page() {
 				<ModalContent>
 					{onClose => (
 						<>
-							<ModalHeader>Add To PlayList</ModalHeader>
+							<ModalHeader>Update To PlayList</ModalHeader>
 							<ModalBody>
 								<Table
 									selectionMode='multiple'
-									selectedKeys={selection}
-									onSelectionChange={setSelection}
+									selectedKeys={judgeSelection()}
+									onSelectionChange={onSelectionChange}
 									aria-label='Add To PlayList'
 									hideHeader>
 									<TableHeader>
 										<TableColumn>NAME</TableColumn>
 									</TableHeader>
 									<TableBody>
-										{playLists.map(item => (
+										{collectionList.map(item => (
 											<TableRow key={item.id}>
 												<TableCell>{item.name}</TableCell>
 											</TableRow>
@@ -408,7 +477,7 @@ export default function Page() {
 								<Button
 									color='primary'
 									onPress={addVideoToPlayList}>
-									Add
+									Update
 								</Button>
 							</ModalFooter>
 						</>

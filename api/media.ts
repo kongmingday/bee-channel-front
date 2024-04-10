@@ -1,5 +1,10 @@
 import { PageParams, SearchParams } from '@/types';
-import { AddHistory, CommitParam, FavoriteParam } from '@/types/media';
+import {
+	AddHistory,
+	CommitParam,
+	FavoriteParam,
+	PlayVideoList,
+} from '@/types/media';
 import { del, get, post, put } from '@/utils/common/fetchUtil';
 
 const serviceName = process.env.NEXT_PUBLIC_MEDIA_SERVICE;
@@ -19,7 +24,10 @@ export const getModuleRecommend = (
 	return get(`/${serviceName}/video`, { categoryId, ...pageParams });
 };
 
-export const getRecommendByUser = () => {
+export const getRecommendByUser = (count?: number) => {
+	if (count) {
+		return get(`/${serviceName}/video/recommend`, { count });
+	}
 	return get(`/${serviceName}/video/recommend`);
 };
 
@@ -117,4 +125,15 @@ export const deleteFromPlayList = (playListId: string, videoId: string) => {
 
 export const addToPlayList = (videoId: string, playListIdList: string[]) => {
 	return post(`/${serviceName}/playList/batch/${videoId}`, playListIdList);
+};
+
+export const getVideoInPlayList = (videoId: string) => {
+	return get(`/${serviceName}/playList/inPlayList/${videoId}`);
+};
+
+export const updateVideoInPlayList = (
+	videoId: string,
+	playVideoList: Partial<PlayVideoList>[],
+) => {
+	return put(`/${serviceName}/playList/inPlayList/${videoId}`, playVideoList);
 };

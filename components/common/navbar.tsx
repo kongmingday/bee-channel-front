@@ -84,7 +84,7 @@ export const Navbar = () => {
 	return (
 		<NextUINavbar
 			maxWidth='full'
-			className='z-20 h-14 bg-white dark:bg-[#18181B]'>
+			className='z-20 h-14 bg-white dark:bg-zinc-900 shadow-lg dark:border-b-1 dark:border-zinc-700'>
 			<NavbarContent
 				className='flex basis-1/2 ml-4'
 				justify='start'>
@@ -157,7 +157,7 @@ export const Navbar = () => {
 											key={`out`}
 											onPress={() => {
 												removeAuthToken();
-												router.refresh();
+												window.location.assign('/');
 											}}
 											startContent={
 												<SignOutIcon

@@ -63,7 +63,7 @@ export default function Page() {
 				setAuthInfo(authInfo);
 				Toast('upload success', ToastMode.SUCCESS);
 			} else {
-				Toast('upload failed', ToastMode.ERROE);
+				Toast('upload failed', ToastMode.ERROR);
 			}
 		});
 	};
@@ -97,7 +97,7 @@ export default function Page() {
 				setAuthInfo(authInfo);
 				Toast('upload success', ToastMode.SUCCESS);
 			} else {
-				Toast('upload failed', ToastMode.ERROE);
+				Toast('upload failed', ToastMode.ERROR);
 			}
 		});
 	};

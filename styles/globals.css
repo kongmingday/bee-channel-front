@@ -4,115 +4,115 @@
 
 input,
 textarea {
-  outline: none;
+	outline: none;
 }
 
 .video-js .vjs-current-time {
-  display: block !important;
+	display: block !important;
 }
 
 .video-js .vjs-time-divider {
-  display: block !important;
-  padding: 0 !important;
-  width: auto !important;
-  min-width: auto !important;
-  min-height: auto !important;
-  line-height: 2em !important;
+	display: block !important;
+	padding: 0 !important;
+	width: auto !important;
+	min-width: auto !important;
+	min-height: auto !important;
+	line-height: 2em !important;
 }
 
 .video-js .vjs-duration {
-  display: block !important;
+	display: block !important;
 }
 
 .video-js .vjs-remaining-time {
-  display: none !important;
+	display: none !important;
 }
 
 .video-js .vjs-progress-control {
-  width: 100% !important;
-  order: -9999 !important;
+	width: 100% !important;
+	order: -9999 !important;
 }
 
 .vjs-custom-control-spacer.vjs-spacer {
-  display: block !important;
-  flex-grow: 1 !important;
+	display: block !important;
+	flex-grow: 1 !important;
 }
 
 .video-js .vjs-control-bar {
-  padding: 0% 10px !important;
-  background-color: transparent !important;
-  flex-wrap: wrap !important;
-  bottom: 3em !important;
-  margin-bottom: 1em;
+	padding: 0% 10px !important;
+	background-color: transparent !important;
+	flex-wrap: wrap !important;
+	bottom: 3em !important;
+	margin-bottom: 1em;
 }
 
 .video-js .vjs-title-bar {
-  font-size: 25px !important;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0.3) 20%,
-    rgba(0, 0, 0, 0) 40%
-  ) !important;
+	font-size: 25px !important;
+	background: linear-gradient(
+		180deg,
+		rgba(0, 0, 0, 0.5) 0%,
+		rgba(0, 0, 0, 0.3) 20%,
+		rgba(0, 0, 0, 0) 40%
+	) !important;
 }
 
 .video-js .vjs-title-bar-title {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	text-overflow: ellipsis;
 }
 
 .vjs-time-control.vjs-time-divider,
 .vjs-time-control.vjs-current-time,
 .vjs-time-control.vjs-duration {
-  display: flex !important;
-  font-size: 15px !important;
-  align-items: center !important;
+	display: flex !important;
+	font-size: 15px !important;
+	align-items: center !important;
 }
 
 body::-webkit-scrollbar {
-  width: 15px;
-  height: 10px;
+	width: 0.5rem;
+	height: 10px;
 }
 
 body::-webkit-scrollbar-track {
-  background: transparent;
+	background: transparent;
 }
 
 body::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  --tw-bg-opacity: 1;
-  background-color: hsl(
-    var(--nextui-default-200) /
-      var(--nextui-default-200-opacity, var(--tw-bg-opacity))
-  );
+	border-radius: 10px;
+	--tw-bg-opacity: 1;
+	background-color: hsl(
+		var(--nextui-default-200) /
+			var(--nextui-default-200-opacity, var(--tw-bg-opacity))
+	);
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 7px;
-  height: 10px;
+	width: 7px;
+	height: 10px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+	background: transparent;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  --tw-bg-opacity: 1;
-  background-color: hsl(
-    var(--nextui-default-200) /
-      var(--nextui-default-200-opacity, var(--tw-bg-opacity))
-  );
+	border-radius: 10px;
+	--tw-bg-opacity: 1;
+	background-color: hsl(
+		var(--nextui-default-200) /
+			var(--nextui-default-200-opacity, var(--tw-bg-opacity))
+	);
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+	-webkit-appearance: none;
 }
 
-input[type="number"] {
-  -moz-appearance: textfield;
+input[type='number'] {
+	-moz-appearance: textfield;
 }

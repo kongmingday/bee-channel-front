@@ -15,6 +15,7 @@ export default function Page() {
 			login({ unionId, authType }).then(res => {
 				setAuthToken(res.access_token);
 			});
+			top?.location.assign('/');
 		}
 	}, []);
 

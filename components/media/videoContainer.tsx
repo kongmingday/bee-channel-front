@@ -47,7 +47,6 @@ export const VideoContainer = memo(
 						props.onReady && props.onReady(player);
 					},
 				));
-				TitleBar(optionsT.title);
 				// You could update an existing player in the `else` block here
 				// on prop change, for example:
 			} else {
@@ -56,8 +55,8 @@ export const VideoContainer = memo(
 				player.autoplay(optionsT.autoplay);
 				player.src(optionsT.sources);
 			}
+			TitleBar(optionsT.title);
 			const t = typeof videoRef;
-			console.log(t);
 		}, [optionsT, videoRef]);
 
 		// Dispose the Video.js player when the functional component unmounts
@@ -80,6 +79,11 @@ export const VideoContainer = memo(
 				/>
 			</div>
 		);
+	},
+	(previous, current) => {
+		const { options: previousOpt } = previous;
+		const { options: currentOpt } = current;
+		return previousOpt.title === currentOpt.title;
 	},
 );
 

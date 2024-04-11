@@ -1,17 +1,17 @@
 'use client';
 import clsx from 'clsx';
 import qs from 'qs';
-
+import { Image } from '@nextui-org/image';
 import {
 	Card,
 	CardBody,
 	CardFooter,
 	CardHeader,
-	Image,
 	User,
 	Button,
 	Chip,
 	Avatar,
+	Pagination,
 } from '@nextui-org/react';
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { ClassValue } from 'tailwind-variants';
@@ -24,19 +24,22 @@ import {
 	getRecommendByUser,
 	getWatchLaterVideoPage,
 } from '@/api/media';
-import { calculateDuration, pushVideo } from '@/utils/common/memoFun';
+import { calculateDuration, pushLive, pushVideo } from '@/utils/common/memoFun';
 
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { ModuleCategory } from '@/types/enum';
 import numberal from 'numeral';
-import { PageParams, TimePoint } from '@/types';
+import { PageParams, SimpleParams, TimePoint } from '@/types';
 import {
 	FavoriteIcon,
 	HistoryIcon,
 	LaterIcon,
 	RemoveIcon,
 } from '../common/icons';
+import { useTheme } from 'next-themes';
+import { ActiveLiveInfo } from '@/types/live';
+import { getActiveLivePage } from '@/api/live';
 
 const goToUser = (userId: string, router: AppRouterInstance) => {
 	router.push(`/user/${userId}`);
@@ -297,7 +300,7 @@ export const MediaCardModule = (props: {
 					<MediaScrollList mediaList={videList} />
 				)
 			) : (
-				<h1>No Data</h1>
+				<EmptyData />
 			)}
 		</div>
 	);
@@ -437,7 +440,7 @@ export const MediaScrollList = (props: {
 					/>
 				</>
 			))}
-			{props.mediaList.length <= 0 && <h1>No Data</h1>}
+			{props.mediaList.length <= 0 && <EmptyData />}
 		</InfiniteScroll>
 	);
 };
@@ -581,5 +584,113 @@ export const LibraryPage = () => {
 				/>
 			))}
 		</>
+	);
+};
+
+export const EmptyData = () => {
+	const { theme } = useTheme();
+	const [themeMode, setThemeMode] = useState('');
+
+	useEffect(() => {
+		setThemeMode(theme || 'light');
+	}, [theme]);
+
+	return (
+		<div className='h-full flex-1 flex-col flex items-center justify-center'>
+			<Image
+				width={150}
+				alt='Empty Data'
+				src={`/empty_data_${themeMode}.png`}
+			/>
+			<h1 className='text-2xl'>No data</h1>
+			<h2 className='text-zinc-300'>No data, Please try again later</h2>
+		</div>
+	);
+};
+
+export const LivePage = () => {
+	const router = useRouter();
+
+	const [liveList, setLiveList] = useState<ActiveLiveInfo[]>([]);
+	const [pageParams, setPageParams] = useState<SimpleParams>({
+		pageSize: 20,
+		total: 0,
+	});
+	const [pageNo, setPageNo] = useState<number>(1);
+
+	const fetchData = async () => {
+		const { result } = await getActiveLivePage({
+			pageNo,
+			pageSize: pageParams.pageSize,
+		});
+
+		setLiveList(result.data);
+		setPageParams(pre => ({ ...pre, total: result.total }));
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, [pageNo]);
+
+	return (
+		<div className='flex h-full flex-col justify-between'>
+			<div
+				className={clsx(
+					'grid',
+					'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ',
+					'gap-4',
+				)}>
+				{liveList.map(item => (
+					<Card
+						key={item.id}
+						isPressable
+						onPress={() => {
+							pushLive(item.id, router);
+						}}
+						className='border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer h-fit'
+						shadow='sm'>
+						<Image
+							shadow='sm'
+							radius='lg'
+							className='object-cover max-h-[180px] w-full'
+							removeWrapper
+							src={StoreFileHost + item.cover}
+							alt='NextUI Album Cover'
+						/>
+						<CardFooter className='text-small flex-grow items-start flex flex-col'>
+							<div className='flex items-start gap-4'>
+								<Avatar
+									onClick={() => {
+										goToUser(item.userId, router);
+									}}
+									className='flex-none w-[32px] h-[32px] mt-1'
+									src={StoreFileHost + item.profile}
+								/>
+								<div className='flex flex-col justify-start text-start gap-1'>
+									<p className='line-clamp-1'>{item.title}</p>
+									<div className='text-default-400 text-xs'>
+										<p className='line-clamp-1'>{item.username}</p>
+									</div>
+								</div>
+							</div>
+						</CardFooter>
+					</Card>
+				))}
+			</div>
+			{liveList.length > 0 ? (
+				<Pagination
+					className='w-full flex justify-center mt'
+					classNames={{
+						cursor: 'shadow-md opacity-100 ',
+					}}
+					page={pageNo}
+					total={Math.ceil(pageParams.total / pageParams.pageSize)}
+					onChange={setPageNo}
+					initialPage={1}
+				/>
+			) : (
+				<EmptyData />
+			)}
+		</div>
 	);
 };

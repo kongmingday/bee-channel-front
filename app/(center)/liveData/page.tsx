@@ -32,6 +32,7 @@ import { Toast, ToastMode } from '@/components/common/toast';
 import { PictureIcon } from '@/components/common/icons';
 import { FileUploadResult } from '@/types/media';
 import { uploadSingleFile } from '@/api/upload';
+import { getLiveRoomAmount } from '@/api/order';
 
 const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST;
 const liveHost = process.env.NEXT_PUBLIC_LIVE_HOST;
@@ -179,9 +180,16 @@ export default function Page() {
 
 	const fetchLicense = async () => {
 		setIsLoading(true);
+		let finalResult: LicenseResult[] = [];
 		await getPersonalLicense().then(res => {
 			if (res.code === 200) {
-				setLiveLicense([res.result]);
+				finalResult = [res.result];
+			}
+		});
+		await getLiveRoomAmount().then(res => {
+			if (res.code === 200) {
+				finalResult[0].income = res.result;
+				setLiveLicense(finalResult);
 			}
 		});
 		setIsLoading(false);
@@ -248,6 +256,7 @@ export default function Page() {
 					<TableColumn align='center'>Status</TableColumn>
 					<TableColumn align='center'>Grant Date</TableColumn>
 					<TableColumn align='center'>Reason</TableColumn>
+					<TableColumn align='center'>Income Amount</TableColumn>
 					<TableColumn align='center'>Action</TableColumn>
 				</TableHeader>
 				<TableBody
@@ -268,20 +277,29 @@ export default function Page() {
 					}>
 					{item => (
 						<TableRow key='0'>
-							<TableCell>{item?.live?.liveKey || 'No Data'}</TableCell>
-							<TableCell>{item?.live?.liveSecret || 'No Data'}</TableCell>
-							<TableCell>
+							<TableCell align='center'>
+								{item?.live?.liveKey || 'No Data'}
+							</TableCell>
+							<TableCell align='center'>
+								{item?.live?.liveSecret || 'No Data'}
+							</TableCell>
+							<TableCell align='center'>
 								{item?.superviseLicense
 									? AuditStatusType[item?.superviseLicense.status]
 									: 'No Apply'}
 							</TableCell>
-							<TableCell>
-								{item?.superviseLicense?.superviseTime || 'No Data'}
+							<TableCell align='center'>
+								{(item?.superviseLicense?.superviseTime &&
+									dayjs(item?.superviseLicense?.superviseTime).format(
+										'YYYY-MM-DD',
+									)) ||
+									'No Data'}
 							</TableCell>
-							<TableCell>
+							<TableCell align='center'>
 								{item?.superviseLicense?.reason || 'No Data'}
 							</TableCell>
-							<TableCell>
+							<TableCell align='center'>{item?.income || 0}</TableCell>
+							<TableCell align='center'>
 								{!item?.superviseLicense ||
 								item?.superviseLicense.status === AuditStatusType.UNAPPROVED ? (
 									<Button

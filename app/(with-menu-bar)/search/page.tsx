@@ -5,7 +5,7 @@ import { Category, SimpleMedia } from '@/types/media';
 import { useEffect, useState } from 'react';
 import { getCategoryList, searchVideoList } from '@/api/media';
 import clsx from 'clsx';
-import { MediaCardGrid } from '@/components/media/mediaAssembly';
+import { EmptyData, MediaCardGrid } from '@/components/media/mediaAssembly';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SimpleParams } from '@/types';
 import qs from 'qs';
@@ -131,9 +131,7 @@ const VideoSearchContent = () => {
 					/>
 				</>
 			) : (
-				<>
-					<div>No Data</div>
-				</>
+				<EmptyData />
 			)}
 		</div>
 	);

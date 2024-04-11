@@ -11,3 +11,7 @@ export const calculateDuration = (targetTime: string) => {
 export const pushVideo = (videoId: string, router: AppRouterInstance) => {
 	router.push(`/watch?id=${videoId}&type=${MediaType.VIDEO}`);
 };
+
+export const pushLive = (liveId: string, router: AppRouterInstance) => {
+	router.push(`/watch?id=${liveId}&type=${MediaType.LIVE}`);
+};

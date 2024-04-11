@@ -16,7 +16,7 @@ import { AllUserInfo } from '@/types/auth';
 import { getSubscription } from '@/api/user';
 import { SimpleParams } from '@/types';
 import { Kbd } from '@nextui-org/kbd';
-import { MediaScrollList } from '@/components/media/mediaAssembly';
+import { EmptyData, MediaScrollList } from '@/components/media/mediaAssembly';
 import { getSubscriptionVideoList } from '@/api/media';
 import { SimpleMedia } from '@/types/media';
 
@@ -44,7 +44,7 @@ const UserListFragment = () => {
 	}, [pageNo]);
 
 	return (
-		<div className='flex flex-1 flex-col'>
+		<div className='flex flex-1 flex-col h-full'>
 			<Input
 				className='w-15 mx-4 mb-5'
 				type='search'
@@ -60,7 +60,7 @@ const UserListFragment = () => {
 				endContent={<Kbd keys={['enter']}>Enter</Kbd>}
 			/>
 			{subscriptions.length > 0 ? (
-				<>
+				<div className='h-full flex flex-col justify-between'>
 					<UserList authorList={subscriptions} />
 					<Pagination
 						className='w-full flex justify-center mt-2'
@@ -72,9 +72,9 @@ const UserListFragment = () => {
 						onChange={setPageNo}
 						initialPage={1}
 					/>
-				</>
+				</div>
 			) : (
-				<h1>No Data</h1>
+				<EmptyData />
 			)}
 		</div>
 	);

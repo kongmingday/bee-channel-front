@@ -7,16 +7,25 @@ import {
 	Avatar,
 	Button,
 	Input,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
 	Select,
 	SelectItem,
+	Spinner,
 	Textarea,
+	useDisclosure,
 	user,
 } from '@nextui-org/react';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { uploadSingleFile, uploadUserInfo } from '@/api/user';
-import { Toast, ToastMode } from '@/components/common/toast';
+import { Toast, ToastMode, waitForSeconds } from '@/components/common/toast';
 import { AuthInfo } from '@/types/auth';
+import { sendCodeToEmail, verify } from '@/api/checkcode';
+import { any } from 'video.js/dist/types/utils/events';
 
 const genderItemList = ['Female', 'Male', 'Primary'];
 
@@ -40,6 +49,11 @@ export default function Page() {
 	const [gender, setGender] = useState<number | undefined>(
 		authInfo?.information?.gender,
 	);
+	const [isQuick, setIsQuick] = useState(false);
+	const [code, setCode] = useState('');
+	const [password, setPassword] = useState('');
+
+	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 	const handleFileChange = (e: FormEvent<HTMLInputElement>) => {
 		if (e.currentTarget.files && e.currentTarget.files[0] !== null) {
@@ -95,10 +109,40 @@ export default function Page() {
 					...res.result,
 				};
 				setAuthInfo(authInfo);
-				Toast('upload success', ToastMode.SUCCESS);
+				Toast('update success', ToastMode.SUCCESS);
 			} else {
-				Toast('upload failed', ToastMode.ERROR);
+				Toast('update failed', ToastMode.ERROR);
 			}
+		});
+	};
+
+	const onUpdatePress = (func: () => any) => {
+		const email = authInfo?.information?.email;
+		const key = 'sendKey:' + email;
+
+		verify(key, code, () => {}).then(async () => {
+			uploadUserInfo({
+				newPassword: password,
+			}).then(res => {
+				if (res.code === 200) {
+					Toast('update success', ToastMode.SUCCESS);
+					func && func();
+				} else {
+					Toast('update failed', ToastMode.ERROR);
+				}
+			});
+		});
+	};
+
+	const sendCode = () => {
+		const email = authInfo?.information?.email;
+		if (!email) {
+			return;
+		}
+		sendCodeToEmail(email);
+		setIsQuick(true);
+		waitForSeconds(10 * 1000).then(() => {
+			setIsQuick(false);
 		});
 	};
 
@@ -157,15 +201,93 @@ export default function Page() {
 				</div>
 			</div>
 			<div className='flex items-center gap-4'>
-				<p className='text-lg min-w-[110px] text-right dark:text-white'>
-					Username:
-				</p>
-				<Input
-					className='w-auto'
-					isInvalid={invalidUserName()}
-					value={username}
-					onValueChange={setUsername}
-				/>
+				<div className='flex items-center gap-4'>
+					<p className='text-lg min-w-[110px] text-right dark:text-white'>
+						Username:
+					</p>
+					<Input
+						className='w-auto'
+						isInvalid={invalidUserName()}
+						value={username}
+						onValueChange={setUsername}
+					/>
+				</div>
+				<div className='flex items-center gap-4'>
+					<Button
+						color='primary'
+						onPress={onOpen}>
+						Change Password
+					</Button>
+					<Modal
+						isOpen={isOpen}
+						onOpenChange={onOpenChange}>
+						<ModalContent>
+							{onClose => (
+								<>
+									<ModalHeader className='flex flex-col gap-1'>
+										Change password
+									</ModalHeader>
+									<ModalBody>
+										<div className='flex items-center gap-4'>
+											<p className='text-lg text-right dark:text-white'>
+												New Password:
+											</p>
+											<Input
+												size='sm'
+												className='flex-1'
+												value={password}
+												type='password'
+												onValueChange={setPassword}
+											/>
+										</div>
+										<div className='flex items-center gap-4'>
+											<p className='text-lg text-right dark:text-white'>
+												Code:
+											</p>
+											<Input
+												size='sm'
+												className='w-auto'
+												value={code}
+												onValueChange={setCode}
+											/>
+											<Button
+												onClick={() => {
+													sendCode();
+												}}
+												className='h-12
+							bg-gradient-to-tr from-pink-500 to-yellow-500
+							text-white shadow-lg w-2/5'>
+												{isQuick ? (
+													<>
+														<span>Wait</span>
+														<Spinner color='white' />
+													</>
+												) : (
+													'Send Code'
+												)}
+											</Button>
+										</div>
+									</ModalBody>
+									<ModalFooter>
+										<Button
+											color='danger'
+											variant='light'
+											onPress={onClose}>
+											Close
+										</Button>
+										<Button
+											color='primary'
+											onPress={() => {
+												onUpdatePress(onClose);
+											}}>
+											Update
+										</Button>
+									</ModalFooter>
+								</>
+							)}
+						</ModalContent>
+					</Modal>
+				</div>
 			</div>
 			<div className='flex gap-4'>
 				<p className='text-lg min-w-[110px] text-right dark:text-white'>

@@ -2,6 +2,8 @@
 
 This is a video website project based on Next.js
 
+Due to time constraints, some code has redundancy. If you have a code cleanliness obsession, please forgive me.
+
 ## Technologies Used
 
 - [Next.js 13](https://nextjs.org/docs/getting-started)

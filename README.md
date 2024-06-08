@@ -46,6 +46,10 @@ Due to time constraints, some code has redundancy. If you have a code cleanlines
 
 ![picture 11](images/bb92eb6f6f2bf19ffb4e48725d2a32bd91de688a7e76432cfa5850486b4b5c77.png)
 
+## Search Page
+![picture 21](images/5a9849a0a809cc0573bffc6b2e8801a9abfac0f411de30b1acf00d1119a03b30.png)  
+
+
 ## User Related Pages
 
 ![picture 1](images/d629a05f7580b63414557b252b61166b20308c66cedfb82e3efaabda1311d5ef.png)  

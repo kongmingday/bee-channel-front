@@ -66,6 +66,8 @@ const AuditStatusIcon = (props: { status: AuditStatusType }) => {
 				UNAPPROVED
 			</>
 		);
+	} else {
+		return <></>;
 	}
 };
 

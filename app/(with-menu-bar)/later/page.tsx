@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import {
 	Card,
 	Listbox,
@@ -6,61 +6,71 @@ import {
 	Image,
 	Button,
 	CardBody,
-} from '@nextui-org/react';
+} from '@nextui-org/react'
 import {
 	deleteFromPlayList,
 	getPlayList,
 	getVideoByPlayListId,
-} from '@/api/media';
-import { RemoveIcon } from '@/components/common/icons';
-import { SimpleParams } from '@/types';
-import { SimpleMedia } from '@/types/media';
-import numberal from 'numeral';
-import { useEffect, useRef, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import { calculateDuration, pushVideo } from '@/utils/common/memoFun';
-import { useRouter } from 'next/navigation';
+} from '@/api/media'
+import { RemoveIcon } from '@/components/common/icons'
+import { SimpleParams } from '@/types'
+import { SimpleMedia } from '@/types/media'
+import numberal from 'numeral'
+import { useEffect, useRef, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroller'
+import { calculateDuration, pushVideo } from '@/utils/common/memoFun'
+import { useRouter } from 'next/navigation'
+import { isExist } from '@/utils/common/tokenUtils'
 
-const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST;
+const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
 
 export default function Page() {
 	const [pageParams, setPageParams] = useState<SimpleParams>({
 		pageSize: 6,
 		total: 0,
-	});
-	const [pageNo, setPageNo] = useState<number>(1);
-	const [mediaList, setMediaList] = useState<SimpleMedia[]>([]);
-	const watchLaterId = useRef<string>('');
-	const router = useRouter();
+	})
+	const [pageNo, setPageNo] = useState<number>(1)
+	const [mediaList, setMediaList] = useState<SimpleMedia[]>([])
+	const watchLaterId = useRef<string>('')
+	const router = useRouter()
 
 	const fetchPlayList = async () => {
-		const { result } = await getPlayList(1);
-		watchLaterId.current = result[0].id;
-	};
+		await getPlayList(1)?.then((response) => {
+			if (response) {
+				const { result } = response
+				watchLaterId.current = result[0].id
+			}
+		})
+	}
 
 	const fetchPlayListVideo = async () => {
-		const { result } = await getVideoByPlayListId(watchLaterId.current);
-		setMediaList(pre => [...pre, ...result.data]);
-		setPageParams(pre => ({ ...pre, total: result.total }));
-		setPageNo(pre => pre + 1);
-	};
+		await getVideoByPlayListId(watchLaterId.current)?.then((response) => {
+			if (!response) {
+				return
+			}
+			const { result } = response
+			setMediaList((pre) => [...pre, ...result.data])
+			setPageParams((pre) => ({ ...pre, total: result.total }))
+			setPageNo((pre) => pre + 1)
+		})
+	}
 
 	const removeFromPlayList = async (videoId: string) => {
-		const { result } = await deleteFromPlayList(watchLaterId.current, videoId);
-		setMediaList([]);
+		const { result } = await deleteFromPlayList(watchLaterId.current, videoId)
+		setMediaList([])
 		setPageParams({
 			pageSize: 6,
 			total: 0,
-		});
-		setPageNo(1);
-		result && fetchPlayListVideo();
-	};
+		})
+		setPageNo(1)
+		result && fetchPlayListVideo()
+	}
 
 	useEffect(() => {
 		fetchPlayList().then(() => {
-			fetchPlayListVideo();
-		});
-	}, []);
+			fetchPlayListVideo()
+		})
+	}, [])
 
 	return (
 		<div className='flex h-full max-h-[640px] w-full flex-col lg:flex-row '>
@@ -99,14 +109,14 @@ export default function Page() {
 			)}
 			<InfiniteScroll
 				loadMore={() => {
-					fetchPlayListVideo();
+					fetchPlayListVideo()
 				}}
 				hasMore={pageNo * pageParams.pageSize <= pageParams.total}>
 				<Listbox className='w-full lg:w-[70%] lg:ml-[360px]'>
-					{mediaList.map(item => (
+					{mediaList.map((item) => (
 						<ListboxItem
 							onClick={() => {
-								pushVideo(item.id, router);
+								pushVideo(item.id, router)
 							}}
 							key={item.id}
 							className='h-28 mb-2 p-2'
@@ -134,7 +144,7 @@ export default function Page() {
 										className='items-center'
 										isIconOnly
 										onClick={() => {
-											removeFromPlayList(item.id);
+											removeFromPlayList(item.id)
 										}}>
 										<RemoveIcon />
 									</Button>
@@ -145,5 +155,5 @@ export default function Page() {
 				</Listbox>
 			</InfiniteScroll>
 		</div>
-	);
+	)
 }

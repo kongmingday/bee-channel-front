@@ -32,18 +32,18 @@ export const LiveContainer = (props: { options: MediaOptions }) => {
 			flvPlayer.attachMediaElement(videoElement);
 			flvPlayer.load();
 			flvPlayer.play();
-			videoElement.play();
 		}
 	});
 
 	return (
-		<>
-			<video
-				id='videoElement'
-				controls
-				muted
-				className='w-full bg-cover max-w-[900px] max-h-[510px]'
-				poster={`${StoreFileHost}/bee-channel/image/no_living.png`}></video>
-		</>
+		<video
+			id='videoElement'
+			controls
+			muted
+			className='w-full bg-cover max-w-[900px] max-h-[510px]'
+			poster={`${StoreFileHost}/bee-channel/image/no_living.png`}
+		/>
 	);
 };
+
+export default LiveContainer;

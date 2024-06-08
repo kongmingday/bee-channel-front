@@ -1,7 +1,7 @@
-'use client';
-import clsx from 'clsx';
-import qs from 'qs';
-import { Image } from '@nextui-org/image';
+'use client'
+import clsx from 'clsx'
+import qs from 'qs'
+import { Image } from '@nextui-org/image'
 import {
 	Card,
 	CardBody,
@@ -12,55 +12,55 @@ import {
 	Chip,
 	Avatar,
 	Pagination,
-} from '@nextui-org/react';
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import { ClassValue } from 'tailwind-variants';
-import { Category, HistoryVideo, SimpleMedia } from '@/types/media';
-import InfiniteScroll from 'react-infinite-scroller';
+} from '@nextui-org/react'
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { ClassValue } from 'tailwind-variants'
+import { Category, HistoryVideo, SimpleMedia } from '@/types/media'
+import InfiniteScroll from 'react-infinite-scroller'
 import {
 	getHistoryVideoPage,
 	getLikedVideoPage,
 	getModuleRecommend,
 	getRecommendByUser,
 	getWatchLaterVideoPage,
-} from '@/api/media';
-import { calculateDuration, pushLive, pushVideo } from '@/utils/common/memoFun';
+} from '@/api/media'
+import { calculateDuration, pushLive, pushVideo } from '@/utils/common/memoFun'
 
-import { useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { ModuleCategory } from '@/types/enum';
-import numberal from 'numeral';
-import { PageParams, SimpleParams, TimePoint } from '@/types';
+import { useRouter } from 'next/navigation'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
+import { ModuleCategory } from '@/types/enum'
+import numberal from 'numeral'
+import { PageParams, SimpleParams, TimePoint } from '@/types'
 import {
 	FavoriteIcon,
 	HistoryIcon,
 	LaterIcon,
 	RemoveIcon,
-} from '../common/icons';
-import { useTheme } from 'next-themes';
-import { ActiveLiveInfo } from '@/types/live';
-import { getActiveLivePage } from '@/api/live';
+} from '../common/icons'
+import { useTheme } from 'next-themes'
+import { ActiveLiveInfo } from '@/types/live'
+import { getActiveLivePage } from '@/api/live'
 
 const goToUser = (userId: string, router: AppRouterInstance) => {
-	router.push(`/user/${userId}`);
-};
-const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST;
+	router.push(`/user/${userId}`)
+}
+const StoreFileHost = process.env.NEXT_PUBLIC_STORE_FILE_HOST
 
 const MediaCard = (props: {
-	video: SimpleMedia;
-	removeFromPlayList?: (videoId: string) => void;
+	video: SimpleMedia
+	removeFromPlayList?: (videoId: string) => void
 }) => {
 	const fromNow = useMemo(() => {
-		return calculateDuration(props.video.publicTime);
-	}, [props.video]);
-	const router = useRouter();
+		return calculateDuration(props.video.publicTime)
+	}, [props.video])
+	const router = useRouter()
 
 	return (
 		<>
 			<Card
 				isPressable
-				onPress={e => {
-					pushVideo(props.video.id, router);
+				onPress={(e) => {
+					pushVideo(props.video.id, router)
 				}}
 				className='border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer h-fit'
 				shadow='sm'>
@@ -76,7 +76,7 @@ const MediaCard = (props: {
 					<div className='flex items-start gap-4'>
 						<Avatar
 							onClick={() => {
-								goToUser(props.video.authorId, router);
+								goToUser(props.video.authorId, router)
 							}}
 							className='flex-none w-[32px] h-[32px] mt-1'
 							src={StoreFileHost + props.video.author.profile}
@@ -99,7 +99,7 @@ const MediaCard = (props: {
 								size='sm'
 								variant='light'
 								onClick={() => {
-									props.removeFromPlayList!(props.video.id);
+									props.removeFromPlayList!(props.video.id)
 								}}>
 								<RemoveIcon />
 							</Button>
@@ -108,21 +108,21 @@ const MediaCard = (props: {
 				</CardFooter>
 			</Card>
 		</>
-	);
-};
+	)
+}
 
 const SimpleMediaCard = (props: { video: SimpleMedia }) => {
 	const fromNow = useMemo(() => {
-		return calculateDuration(props.video.publicTime);
-	}, [props.video]);
-	const router = useRouter();
+		return calculateDuration(props.video.publicTime)
+	}, [props.video])
+	const router = useRouter()
 
 	return (
 		<>
 			<Card
 				isPressable
-				onPress={e => {
-					pushVideo(props.video.id, router);
+				onPress={(e) => {
+					pushVideo(props.video.id, router)
 				}}
 				isBlurred
 				className='border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer'
@@ -149,8 +149,8 @@ const SimpleMediaCard = (props: { video: SimpleMedia }) => {
 				</CardFooter>
 			</Card>
 		</>
-	);
-};
+	)
+}
 
 export const TitleTemplate = (props: { icon?: ReactNode; title: string }) => {
 	return (
@@ -158,26 +158,26 @@ export const TitleTemplate = (props: { icon?: ReactNode; title: string }) => {
 			{props.icon}
 			<h1 className='text-xl mb-4 ml-2'>{props.title}</h1>
 		</div>
-	);
-};
+	)
+}
 
 export const SimpleMediaModule = (props: { videoList: SimpleMedia[] }) => {
 	return (
 		<div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4'>
-			{props.videoList.map(item => (
+			{props.videoList.map((item) => (
 				<SimpleMediaCard
 					key={item.id}
 					video={item}></SimpleMediaCard>
 			))}
 		</div>
-	);
-};
+	)
+}
 
 export const MediaCardGrid = (props: {
-	mediaList: SimpleMedia[];
-	removeFromPlayList?: (videoId: string) => void;
-	grid?: string;
-	gap?: string;
+	mediaList: SimpleMedia[]
+	removeFromPlayList?: (videoId: string) => void
+	grid?: string
+	gap?: string
 }) => {
 	return (
 		<div
@@ -186,15 +186,15 @@ export const MediaCardGrid = (props: {
 				props.grid || 'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ',
 				props.gap || 'gap-4',
 			)}>
-			{props.mediaList.map(item => (
+			{props.mediaList.map((item) => (
 				<MediaCard
 					key={item.id}
 					removeFromPlayList={props.removeFromPlayList}
 					video={item}></MediaCard>
 			))}
 		</div>
-	);
-};
+	)
+}
 
 export const ChipModule = (props: { chipList: any[] }) => {
 	return (
@@ -212,63 +212,72 @@ export const ChipModule = (props: { chipList: any[] }) => {
 				</Chip>
 			))}
 		</div>
-	);
-};
+	)
+}
 
 export const MediaCardModule = (props: {
-	module?: Category;
-	isList?: boolean;
-	slot?: (fetch: () => Promise<void>) => ReactNode;
-	grid?: string;
-	gap?: string;
-	data?: SimpleMedia[];
-	recommend?: boolean;
+	module?: Category
+	isList?: boolean
+	slot?: (fetch: () => Promise<void>) => ReactNode
+	grid?: string
+	gap?: string
+	data?: SimpleMedia[]
+	recommend?: boolean
 }) => {
-	const router = useRouter();
-	const [videList, setVideoList] = useState<SimpleMedia[]>(props.data || []);
+	const router = useRouter()
+	const [videList, setVideoList] = useState<SimpleMedia[]>(props.data || [])
 	const fetchData = async () => {
 		if (props.recommend) {
-			await getRecommendByUser().then(res => {
-				setVideoList(res.result);
-			});
-			return;
+			await getRecommendByUser().then((res) => {
+				setVideoList(res.result)
+			})
+			return
 		}
 
 		if (props.module?.id === ModuleCategory.HISTORY) {
-			await getHistoryVideoPage(new PageParams(1, 8)).then(res => {
-				const data: SimpleMedia[] = [];
+			await getHistoryVideoPage(new PageParams(1, 8))?.then((res) => {
+				if (!res) {
+					return
+				}
+				const data: SimpleMedia[] = []
 				res.result.data.forEach((item: HistoryVideo) => {
-					data.push(item.video);
-				});
-				setVideoList(data);
-			});
+					data.push(item.video)
+				})
+				setVideoList(data)
+			})
 		} else if (props.module?.id === ModuleCategory.WATCH_LATER) {
-			await getWatchLaterVideoPage(new PageParams(1, 8)).then(res => {
-				setVideoList(res.result.data);
-			});
+			await getWatchLaterVideoPage(new PageParams(1, 8))?.then((res) => {
+				if (!res) {
+					return
+				}
+				setVideoList(res.result.data)
+			})
 		} else if (props.module?.id === ModuleCategory.LIKED) {
-			await getLikedVideoPage(new PageParams(1, 8)).then(res => {
-				setVideoList(res.result.data);
-			});
+			await getLikedVideoPage(new PageParams(1, 8))?.then((res) => {
+				if (!res) {
+					return
+				}
+				setVideoList(res.result.data)
+			})
 		} else {
 			await getModuleRecommend(
 				props.module?.id || '',
 				new PageParams(1, 8),
-			).then(res => {
-				setVideoList(res.result);
-			});
+			).then((res) => {
+				setVideoList(res.result)
+			})
 		}
-	};
+	}
 	const onMorePress = () => {
-		router.push(`search?${qs.stringify({ categoryId: props.module?.id })}`);
-	};
+		router.push(`search?${qs.stringify({ categoryId: props.module?.id })}`)
+	}
 
 	useEffect(() => {
 		if (props.data) {
-			return;
+			return
 		}
-		fetchData();
-	}, []);
+		fetchData()
+	}, [])
 
 	return (
 		<div className='mb-10'>
@@ -303,27 +312,27 @@ export const MediaCardModule = (props: {
 				<EmptyData />
 			)}
 		</div>
-	);
-};
+	)
+}
 
 const MediaCommonItem = (props: {
-	information: SimpleMedia;
-	className?: ClassValue;
-	imageSize?: string;
-	fontSize?: string;
-	disableDescription?: boolean;
+	information: SimpleMedia
+	className?: ClassValue
+	imageSize?: string
+	fontSize?: string
+	disableDescription?: boolean
 }) => {
-	const router = useRouter();
+	const router = useRouter()
 
 	const imageClass = clsx(
 		'object-cover',
 		props.imageSize || 'h-[160px] w-[250px]',
-	);
+	)
 
 	return (
 		<div
 			onClick={() => {
-				pushVideo(props.information.id, router);
+				pushVideo(props.information.id, router)
 			}}
 			className={clsx(
 				'w-full gap-4 flex mt-0 mb-3 cursor-pointer',
@@ -354,11 +363,11 @@ const MediaCommonItem = (props: {
 				)}
 			</div>
 		</div>
-	);
-};
+	)
+}
 
 const MediaListItem = (props: { content: SimpleMedia }) => {
-	const router = useRouter();
+	const router = useRouter()
 
 	return (
 		<>
@@ -370,7 +379,7 @@ const MediaListItem = (props: { content: SimpleMedia }) => {
 					<User
 						className='cursor-pointer'
 						onClick={() => {
-							router.push(`/user/${props.content.authorId}`);
+							router.push(`/user/${props.content.authorId}`)
 						}}
 						name={props.content.author.username}
 						avatarProps={{
@@ -382,14 +391,14 @@ const MediaListItem = (props: { content: SimpleMedia }) => {
 				<CardBody
 					className='overflow-hidden px-3 pb-3 pt-0 cursor-pointer'
 					onClick={() => {
-						pushVideo(props.content.id, router);
+						pushVideo(props.content.id, router)
 					}}>
 					<MediaCommonItem information={props.content} />
 				</CardBody>
 			</Card>
 		</>
-	);
-};
+	)
+}
 
 export const MediaList = (props: { data: SimpleMedia[] }) => {
 	return (
@@ -403,28 +412,28 @@ export const MediaList = (props: { data: SimpleMedia[] }) => {
 				/>
 			))}
 		</div>
-	);
-};
+	)
+}
 
 export const MediaScrollList = (props: {
-	mediaList: any[];
-	pageProcess?: any;
-	pointList?: TimePoint[];
-	isHistory?: boolean;
+	mediaList: any[]
+	pageProcess?: any
+	pointList?: TimePoint[]
+	isHistory?: boolean
 }) => {
 	const TimeLine = useCallback(
 		(index: number) => {
-			const target = props.pointList?.find(item => item.index === index);
-			return target ? <TitleTemplate title={target.point} /> : <></>;
+			const target = props.pointList?.find((item) => item.index === index)
+			return target ? <TitleTemplate title={target.point} /> : <></>
 		},
 		[props.pointList],
-	);
+	)
 
 	return (
 		<InfiniteScroll
 			className='w-full'
 			loadMore={() => {
-				props.pageProcess.loadMore();
+				props.pageProcess.loadMore()
 			}}
 			hasMore={
 				props.pageProcess.allPageParams.pageNo *
@@ -442,20 +451,20 @@ export const MediaScrollList = (props: {
 			))}
 			{props.mediaList.length <= 0 && <EmptyData />}
 		</InfiniteScroll>
-	);
-};
+	)
+}
 
 export const PlayList = (props: { className?: ClassValue }) => {
-	const [recommend, setRecommend] = useState<SimpleMedia[]>([]);
+	const [recommend, setRecommend] = useState<SimpleMedia[]>([])
 	const fetchData = async () => {
-		await getModuleRecommend('1', new PageParams(1, 8)).then(res => {
-			setRecommend(res?.result);
-		});
-	};
+		await getModuleRecommend('1', new PageParams(1, 8)).then((res) => {
+			setRecommend(res?.result)
+		})
+	}
 
 	useEffect(() => {
-		fetchData();
-	}, []);
+		fetchData()
+	}, [])
 
 	return (
 		<div
@@ -490,18 +499,18 @@ export const PlayList = (props: { className?: ClassValue }) => {
 				</CardBody>
 			</Card>
 		</div>
-	);
-};
+	)
+}
 
 export const BriefArea = (props: {
-	className?: ClassValue;
-	bodyClassName?: ClassValue;
-	content: string;
+	className?: ClassValue
+	bodyClassName?: ClassValue
+	content: string
 }) => {
-	const [briefExpand, setBriefExpand] = useState(false);
+	const [briefExpand, setBriefExpand] = useState(false)
 	const briefClass = clsx({
 		'line-clamp-2': !briefExpand,
-	});
+	})
 
 	return (
 		<Card
@@ -519,11 +528,11 @@ export const BriefArea = (props: {
 				<p className={briefClass}>{props.content}</p>
 			</CardBody>
 		</Card>
-	);
-};
+	)
+}
 
 export const LibraryPage = () => {
-	const router = useRouter();
+	const router = useRouter()
 	const moduleMap = [
 		{
 			icon: <HistoryIcon />,
@@ -532,7 +541,7 @@ export const LibraryPage = () => {
 				name: 'History',
 			},
 			onMorePress: () => {
-				router.push('/history');
+				router.push('/history')
 			},
 		},
 		{
@@ -542,7 +551,7 @@ export const LibraryPage = () => {
 				name: 'Watch Later',
 			},
 			onMorePress: () => {
-				router.push('/later');
+				router.push('/later')
 			},
 		},
 		{
@@ -553,15 +562,15 @@ export const LibraryPage = () => {
 			},
 			onMorePress: () => {},
 		},
-	];
+	]
 	return (
 		<>
-			{moduleMap.map(item => (
+			{moduleMap.map((item) => (
 				<MediaCardModule
 					key={item.module.id}
 					module={item.module}
 					grid='grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-					slot={fetch => {
+					slot={(fetch) => {
 						return (
 							<>
 								<TitleTemplate
@@ -579,21 +588,21 @@ export const LibraryPage = () => {
 									</Button>
 								)}
 							</>
-						);
+						)
 					}}
 				/>
 			))}
 		</>
-	);
-};
+	)
+}
 
 export const EmptyData = () => {
-	const { theme } = useTheme();
-	const [themeMode, setThemeMode] = useState('');
+	const { theme } = useTheme()
+	const [themeMode, setThemeMode] = useState('light')
 
 	useEffect(() => {
-		setThemeMode(theme || 'light');
-	}, [theme]);
+		setThemeMode(theme || 'light')
+	}, [theme])
 
 	return (
 		<div className='h-full flex-1 flex-col flex items-center justify-center'>
@@ -605,32 +614,32 @@ export const EmptyData = () => {
 			<h1 className='text-2xl'>No data</h1>
 			<h2 className='text-zinc-300'>No data, Please try again later</h2>
 		</div>
-	);
-};
+	)
+}
 
 export const LivePage = () => {
-	const router = useRouter();
+	const router = useRouter()
 
-	const [liveList, setLiveList] = useState<ActiveLiveInfo[]>([]);
+	const [liveList, setLiveList] = useState<ActiveLiveInfo[]>([])
 	const [pageParams, setPageParams] = useState<SimpleParams>({
 		pageSize: 20,
 		total: 0,
-	});
-	const [pageNo, setPageNo] = useState<number>(1);
+	})
+	const [pageNo, setPageNo] = useState<number>(1)
 
 	const fetchData = async () => {
 		const { result } = await getActiveLivePage({
 			pageNo,
 			pageSize: pageParams.pageSize,
-		});
+		})
 
-		setLiveList(result.data);
-		setPageParams(pre => ({ ...pre, total: result.total }));
-	};
+		setLiveList(result.data)
+		setPageParams((pre) => ({ ...pre, total: result.total }))
+	}
 
 	useEffect(() => {
-		fetchData();
-	}, [pageNo]);
+		fetchData()
+	}, [pageNo])
 
 	return (
 		<div className='flex h-full flex-col justify-between'>
@@ -640,12 +649,12 @@ export const LivePage = () => {
 					'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ',
 					'gap-4',
 				)}>
-				{liveList.map(item => (
+				{liveList.map((item) => (
 					<Card
 						key={item.id}
 						isPressable
 						onPress={() => {
-							pushLive(item.id, router);
+							pushLive(item.id, router)
 						}}
 						className='border-none bg-background/60 dark:bg-default-100/50 items-start cursor-pointer h-fit'
 						shadow='sm'>
@@ -661,7 +670,7 @@ export const LivePage = () => {
 							<div className='flex items-start gap-4'>
 								<Avatar
 									onClick={() => {
-										goToUser(item.userId, router);
+										goToUser(item.userId, router)
 									}}
 									className='flex-none w-[32px] h-[32px] mt-1'
 									src={StoreFileHost + item.profile}
@@ -692,5 +701,5 @@ export const LivePage = () => {
 				<EmptyData />
 			)}
 		</div>
-	);
-};
+	)
+}

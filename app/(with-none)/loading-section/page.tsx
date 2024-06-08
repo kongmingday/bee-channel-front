@@ -14,8 +14,8 @@ export default function Page() {
 		if (unionId && authType) {
 			login({ unionId, authType }).then(res => {
 				setAuthToken(res.access_token);
+				top?.location.assign('/');
 			});
-			top?.location.assign('/');
 		}
 	}, []);
 

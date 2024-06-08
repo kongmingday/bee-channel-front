@@ -1,6 +1,5 @@
 "use client"
 import { useAppDispatch } from "@/store/hooks"
-import { getAuthInfo, getAuthToken } from "@/utils/common/tokenUtils"
 import { useEffect, useState } from "react"
 import { setWebSocket as setWebSocketGlobal } from "@/store/slices/liveSlice"
 

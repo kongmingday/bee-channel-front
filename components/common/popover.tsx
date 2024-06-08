@@ -1,4 +1,4 @@
-import { getAuthInfo, isExist } from "@/utils/common/tokenUtils";
+import {  isExist } from "@/utils/common/tokenUtils";
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 
 export const LoginPopover = ({

@@ -6,7 +6,6 @@ import { FileUploadResult } from '@/types/media';
 
 const baseUrl = process.env.NEXT_PUBLIC_GATEWAY_HOST;
 const CHUNK_SIZE = 5 * 1024 * 1024;
-const spark = new SparkMD5();
 let fileReader: FileReader;
 if (typeof window !== 'undefined') {
 	fileReader = new FileReader();
@@ -36,7 +35,8 @@ const createChunk = (file: File) => {
  * @description: Caculate file's hash code
  * @return {Promise}
  */
-const caculateHash = (chunks: Blob[]) => {
+const calculateHash = (chunks: Blob[]) => {
+	const spark = new SparkMD5.ArrayBuffer();
 	return new Promise((resolve, reject) => {
 		const targets: Blob[] = [];
 
@@ -51,10 +51,10 @@ const caculateHash = (chunks: Blob[]) => {
 			}
 		});
 
-		// caculate the hash code
+		// calculate the hash code
 		fileReader.readAsArrayBuffer(new Blob(targets));
 		fileReader.onload = e => {
-			spark.append((e.target as FileReader).result as string);
+			spark.append((e.target as FileReader).result as ArrayBuffer);
 			resolve(spark.end());
 		};
 	}).catch(error => {
@@ -161,6 +161,7 @@ export const handleUpload = async (
 	setVideoUploadResult: (result: FileUploadResult) => void,
 ) => {
 	const files = e.files;
+
 	if (!files) {
 		alert('please upload your file');
 		return;
@@ -175,7 +176,7 @@ export const handleUpload = async (
 
 	const chunks = createChunk(files[0]);
 
-	const hash = await caculateHash(chunks);
+	const hash = await calculateHash(chunks);
 	fileHash = hash as string;
 
 	uploadChunk(chunks, callback, setVideoUploadResult);

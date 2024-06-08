@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
 	getPlayList,
@@ -7,30 +7,30 @@ import {
 	updatePlayList,
 	deletePlayList,
 	deleteFromPlayList,
-} from '@/api/media';
-import { Card, CardBody } from '@nextui-org/react';
+} from '@/api/media'
+import { Card, CardBody } from '@nextui-org/react'
 import {
 	Dropdown,
 	DropdownTrigger,
 	DropdownMenu,
 	DropdownItem,
-} from '@nextui-org/dropdown';
+} from '@nextui-org/dropdown'
 import {
 	Modal,
 	ModalContent,
 	ModalHeader,
 	ModalBody,
 	ModalFooter,
-} from '@nextui-org/modal';
-import { Input } from '@nextui-org/input';
-import { Pagination } from '@nextui-org/pagination';
-import { Button } from '@nextui-org/button';
-import { useEffect, useState } from 'react';
-import { AddIcon, MenuIcon } from '@/components/common/icons';
-import { PlayList, SimpleMedia } from '@/types/media';
-import clsx from 'clsx';
-import { SimpleParams } from '@/types';
-import { EmptyData, MediaCardGrid } from '@/components/media/mediaAssembly';
+} from '@nextui-org/modal'
+import { Input } from '@nextui-org/input'
+import { Pagination } from '@nextui-org/pagination'
+import { Button } from '@nextui-org/button'
+import { useEffect, useState } from 'react'
+import { AddIcon, MenuIcon } from '@/components/common/icons'
+import { PlayList, SimpleMedia } from '@/types/media'
+import clsx from 'clsx'
+import { SimpleParams } from '@/types'
+import { EmptyData, MediaCardGrid } from '@/components/media/mediaAssembly'
 
 enum OptionAction {
 	NEW = 0,
@@ -41,7 +41,7 @@ enum OptionAction {
 export default function Page() {
 	const modalTemplate = [
 		<ModalContent key={0}>
-			{onClose => (
+			{(onClose) => (
 				<>
 					<ModalHeader className='flex flex-col gap-1'>
 						New PlayList?
@@ -72,7 +72,7 @@ export default function Page() {
 			)}
 		</ModalContent>,
 		<ModalContent key={1}>
-			{onClose => (
+			{(onClose) => (
 				<>
 					<ModalHeader className='flex flex-col gap-1'>
 						Delete PlayList
@@ -95,7 +95,7 @@ export default function Page() {
 			)}
 		</ModalContent>,
 		<ModalContent key={2}>
-			{onClose => (
+			{(onClose) => (
 				<>
 					<ModalHeader className='flex flex-col gap-1'>
 						Rename PlayList
@@ -125,76 +125,81 @@ export default function Page() {
 				</>
 			)}
 		</ModalContent>,
-	];
+	]
 
-	const [playLists, setPlayLists] = useState<PlayList[]>([]);
-	const [selectKey, setSelectKey] = useState<number>(0);
-	const [mediaList, setMediaList] = useState<SimpleMedia[]>([]);
+	const [playLists, setPlayLists] = useState<PlayList[]>([])
+	const [selectKey, setSelectKey] = useState<number>(0)
+	const [mediaList, setMediaList] = useState<SimpleMedia[]>([])
 	const [pageParams, setPageParams] = useState<SimpleParams>({
 		pageSize: 9,
 		total: 0,
-	});
-	const [target, setTarget] = useState<number>(0);
-	const [pageNo, setPageNo] = useState<number>(1);
-	const [action, setAction] = useState<OptionAction>(OptionAction.NEW);
-	const [newName, setNewName] = useState<string>('');
-	const [isOpen, setOpenState] = useState<boolean>();
+	})
+	const [target, setTarget] = useState<number>(0)
+	const [pageNo, setPageNo] = useState<number>(1)
+	const [action, setAction] = useState<OptionAction>(OptionAction.NEW)
+	const [newName, setNewName] = useState<string>('')
+	const [isOpen, setOpenState] = useState<boolean>()
 	const openModal = (optionAction: OptionAction) => {
-		setAction(optionAction);
-		setOpenState(true);
-	};
+		setAction(optionAction)
+		setOpenState(true)
+	}
 
 	const buildPlayList = async () => {
-		const { result } = await buildPlayListApi(newName);
-		result && fetchPlayList();
-		setOpenState(false);
-	};
+		const { result } = await buildPlayListApi(newName)
+		result && fetchPlayList()
+		setOpenState(false)
+	}
 
 	const renamePlayList = async () => {
-		const { result } = await updatePlayList(playLists[target].id, newName);
-		result && fetchPlayList();
-		setOpenState(false);
-	};
+		const { result } = await updatePlayList(playLists[target].id, newName)
+		result && fetchPlayList()
+		setOpenState(false)
+	}
 
 	const removePlayList = async () => {
-		const { result } = await deletePlayList(playLists[target].id);
-		result && fetchPlayList();
-		setOpenState(false);
-	};
+		const { result } = await deletePlayList(playLists[target].id)
+		result && fetchPlayList()
+		setOpenState(false)
+	}
 
 	const fetchPlayListVideo = async (playListId: string) => {
-		await getVideoByPlayListId(playListId).then(res => {
+		await getVideoByPlayListId(playListId)?.then((res) => {
 			if (res.result.total !== 0) {
-				setMediaList(res.result.data);
+				setMediaList(res.result.data)
 			} else {
-				setMediaList([]);
+				setMediaList([])
 			}
-			setPageParams(pre => ({ ...pre, total: res.result.total }));
-		});
-	};
+			setPageParams((pre) => ({ ...pre, total: res.result.total }))
+		})
+	}
 
 	const fetchPlayList = async () => {
-		const { result } = await getPlayList();
-		setPlayLists(result);
-	};
+		await getPlayList()?.then((response) => {
+			if (!response) {
+				return
+			}
+			const { result } = response
+			setPlayLists(result)
+		})
+	}
 
 	const removeFromPlayList = async (videoId: string) => {
 		const { result } = await deleteFromPlayList(
 			playLists[selectKey].id,
 			videoId,
-		);
-		result && fetchPlayListVideo(playLists[selectKey].id);
-	};
+		)
+		result && fetchPlayListVideo(playLists[selectKey].id)
+	}
 
 	useEffect(() => {
-		fetchPlayList();
-	}, []);
+		fetchPlayList()
+	}, [])
 
 	useEffect(() => {
 		if (playLists && playLists.length > 0) {
-			fetchPlayListVideo(playLists[selectKey].id);
+			fetchPlayListVideo(playLists[selectKey].id)
 		}
-	}, [playLists, selectKey]);
+	}, [playLists, selectKey])
 
 	return (
 		<>
@@ -210,7 +215,7 @@ export default function Page() {
 								<AddIcon
 									size={25}
 									onClick={() => {
-										openModal(OptionAction.NEW);
+										openModal(OptionAction.NEW)
 									}}
 								/>
 							</Button>
@@ -221,7 +226,7 @@ export default function Page() {
 									<div
 										key={index}
 										onClick={() => {
-											setSelectKey(index);
+											setSelectKey(index)
 										}}
 										className={clsx(
 											'flex justify-between items-center py-2 px-4',
@@ -243,8 +248,8 @@ export default function Page() {
 													<DropdownItem
 														key='rename'
 														onClick={() => {
-															setTarget(index);
-															openModal(OptionAction.RENAME);
+															setTarget(index)
+															openModal(OptionAction.RENAME)
 														}}>
 														Rename
 													</DropdownItem>
@@ -253,8 +258,8 @@ export default function Page() {
 														className='text-danger'
 														color='danger'
 														onClick={() => {
-															setTarget(index);
-															openModal(OptionAction.DELETE);
+															setTarget(index)
+															openModal(OptionAction.DELETE)
 														}}>
 														Delete
 													</DropdownItem>
@@ -296,10 +301,10 @@ export default function Page() {
 			<Modal
 				isOpen={isOpen}
 				onClose={() => {
-					setOpenState(false);
+					setOpenState(false)
 				}}>
 				{modalTemplate[action]}
 			</Modal>
 		</>
-	);
+	)
 }

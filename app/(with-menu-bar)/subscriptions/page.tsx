@@ -6,42 +6,46 @@
  * @Description:
  * @FilePath: \bee-channel-front\app\subscriptions\page.tsx
  */
-'use client';
+'use client'
 
-import { Input, Pagination } from '@nextui-org/react';
-import { UserList } from '@/components/user/userAssembly';
-import { LinkTabs } from '@/components/common/tabs';
-import { Key, useEffect, useState } from 'react';
-import { AllUserInfo } from '@/types/auth';
-import { getSubscription } from '@/api/user';
-import { SimpleParams } from '@/types';
-import { Kbd } from '@nextui-org/kbd';
-import { EmptyData, MediaScrollList } from '@/components/media/mediaAssembly';
-import { getSubscriptionVideoList } from '@/api/media';
-import { SimpleMedia } from '@/types/media';
+import { Input, Pagination } from '@nextui-org/react'
+import { UserList } from '@/components/user/userAssembly'
+import { LinkTabs } from '@/components/common/tabs'
+import { Key, useEffect, useState } from 'react'
+import { AllUserInfo } from '@/types/auth'
+import { getSubscription } from '@/api/user'
+import { SimpleParams } from '@/types'
+import { Kbd } from '@nextui-org/kbd'
+import { EmptyData, MediaScrollList } from '@/components/media/mediaAssembly'
+import { getSubscriptionVideoList } from '@/api/media'
+import { SimpleMedia } from '@/types/media'
+import { isExist } from '@/utils/common/tokenUtils'
 
 const UserListFragment = () => {
-	const [subscriptions, setSubscriptions] = useState<AllUserInfo[]>([]);
-	const [keyword, setKeyword] = useState<string>('');
+	const [subscriptions, setSubscriptions] = useState<AllUserInfo[]>([])
+	const [keyword, setKeyword] = useState<string>('')
 	const [pageParams, setPageParams] = useState<SimpleParams>({
 		pageSize: 6,
 		total: 0,
-	});
-	const [pageNo, setPageNo] = useState<number>(1);
+	})
+	const [pageNo, setPageNo] = useState<number>(1)
 
 	const fetchData = async () => {
+		if (!isExist()) {
+			return
+		}
 		const { result } = await getSubscription({
 			pageNo,
 			pageSize: pageParams.pageSize,
 			keyword,
-		});
-		setPageParams(pre => ({ ...pre, total: result.total }));
-		setSubscriptions(result.data);
-	};
+		})
+		setPageParams((pre) => ({ ...pre, total: result.total }))
+		setSubscriptions(result.data)
+	}
 
 	useEffect(() => {
-		fetchData();
-	}, [pageNo]);
+		fetchData()
+	}, [pageNo])
 
 	return (
 		<div className='flex flex-1 flex-col h-full'>
@@ -52,9 +56,9 @@ const UserListFragment = () => {
 				labelPlacement='outside-left'
 				value={keyword}
 				onValueChange={setKeyword}
-				onKeyDown={e => {
+				onKeyDown={(e) => {
 					if (e.key === 'Enter') {
-						fetchData();
+						fetchData()
 					}
 				}}
 				endContent={<Kbd keys={['enter']}>Enter</Kbd>}
@@ -77,35 +81,40 @@ const UserListFragment = () => {
 				<EmptyData />
 			)}
 		</div>
-	);
-};
+	)
+}
 
 export default function Page() {
-	const linkData = ['Video', 'User'];
-	const [currentKey, setCurrentKey] = useState('');
+	const linkData = ['Video', 'User']
+	const [currentKey, setCurrentKey] = useState('')
 	const currentKeyChangeHandle = (key: Key) => {
-		setCurrentKey(key.toString());
-	};
-	const [subscriptionList, setSubscriptionList] = useState<SimpleMedia[]>([]);
+		setCurrentKey(key.toString())
+	}
+	const [subscriptionList, setSubscriptionList] = useState<SimpleMedia[]>([])
 	const [pageParams, setPageParams] = useState<SimpleParams>({
 		pageSize: 6,
 		total: 0,
-	});
-	const [pageNo, setPageNo] = useState<number>(1);
+	})
+	const [pageNo, setPageNo] = useState<number>(1)
 
 	const fetchData = async () => {
+		if (!isExist()) {
+			return
+		}
+
 		const { result } = await getSubscriptionVideoList({
 			pageNo,
 			pageSize: pageParams.pageSize,
-		});
-		setSubscriptionList(pre => [...pre, ...result.data]);
-		setPageParams(pre => ({ ...pre, total: result.total }));
-		setPageNo(pre => pre + 1);
-	};
+		})
+
+		setSubscriptionList((pre) => [...pre, ...result.data])
+		setPageParams((pre) => ({ ...pre, total: result.total }))
+		setPageNo((pre) => pre + 1)
+	}
 
 	useEffect(() => {
-		fetchData();
-	}, []);
+		fetchData()
+	}, [])
 
 	const tabsOptions = [
 		{
@@ -124,7 +133,7 @@ export default function Page() {
 			key: 'User',
 			content: <UserListFragment />,
 		},
-	];
+	]
 
 	return (
 		<>
@@ -132,11 +141,11 @@ export default function Page() {
 				<div className='flex flex-wrap w-full lg:w-[90%]'>
 					<LinkTabs
 						tabItemList={linkData}
-						selectChange={key => currentKeyChangeHandle(key)}
+						selectChange={(key) => currentKeyChangeHandle(key)}
 					/>
-					{tabsOptions.find(item => item.key == currentKey)?.content}
+					{tabsOptions.find((item) => item.key == currentKey)?.content}
 				</div>
 			</div>
 		</>
-	);
+	)
 }
